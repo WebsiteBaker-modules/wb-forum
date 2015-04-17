@@ -1,0 +1,52 @@
+.setting_name {
+	vertical-align: top;
+}
+
+/*
+  The definitions below provide the style for the edit CSS button
+  Required CSS class name: input.mod_moduledirectory_edit_css
+*/
+input.mod_forum_edit_css {
+  color: #000;
+  background-color: #F0F0F0;
+  border: 1px solid gray;
+  padding: 2px;
+  margin: 0;
+  margin-left: 625px;
+  margin-top: -20px;
+  margin-bottom: 5px;
+  width: 110px;
+}
+
+li.mod_forum_forum_level1{
+	font-size:1.2em;
+	background-color:#F0F0F0;
+	font-weight:bold;
+	margin:10px;
+	padding:2px;
+	border:1px solid black;
+}
+
+li.mod_forum_forum_level2 a,
+li.mod_forum_forum_level3 a{
+	color:black;
+	font-weight:normal;
+}
+li.mod_forum_forum_level2 a:hover,
+li.mod_forum_forum_level3 a:hover{
+	color:blue;
+}
+li.mod_forum_forum_level2{
+	font-size:0.95em;
+	margin: 2px;
+	padding: 2px;
+	padding-left:30px;
+
+}
+
+li.mod_forum_forum_level3{
+	font-size: 0.9em;
+	margin: 2px;
+	padding: 2px;
+	padding-left:20px;
+}
