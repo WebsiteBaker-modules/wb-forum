@@ -16,25 +16,25 @@ if ($query_settings === false || $query_settings->numRows()  == 0) {
 // Get Settings from DB
 $settings = $query_settings->fetchRow( MYSQL_ASSOC );
 
-// Einträge, die in der Themenübersicht je Seite angezeigt werden sollen
+// EintrŠge, die in der ThemenŸbersicht je Seite angezeigt werden sollen
 define('FORUMDISPLAY_PERPAGE', $settings['FORUMDISPLAY_PERPAGE']);
 
-// Einträge, die je Seite in einem Thema angezeigt werden sollen
+// EintrŠge, die je Seite in einem Thema angezeigt werden sollen
 define('SHOWTHREAD_PERPAGE', $settings['SHOWTHREAD_PERPAGE']);
 
-// Legt fest, ob für die Zahlen in der Seitennavigation verschiedene Schriftgrößen verwendet werden sollen
+// Legt fest, ob fŸr die Zahlen in der Seitennavigation verschiedene Schriftgrößen verwendet werden sollen
 define('PAGENAV_SIZES', $settings['PAGENAV_SIZES']);
 
 // Unterforen auf der Foren-Startseite anzeigen?
 define('DISPLAY_SUBFORUMS', $settings['DISPLAY_SUBFORUMS']);
 
-// Unterforen in der Themenübersicht anzeigen?
+// Unterforen in der ThemenŸbersicht anzeigen?
 define('DISPLAY_SUBFORUMS_FORUMDISPLAY', $settings['DISPLAY_SUBFORUMS_FORUMDISPLAY']);
 
-// Sollen für Gäste Captchas zum schreiben verwendet werden?
+// Sollen fŸr GŠste Captchas zum schreiben verwendet werden?
 define('FORUM_USE_CAPTCHA', $settings['FORUM_USE_CAPTCHA']);
 
-// ID der Gruppe der Administratoren (Dürfen Beiträge + Themen ändern/löschen)
+// ID der Gruppe der Administratoren (DŸrfen BeitrŠge + Themen Šndern/löschen)
 define('ADMIN_GROUP_ID', $settings['ADMIN_GROUP_ID']);
 
 // Soll das Suchformular angezeigt werden ?
@@ -46,7 +46,7 @@ define('FORUM_MAX_SEARCH_HITS', $settings['FORUM_MAX_SEARCH_HITS']);
 // sollen Mails versendet werden, wenn neue Posts eingehen?
 define('FORUM_SENDMAILS_ON_NEW_POSTS', $settings['FORUM_SENDMAILS_ON_NEW_POSTS']);
 
-// Diese Adresse bei neuen Beiträgen informieren?'
+// Diese Adresse bei neuen BeitrŠgen informieren?'
 define('FORUM_ADMIN_INFO_ON_NEW_POSTS', $settings['FORUM_ADMIN_INFO_ON_NEW_POSTS']);
 
 // Sender of notification emails on new posts
