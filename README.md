@@ -2,5 +2,10 @@
 
 Dieses Modul integriert ein einfaches Forum in ihre Webseite.
 
-####  
-- 0.5.7	Codechanges/Bugfixes for WB 2.8.3 SP6 and PHP7
+### Authors
+Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+
+#### Brief changelog 
+##### 0.5.7
+- Codechanges/Bugfixes for WB 2.8.3 SP6 and PHP7
+- Add missing files to the Project
