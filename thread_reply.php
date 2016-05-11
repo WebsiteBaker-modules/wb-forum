@@ -26,7 +26,7 @@ require('../../config.php');
 
 // Validation:
 $thread_query = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_thread WHERE threadid = '" . intval($_REQUEST['tid']) . "'");
-$thread = $thread_query->fetchRow();
+$thread = $thread_query->fetchRow( MYSQL_ASSOC );
 
 if(!$thread)
 {
@@ -34,7 +34,7 @@ if(!$thread)
 }
 
 $forum_query = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE forumid = '" . intval($thread['forumid']) . "'");
-$forum = $forum_query->fetchRow();
+$forum = $forum_query->fetchRow( MYSQL_ASSOC );
 
 if(!$forum)
 {
@@ -54,12 +54,12 @@ $query_page = $database->query("
 	WHERE p.page_id = '$page_id' AND section_id = '$section_id'
 ");
 
-if(!$query_page->numRows())
+if(0 == $query_page->numRows())
 {
 	exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 }
 
-$page = $query_page->fetchRow();
+$page = $query_page->fetchRow( MYSQL_ASSOC );
 
 define('FORUM_DISPLAY_CONTENT', 'reply_thread');
 define('PAGE_CONTENT', WB_PATH . '/modules/forum/content.php');

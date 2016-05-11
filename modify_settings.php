@@ -105,7 +105,18 @@ if($query_settings = $database->query($sql)) {
 		<td class="forum_setting_value">
 			<input type="checkbox" name="forum_use_captcha" <?php echo $settings['FORUM_USE_CAPTCHA'] ? 'checked="checked"' : '';?> />
 		</td>
-	</tr>
+	</tr>	
+	<tr>
+		<td class="forum_setting_name"><?php echo $MOD_FORUM['TXT_USE_SMILEYS_B']; ?>:</td>
+		<td class="forum_setting_value">
+			<input type="checkbox" name="forum_use_smileys" <?php echo $settings['FORUM_USE_SMILEYS'] ? 'checked="checked"' : '';?> />
+		</td>
+	</tr>	<tr>
+		<td class="forum_setting_name"><?php echo $MOD_FORUM['TXT_HIDE_EDITOR_B']; ?>:</td>
+		<td class="forum_setting_value">
+			<input type="checkbox" name="forum_hide_editor" <?php echo $settings['FORUM_HIDE_EDITOR'] ? 'checked="checked"' : '';?> />
+		</td>
+	</tr>	
 	<tr>
 		<td class="forum_setting_name"><?php echo $MOD_FORUM['TXT_ADMIN_GROUP_ID_B']; ?>:</td>
 		<td class="forum_setting_value">

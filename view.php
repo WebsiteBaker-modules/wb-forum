@@ -63,14 +63,14 @@ else{
 	
 			$forum_counts = array();
 		
-			while ($fc = $forum_counts_query->fetchRow()) {
+			while ($fc = $forum_counts_query->fetchRow( MYSQL_ASSOC )) {
 				$forumcache["$fc[forumid]"]['threadcount'] = $fc['threadcount'];
 			}
 		}
 
 		require_once('include_searchform.php');
 
- 		if (!count($iforumcache) ||!is_array($iforumcache[0]) || count($iforumcache[0]) == 0) {
+ 		if (!count($iforumcache) || !isset($iforumcache[0]) || !is_array($iforumcache[0]) || count($iforumcache[0]) == 0) {
     	echo 	$MOD_FORUM['TXT_NO_FORUMS_B'];	
   	} else {	
 			foreach ($iforumcache[0] AS $forumid) {
@@ -80,7 +80,6 @@ else{
 					}
 		?>
 
-
 		<div class="board_tree">
 			<div class="board_level1">
 				<?php echo $forum_level1['title']; ?>
@@ -88,7 +87,9 @@ else{
 					<?php echo $forum_level1['description']; ?>
 				</div>
 			</div>
-				<?php
+	 	</div>
+		
+		<?php
 		if (isset($iforumcache["$forumid"])) {
 		foreach ($iforumcache["$forumid"] AS $sfid) {
 		$forum_level2 =& $forumcache["$sfid"];
@@ -126,7 +127,7 @@ else{
 			}
 		}
 		}
-		echo '</div>';
+
 		}
 }
 }

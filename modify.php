@@ -57,7 +57,7 @@ if(!file_exists(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php')) {
 
 $forums = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE section_id = '$section_id' AND page_id = '$page_id' ORDER BY displayorder ASC");
 
-if (!$forums->numRows())
+if (0 == $forums->numRows())
 {
 	?>
 	<li><?php echo $MOD_FORUM['TXT_NO_FORUMS_B']; ?></li>
@@ -66,18 +66,16 @@ if (!$forums->numRows())
 else
 {
 	$forum_array = array();
-	while ($forum = $forums->fetchRow())
+	while ($forum = $forums->fetchRow( MYSQL_ASSOC ))
 	{
 		$forum_array["$forum[parentid]"]["$forum[forumid]"] = $forum;
 	}
 
 	// Zuordnung Foren -> Level:
 	$arrLevel = getForumLevel();
-//	var_dump($arrLevel);
 
 	print_forums(0);
 }
 ?>
 </ul>
-
 <hr />

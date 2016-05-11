@@ -109,6 +109,9 @@ CREATE TABLE IF NOT EXISTS " . TABLE_PREFIX . "mod_forum_settings (
   `FORUM_ADMIN_INFO_ON_NEW_POSTS` varchar(30) COLLATE utf8_unicode_ci,
   `FORUM_MAIL_SENDER` varchar(30) COLLATE utf8_unicode_ci,
   `FORUM_MAIL_SENDER_REALNAME` varchar(30) COLLATE utf8_unicode_ci,
+  `FORUM_USE_SMILEYS` tinyint(4) NOT NULL,
+  `FORUM_HIDE_EDITOR` tinyint(4) NOT NULL,
+  `FORUM_USERS` mediumtext NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 ");

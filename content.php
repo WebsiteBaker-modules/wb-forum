@@ -4,9 +4,13 @@ if(!file_exists(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php')) {
 } else {
 	require_once(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php');
 }
+echo '<script type="text/javascript" src="script/jquery.js"></script>';
 ?>
 
-<script type="text/javascript" src="script/jquery.js"></script>
+<script type="text/javascript" >
+	if (typeof($) == "undefined") alert("Please activate jQuery in index.php of your template or uncomment line 7 of content.php of this module!");
+</script>
+
 <script type="text/javascript" src="script/markitup/jquery.markitup.js"></script>
 <script type="text/javascript" src="script/markitup/sets/bbcode/set.js"></script>
 
@@ -14,13 +18,15 @@ if(!file_exists(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php')) {
 <link rel="stylesheet" type="text/css" href="script/markitup/sets/bbcode/style.css" />
 
 <script type="text/javascript" >
+	if (!$) alert("Please activate jQuery in index.php of your template or uncomment line 7 of content.php of this module ");
+	
    $(document).ready(function() {
       $("#messagebox").markItUp(mySettings);
    });
 </script>
 
 <?php
-global $user, $page_id, $section_id;
+global $post, $user, $forum, $thread, $page_id, $section_id, $forumcache, $iforumcache;
 
 // ####################### EDIT POST (SEARCH) ########################
 if (FORUM_DISPLAY_CONTENT == 'search_the_forum')
@@ -30,10 +36,10 @@ if (FORUM_DISPLAY_CONTENT == 'search_the_forum')
 }
 // ####################### DISPLAY CONTENTS OF A FORUM #########################
 elseif (FORUM_DISPLAY_CONTENT == 'view_forum') {
-	global $forum, $page_id, $section_id, $forumcache, $iforumcache;
+
 	$perpage = FORUMDISPLAY_PERPAGE;
 	if (!($forum['readaccess'] == 'both' OR ($forum['readaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['readaccess'] == 'unreg' AND !$wb->get_user_id()))) {
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']);
+		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
 	} else {
 		include('pagination.php');
 
@@ -43,6 +49,7 @@ elseif (FORUM_DISPLAY_CONTENT == 'view_forum') {
 		$parent = $query->fetchRow();
 
 		?>
+		<input type="hidden" name="forum_ts" value="<?php $t=time(); echo $t; $_SESSION['forum_ts']=$t; ?>" />
 		<div class="thread_head">
 			<div class="forum_head_home"><a href="<?php echo $home_link.'">'.PAGE_TITLE; ?></a></div>
 			<?php
@@ -84,7 +91,7 @@ elseif (FORUM_DISPLAY_CONTENT == 'view_forum') {
 			if ($forum['parentid'] AND $forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id())) {
 			?>
 				<span class="thread_new_topic">
-					<a href="<?php echo WB_URL; ?>/modules/forum/thread_create.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;fid=<?php echo $forum['forumid']; ?>"><?php echo$MOD_FORUM['TXT_NEW_TOPIC_F']; ?>
+					<a href="<?php echo WB_URL; ?>/modules/forum/thread_create.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;fid=<?php echo $forum['forumid']; ?>&amp;ts=<?php echo $t; ?>"><?php echo$MOD_FORUM['TXT_NEW_TOPIC_F']; ?>
 					</a>
 				</span>
 			<?php } ?>
@@ -118,10 +125,10 @@ elseif (FORUM_DISPLAY_CONTENT == 'view_forum') {
 			</table>
 
 			<ul class="thread_list">
-			<?php
+			<?php $i ==0;
 			while($thread = $threads->fetchRow()) {
 			?>
-				<li class="<?php echo (!$thread['open'] ? 'thread_item_closed' : 'thread_item') ?>">
+				<li class="<?php echo (!$thread['open'] ? 'thread_item_closed' : 'thread_item'); echo ($i++ % 2 ? ' odd' : ' even') ?>">
 					<strong>
 							<a href="<?php echo WB_URL; ?>/modules/forum/thread_view.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;tid=<?php echo $thread['threadid']; ?>"><?php echo htmlspecialchars($thread['title']); ?></a>
 						</strong>
@@ -157,30 +164,32 @@ elseif (FORUM_DISPLAY_CONTENT == 'view_forum') {
 	}
 }
 
-
 // ##################### CREATE THREAD (FORM AND DATABASE) ######################
 elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
-	global $forum, $page_id, $section_id, $page;
+
+	if ((isset($_GET['ts']) && intval($_GET['ts']) !== $_SESSION['forum_ts']) && intval($_POST['forum_ts']) !== $_SESSION['forum_ts'])
+    $wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
+	
 	if (!($forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id()))) {
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']);
+		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
 	} else {
 		if (isset($_POST['save'])) {
 			if (strlen(trim($_POST['title'])) < 3) {
-				$wb->print_error('Titel zu kurz!');
+				$wb->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F'],"';history.back();'");
 			} elseif (strlen(trim($_POST['text'])) < 3) {
-				$wb->print_error($MOD_FORUM['TXT_TEXT_TO_SHORT_F']);
+				$wb->print_error($MOD_FORUM['TXT_TEXT_TO_SHORT_F'],"';history.back();'");
 			} elseif (strlen(trim(@$_POST['username'])) < 3 AND !$wb->get_user_id()) {
-				$wb->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F']);
+				$wb->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F'],"';history.back();'");
 			}
 			if (!$wb->get_user_id()) {
 				$username =& $_POST['username'];
 				if (FORUM_USE_CAPTCHA != false) {
 					if(isset($_POST['captcha']) AND $_POST['captcha'] != '') {
 						if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha']) {
-							$wb->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F']);
+							$wb->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F'],"';history.back();'");
 						}
 					} else {
-						$wb->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F']);
+						$wb->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F'],"';history.back();'");
 					}
 					if(isset($_SESSION['captcha'])) {
 						unset($_SESSION['captcha']);
@@ -216,7 +225,7 @@ elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
 			include 'include_sendmails.php';
 
 			// $mailing_result wird mit inhalt gefüllt, wenn es mails zu mailen gab
-			$wb->print_success($MOD_FORUM['TXT_TOPIC_CREATED_F'] . $mailing_result, 'thread_view' . PAGE_EXTENSION . '?sid=' . SECTION_ID . '=1&pid=' . PAGE_ID . '&tid=' . $tid['id']);
+			$wb->print_success($MOD_FORUM['TXT_TOPIC_CREATED_F'] . $mailing_result, 'thread_view' . PAGE_EXTENSION . '?sid=' . SECTION_ID . '&pid=' . PAGE_ID . '&tid=' . $tid['id']);
 			
 			
 		} else { ?>
@@ -238,6 +247,7 @@ elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
 
 		</div>
 			<form  class="forum_form" id="addform" name="addform" action="<?php echo WB_URL; ?>/modules/forum/thread_create.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>" method="post">
+			<input type="hidden" name="forum_ts" value="<?php $t=time(); echo $t; $_SESSION['forum_ts']=$t; ?>" />
 			<table cellpadding="2" cellspacing="0" align="center" border="0" style="width: 100%;">
 			<colgroup>
 				<col width="1%" />
@@ -265,9 +275,9 @@ elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
 			?>
 			<tr>
 				<td valign="top" style="padding-top: 30px;"><?php echo $MOD_FORUM['TXT_TEXT_F']; ?></td>
-				<td><textarea id="messagebox" name="text" class="forum_textarea"></textarea></td>
+				<td><textarea id="messagebox" name="text" class="forum_textarea" rows="100%" cols="100%"></textarea></td>
 			</tr>
-			<tr>
+			<tr <?php echo FORUM_USE_SMILEYS ? '' : 'style="display:none"'?> >
 				<td valign="top"><?php echo $MOD_FORUM['TXT_SMILIES_F']; ?></td>
 				<td>
 					<?php include(WB_PATH . '/modules/forum/smilies.php'); ?>
@@ -277,12 +287,12 @@ elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
 				<td>&nbsp;</td>
 				<td>
 					<table cellpadding="2" cellspacing="0" border="0" class="forum_button_box">
-						<tr>
 							<colgroup>
 								<col width="1%" />
 								<col width="98%" />
 								<col width="1%" />
 							</colgroup>
+						<tr>
 							<td align="left">
 								<input class="forum_save" type="submit" value="<?php echo $MOD_FORUM['TXT_SAVE_F']; ?>" />
 							</td>
@@ -307,15 +317,13 @@ elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
 	}
 }
 // ##################### CREATE THREAD (FORM AND DATABSE) ######################
-else if (FORUM_DISPLAY_CONTENT == 'view_thread')
-{
-	global $forum, $thread, $page_id, $section_id, $forumcache, $iforumcache;
-
+else if (FORUM_DISPLAY_CONTENT == 'view_thread') {
+	
 	$perpage = SHOWTHREAD_PERPAGE;
 
 	if (!($forum['readaccess'] == 'both' OR ($forum['readaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['readaccess'] == 'unreg' AND !$wb->get_user_id())))
 	{
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']);
+		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
 	}
 	else
 	{
@@ -391,7 +399,7 @@ $home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;
 
 			<table border="0" class="details_table" cellpadding="4" cellspacing="0" width="100%">
 			<tr>
-				<td class="details_topic">
+				<td class="details_topic  <?php echo ($i % 2 ? 'odd' : 'even') ?>">
 				<?php if (($post['userid'] == $wb->get_user_id() AND $post['userid']) OR ((in_array(intval(ADMIN_GROUP_ID), explode(',', $user['groups_id'])) OR $user['group_id'] == intval(ADMIN_GROUP_ID)) AND intval(ADMIN_GROUP_ID) !== 0))
 				{
 					?>
@@ -403,11 +411,13 @@ $home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;
 						?>
 						 <a id="delete" href="<?php echo WB_URL; ?>/modules/forum/post_delete.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;postid=<?php echo $post['postid']; ?>" onclick="return confirm(unescape('<?php echo $MOD_FORUM['TXT_REALLY_DELETE_F']; ?>'));"><img src="images/delete.png" width="16" height="16" border="0" title="<?php echo $MOD_FORUM['TXT_DELETE_F']; ?>" alt="" /></a>
 						<?php
-					}
+					} ?>
+				</span> 
+				<?php
 				}
 				?>
 				<!-- owd | otherworld.de -->
-				</span><a name="post<?php echo $post['postid']; ?>">#<?php echo number_format($postcount); ?></a> <strong><?php echo htmlspecialchars($post['title']);  ?></strong></td>
+				<a name="post<?php echo $post['postid']; ?>">#<?php echo number_format($postcount); ?></a> <strong><?php echo htmlspecialchars($post['title']);  ?></strong></td>
 			</tr>
 			<tr>
 				<td class="details_info"><?php echo $MOD_FORUM['TXT_FROM_F'].' '; ?><?php echo htmlspecialchars($post['display_name']);  ?> (<?php echo date(DATE_FORMAT . ', ' . TIME_FORMAT, $post['dateline'] + TIMEZONE); ?>)</td>
@@ -415,7 +425,7 @@ $home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;
 			<tr>
 			<?php
 			$parsed_text = parse_bbcode(htmlspecialchars($post['text']), $MOD_FORUM['TXT_QUOTE_F']);
-			$parsed_text = parse_text($parsed_text);
+			if (FORUM_USE_SMILEYS) $parsed_text = parse_text($parsed_text);
 			?>
 				<td class="details_text"><?php echo $parsed_text; ?>
 				</td>
@@ -444,11 +454,17 @@ $home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;
 			      this.code = code;
 			      document.getElementById('messagebox').value = pretext + ' ' + code;
 			}
+			function toggleEditor(elem) {
+				$('#editor').toggle();	
+				elem.value = ($('#editor').css("display") != "none") ? "<?php echo $MOD_FORUM['TXT_HIDE_EDITOR_B'].'" : "'.$MOD_FORUM['TXT_CREATE_ANSWER_F'].'"';?>;
+			}
 			-->
 			</script>
-				<fieldset style="margin-top: 10px;">
+		<?php if(FORUM_HIDE_EDITOR) echo '<input type="button" id="toggleEditor" style="float: right; width: 150px; padding: 2px 0;" value="'.$MOD_FORUM['TXT_CREATE_ANSWER_F'].'" onclick="toggleEditor(this);" />';?>
+				<fieldset id="editor" style="margin-top: 10px; clear:right; <?php echo (FORUM_HIDE_EDITOR) ? "display:none;" : ""?>">
 					<legend><?php echo $MOD_FORUM['TXT_CREATE_ANSWER_F']; ?></legend>
 				<form action="<?php echo WB_URL; ?>/modules/forum/thread_reply.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>" method="post">
+				<input type="hidden" name="forum_ts" value="<?php $t=time(); echo $t; $_SESSION['forum_ts']=$t; ?>" />
 				<table cellpadding="2" cellspacing="0" align="center" border="0" style="width: 100%;">
 				<colgroup>
 				<col width="1%" />
@@ -480,9 +496,9 @@ $home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;
 				?>
 			<tr>
 				<td valign="top" style="padding-top: 30px;"><?php echo $MOD_FORUM['TXT_TEXT_F']; ?></td>
-				<td><textarea id="messagebox" name="text" class="forum_textarea"></textarea></td>
+				<td><textarea id="messagebox" name="text" class="forum_textarea" rows="100%" cols="100%"></textarea></td>
 			</tr>
-			<tr>
+			<tr <?php echo FORUM_USE_SMILEYS ? '' : 'style="display:none"'?> >
 				<td valign="top"><?php echo $MOD_FORUM['TXT_SMILIES_F']; ?></td>
 				<td>
 					<?php include(WB_PATH . '/modules/forum/smilies.php'); ?>
@@ -523,23 +539,23 @@ $home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;
 	}
 }
 // ################## REPLY TO THREAD (DATABSE STUFF ONLY) #####################
-else if (FORUM_DISPLAY_CONTENT == 'reply_thread')
+else if (FORUM_DISPLAY_CONTENT == 'reply_thread' &&	($forum['writeaccess'] !== 'reg' OR ($forum['writeaccess'] == 'reg' && $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id())))
 {
-	global $forum, $thread, $page_id, $section_id, $forumcache, $iforumcache;
-
+  if (intval($_POST['forum_ts']) !== $_SESSION['forum_ts'])
+    $wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"javascript:history.back()");
 	$perpage = 15;
 
 	if (strlen(trim($_POST['title'])) < 3)
 	{
-		$wb->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F']);
+		$wb->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F'],"';history.back();'");
 	}
 	else if (strlen(trim($_POST['text'])) < 3)
 	{
-		$wb->print_error($MOD_FORUM['TXT_TEXT_TO_SHORT_F']);
+		$wb->print_error($MOD_FORUM['TXT_TEXT_TO_SHORT_F'],"';history.back();'");
 	}
 	else if (@strlen(trim($_POST['username'])) < 3 AND !$wb->get_user_id())
 	{
-		$wb->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F']);
+		$wb->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F'],"';history.back();'");
 	}
 
 	if (!$wb->get_user_id())
@@ -552,12 +568,12 @@ else if (FORUM_DISPLAY_CONTENT == 'reply_thread')
 			{
 				if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha'])
 				{
-					$wb->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F']);
+					$wb->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F'],"';history.back();'");
 				}
 			}
 			else
 			{
-				$wb->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F']);
+				$wb->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F'],"';history.back();'");
 			}
 
 			if(isset($_SESSION['captcha']))
@@ -606,16 +622,14 @@ else if (FORUM_DISPLAY_CONTENT == 'reply_thread')
 	include 'include_sendmails.php';
 
 	// $mailing_result wird mit inhalt gefüllt, wenn es mails zu mailen gab
-	$wb->print_success($MOD_FORUM['TXT_TOPIC_CREATED_F'] . $mailing_result, 'thread_view' . PAGE_EXTENSION . '?sid=' . SECTION_ID . '=1&pid=' . PAGE_ID . '&tid=' . $thread['threadid'] . '&page=' . $lastpage);
+	$wb->print_success($MOD_FORUM['TXT_TOPIC_CREATED_F'] . $mailing_result, 'thread_view' . PAGE_EXTENSION . '?sid=' . SECTION_ID . '&pid=' . PAGE_ID . '&tid=' . $thread['threadid'] . '&page=' . $lastpage);
 }
 // ##################### DELETE POST (DATABSE STUFF ONLY) ######################
-else if (FORUM_DISPLAY_CONTENT == 'post_delete')
-{
-	global $post, $thread, $forum, $page_id, $section_id, $forumcache, $iforumcache;
+else if (FORUM_DISPLAY_CONTENT == 'post_delete') {
 
 	if (!((in_array(intval(ADMIN_GROUP_ID), explode(',', $user['groups_id'])) OR $user['group_id'] == intval(ADMIN_GROUP_ID)) AND intval(ADMIN_GROUP_ID) !== 0))
 	{
-		$wb->print_error($MOD_FORUM['TXT_NOACCESS_F']);
+		$wb->print_error($MOD_FORUM['TXT_NOACCESS_F'],"';history.back();'");
 	}
 
 	if ($post['postid'] == $thread['firstpostid'])
@@ -654,31 +668,31 @@ else if (FORUM_DISPLAY_CONTENT == 'post_delete')
 		");
 	}
 
-	$wb->print_success($MOD_FORUM['TXT_ARTICLE_DELETED_F'], 'forum_view' . PAGE_EXTENSION . '?sid=' . SECTION_ID . '=1&pid=' . PAGE_ID . '&fid=' . $forum['forumid']);
+	$wb->print_success($MOD_FORUM['TXT_ARTICLE_DELETED_F'], 'forum_view' . PAGE_EXTENSION . '?sid=' . SECTION_ID . '&pid=' . PAGE_ID . '&fid=' . $forum['forumid']);
 }
 // ####################### EDIT POST (FORM AND DATABSE) ########################
-else if (FORUM_DISPLAY_CONTENT == 'post_edit')
-{
-	global $forum, $thread, $page_id, $section_id, $forumcache, $iforumcache, $post;
+else if (FORUM_DISPLAY_CONTENT == 'post_edit') {
 
 	if (!(($post['userid'] == $wb->get_user_id() AND $post['userid']) OR ((in_array(intval(ADMIN_GROUP_ID), explode(',', $user['groups_id'])) OR $user['group_id'] == intval(ADMIN_GROUP_ID)) AND intval(ADMIN_GROUP_ID) !== 0)))
 	{
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']);
+		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
 	}
 
 	if (isset($_POST['save']))
 	{
+		if (intval($_POST['forum_ts']) !== $_SESSION['forum_ts'])
+    	$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
 		if (strlen(trim($_POST['title'])) < 3)
 		{
-			$wb->print_error('Titel zu kurz!');
+			$wb->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F'],"';history.back();'");
 		}
 		else if (strlen(trim($_POST['text'])) < 3)
 		{
-			$wb->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F']);
+			$wb->print_error($MOD_FORUM['TXT_TEXT_TO_SHORT_F'],"';history.back();'");
 		}
 		else if (@strlen(trim($_POST['username'])) < 3 AND !$post['userid'])
 		{
-			$wb->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F']);
+			$wb->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F'],"';history.back();'");
 		}
 
 		if (!$post['userid'])
@@ -695,7 +709,7 @@ else if (FORUM_DISPLAY_CONTENT == 'post_edit')
 		//$_search_string = strip_bbcode($_POST['text']);
 		// macht aus 3-Zeichen-Wörtern längere, um berücksichtigt zu werden:
 		// aus PHP wird PHP_x_PHP
-		$_search_string  = preg_replace("/\b([a-zöäüß0-9]{3})\b/i", "$1_x_$1", trim($_POST['title'])) ;
+		$_search_string  = preg_replace("/\b([a-zöäüß0-9]{3})\b/i", "$1_x_$1", trim($_POST['title']))." " ;
 		$_search_string .= preg_replace("/\b([a-zöäüß0-9]{3})\b/i", "$1_x_$1", strip_bbcode($_POST['text']) ) ;
 
 
@@ -719,10 +733,13 @@ else if (FORUM_DISPLAY_CONTENT == 'post_edit')
 			");
 		}
 
-		$wb->print_success($MOD_FORUM['TXT_ARTICLE_SAVED_F'], 'thread_view' . PAGE_EXTENSION . '?sid=' . SECTION_ID . '=1&pid=' . PAGE_ID . '&tid=' . $thread['threadid']);
+		$wb->print_success($MOD_FORUM['TXT_ARTICLE_SAVED_F'], 'thread_view' . PAGE_EXTENSION . '?sid=' . SECTION_ID . '&pid=' . PAGE_ID . '&tid=' . $thread['threadid']);
 	}
 	else
 	{
+		//	2016-05-10:	Bugfix
+		//				For some resons $homelink is missing here
+		$home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;
 	?>
 			<script type="text/javascript">
 			<!--
@@ -743,6 +760,7 @@ else if (FORUM_DISPLAY_CONTENT == 'post_edit')
 		</div>
 
 			<form class="forum_form" id="addform" name="addform" action="<?php echo WB_URL; ?>/modules/forum/post_edit.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>" method="post">
+			<input type="hidden" name="forum_ts" value="<?php $t=time(); echo $t; $_SESSION['forum_ts']=$t; ?>" />
 			<table cellpadding="2" cellspacing="0" align="center" border="0" style="width: 100%;">
 			<colgroup>
 				<col width="1%" />
@@ -765,9 +783,9 @@ else if (FORUM_DISPLAY_CONTENT == 'post_edit')
 			?>
 			<tr>
 				<td valign="top" style="padding-top: 30px;"><?php echo $MOD_FORUM['TXT_TEXT_F']; ?></td>
-				<td><textarea class="forum_textarea" id="messagebox" name="text"><?php echo htmlspecialchars($post['text']); ?></textarea></td>
+				<td><textarea class="forum_textarea" id="messagebox" name="text" rows="100%" cols="100%"><?php echo htmlspecialchars($post['text']); ?></textarea></td>
 			</tr>
-			<tr>
+			<tr <?php echo FORUM_USE_SMILEYS ? '' : 'style="display:none"'?> >
 				<td valign="top"><?php echo $MOD_FORUM['TXT_SMILIES_F']; ?></td>
 				<td>
 					<?php include(WB_PATH . '/modules/forum/smilies.php'); ?>
@@ -805,4 +823,3 @@ else if (FORUM_DISPLAY_CONTENT == 'post_edit')
 	}
 
 }//elseif's
-?>

@@ -73,9 +73,9 @@ $MOD_FORUM = array(
 
 	'TXT_MAILSUBJECT_NEW_POST'		=> 'Ein neuer Beitrag im Forum wurde eingestellt',
 	'TXT_MAILTEXT_NEW_POST'			=> "Hallo ##USERNAME##, \n\nSie haben zum Thema \"##THREAD##\" einen Beitrag verfasst.\n" .
-										"In diesem Thread ist ein neuer Beitrag verfasst worden \n\n".
+										"In diesem Thread hat ##POSTER## einen neuen Beitrag verfasst. \n\n".
 										"Sie k&ouml;nnen Ihn nach dem Login hier abrufen: \n##LINK##\n",
-	'TXT_MAILTEXT_NEW_POST_ADMIN'		=> "Hallo ##USERNAME##, \n\nZum Thema \"##THREAD##\" wurde einen Beitrag verfasst.\n\n" .
+	'TXT_MAILTEXT_NEW_POST_ADMIN'		=> "Hallo ##USERNAME##, \n\nZum Thema \"##THREAD##\" hat ##POSTER## einen Beitrag verfasst.\n\n" .
 										"Sie k&ouml;nnen Ihn nach dem Login hier abrufen: \n##LINK##\n",
 
 	// Variablen für Textausgaben im Backend
@@ -115,6 +115,8 @@ $MOD_FORUM = array(
 	'TXT_FORUM_SENDMAILS_ON_NEW_POSTS_B'	=> 'Die Autoren per Mail &uuml;ber neue Beitr&auml;ge im Thema benachrichtigen?',
 	'TXT_FORUM_ADMIN_INFO_ON_NEW_POSTS_B'	=> 'Diese Adresse bei neuen Beitr&auml;gen informieren?',
 	'TXT_FORUM_MAIL_SENDER_B'	=> 'Absenderadresse f&uuml;r E-Mails?',
-	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Absendername f&uuml;r E-Mails?'
+	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Absendername f&uuml;r E-Mails?',
+	'TXT_USE_SMILEYS_B'	=> 'Smileys verwenden?',
+	'TXT_HIDE_EDITOR_B'	=> 'Editor verstecken?'
 )
 ?>

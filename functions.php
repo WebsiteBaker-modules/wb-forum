@@ -40,15 +40,10 @@ function print_forums($parentid, $level = 0)
 {
 	global $forum_array, $section_id, $page_id, $arrLevel;
 
-//	print_r($arrLevel);
-		//var_dump(getForumLevel());
-
 	if (!empty($forum_array["$parentid"]))
 	{
 		foreach ($forum_array["$parentid"] AS $forumid => $forum)
 		{
-			//echo '<pre>' . var_dump($forum) . '</pre><hr/>';
-
 
 			echo '<li class="mod_forum_forum_level'.$arrLevel[$forumid].'">';
 			echo '<a href="' . WB_URL . '/modules/forum/addedit_forum.php?page_id=' . $page_id . '&amp;section_id=' . $section_id . '&amp;forumid=' . $forumid . '">' . htmlspecialchars($forum['title']) . '</a>';
@@ -63,24 +58,19 @@ function print_forums($parentid, $level = 0)
 	}
 }
 
-
-
-
-
 function getForumLevel($parentid = 0, $level = 1)
 {
 	global $database, $section_id, $page_id;
 
 	static $out;
 
-	$forumcache = array(0);
+	$forumcache = array();
 	$sql = "SELECT * FROM " . TABLE_PREFIX . "mod_forum_cache WHERE section_id = '$section_id' AND page_id = '$page_id'";
 	$res = $database->query($sql);
 
-	while ($cache_entry = $res->fetchRow()) {
+	while ($cache_entry = $res->fetchRow( MYSQL_ASSOC )) {
 		${$cache_entry['varname']} = unserialize($cache_entry['data']);
 	}
-
 
 	$iforumcache = array();
 	foreach ($forumcache AS $forumid => $f) {
@@ -172,7 +162,7 @@ function parse_text($text)
 		':?',
 		'=)',
 		'(8)',
-		':0',
+		':0:',
 		'(j)',
 		'(J)',
 		':(',
@@ -254,8 +244,8 @@ function parse_bbcode($text, $quote) {
 /**
  * strip_bb
  * otherworld.de
- * für die Vorschau brauchen wir TAG freie zeichen, denn wir wollen den text
- * nicht komplett anzeigen. daher laufen wir gefahr, tags nicht zu schließen, so
+ * fÂ¸r die Vorschau brauchen wir TAG freie zeichen, denn wir wollen den text
+ * nicht komplett anzeigen. daher laufen wir gefahr, tags nicht zu schlieï¬‚en, so
  * dass es uns unser gesamt-layout um die ohren haut.
  */
 
@@ -326,7 +316,7 @@ function highlightPhrase ( $strHaystack, $strNeedle, $strColor = '', $bCase = FA
 	$strModifier = '';
 	if ( $bCase )
 	{
-		// Modifikator "i": Groß- und Kleinschreibung ignorieren.
+		// Modifikator "i": Groï¬‚- und Kleinschreibung ignorieren.
 		$strModifier = 'i';
 	}
 
@@ -352,7 +342,7 @@ function buildPreview ( $strHaystack, $strNeedle, $strLength = 120, $bCase = TRU
 	$strModifier = '';
 	if ( $bCase )
 	{
-		// Modifikator "i": Groß- und Kleinschreibung ignorieren.
+		// Modifikator "i": Groï¬‚- und Kleinschreibung ignorieren.
 		$strModifier = 'i';
 	}
 

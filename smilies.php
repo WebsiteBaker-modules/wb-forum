@@ -5,7 +5,7 @@ $smilies = array (
 	"confused" => ":?",
 	"duivel" => "=)",
 	"gemeen" => "(8)",
-	"hypocrite" => ":0",
+	"hypocrite" => ":0:",
 	"joint" => ":joint:",
 	"mad" => ":(",
 	"muur" => ":wall:",

@@ -13,13 +13,11 @@ if(!defined('WB_PATH')) {
 include WB_PATH . '/modules/forum/config.php';
 include WB_PATH . '/modules/forum/functions.php';
 
-
-
 global $database;
 
 //var_dump($_POST);
-$search_string = strip_tags( mysql_real_escape_string($_GET['mod_forum_search']));
-$_search_string = preg_replace("/\b([a-zöäüß0-9]{3})\b/i", "$1_x_$1", $search_string);
+$search_string = strip_tags( $database->escapeString($_GET['mod_forum_search']));
+$_search_string = preg_replace("/\b([a-zË†â€°Â¸ï¬‚0-9]{3})\b/i", "$1_x_$1", $search_string);
 
 $arr_search_string = explode(' ', $search_string);
 if (is_array($arr_search_string) AND count($arr_search_string) >= 1 )
@@ -38,12 +36,13 @@ if (!empty($search_string))
 				JOIN  ".TABLE_PREFIX."mod_forum_forum f ON (t.forumid = f.forumid)
 
 			WHERE f.title LIKE '%$search_string%' OR
-				   MATCH(p.title, p.search_text) AGAINST('".mysql_real_escape_string($_search_string)."')
+				   MATCH(p.title, p.search_text) AGAINST('".$database->escapeString($_search_string)."' IN BOOLEAN MODE )
 
 			LIMIT " . FORUM_MAX_SEARCH_HITS;
 
 
 	$res = $database->query($sql);
+	//echo $sql;
 }
 
 //var_dump($res);
@@ -84,8 +83,6 @@ if( isset($res) AND $res->numRows() > 0)
 				empty($text2) ? $text2 = owd_mksubstr($text, 80) : '';
 
 			$out .= '<p class="mod_last_forum_entries_text">'. $text2 . '</p><br/><br/>' ;
-
-
 
 		}//while
 

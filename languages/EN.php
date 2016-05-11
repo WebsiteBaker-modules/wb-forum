@@ -72,11 +72,11 @@ $MOD_FORUM = array(
 'TXT_MAILS_SEND_F'				=> ' Info-email(s) sent',
 'TXT_MAIL_ERRORS_F'				=> ' Errors while sending info-mails',
 
-'TXT_MAILSUBJECT_NEW_POST'		=> 'Ein neuer Beitrag im Forum wurde eingestellt',
+'TXT_MAILSUBJECT_NEW_POST'		=> 'There is a new Post in the Forum',
 'TXT_MAILTEXT_NEW_POST'			=> "Hallo ##USERNAME##, \n\nYou posted in thread \"##THREAD##\" .\n" .
-"There is a new post in this thread \n\n".
+"There is a new post by ##POSTER## in this thread \n\n".
 "You can read the post by following this link: \n##LINK##\n",
-'TXT_MAILTEXT_NEW_POST_ADMIN'		=> "Hello ##USERNAME##, \n\nThere is a new post in \"##THREAD##\" .\n\n" .
+'TXT_MAILTEXT_NEW_POST_ADMIN'		=> "Hello ##USERNAME##, \n\nThere is a new post by ##POSTER## in \"##THREAD##\" .\n\n" .
 										"You can read the post by following this link: \n##LINK##\n",
 
 	// Variablen für Textausgaben im Backend
@@ -113,6 +113,8 @@ $MOD_FORUM = array(
 	'TXT_FORUM_SENDMAILS_ON_NEW_POSTS_B'	=> 'Send email notifiaction on new post in thread?',
 	'TXT_FORUM_ADMIN_INFO_ON_NEW_POSTS_B'	=> 'Inform this address on every new post?',
 	'TXT_FORUM_MAIL_SENDER_B'	=> 'Email sender address?',
-	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Email sender name?'	
+	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Email sender name?',	
+	'TXT_USE_SMILEYS_B'	=> 'Use Smileys?',
+	'TXT_HIDE_EDITOR_B'	=> 'Hide Editor?'
 )
 ?>

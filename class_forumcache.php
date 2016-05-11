@@ -6,7 +6,7 @@ class ForumCacheBuilder {
 	var $icache;
 	var $cache;
 
-	function ForumCacheBuilder(&$database, $section_id, $page_id) {
+	function __construct(&$database, $section_id, $page_id) {
 		$this->db =& $database;
 		$this->section_id = $section_id;
 		$this->page_id = $page_id;
@@ -72,7 +72,7 @@ class ForumCacheBuilder {
 			$this->db->query("REPLACE INTO ".TABLE_PREFIX."mod_forum_cache (page_id, section_id, varname, data) VALUES ('".$this->page_id."', '".$this->section_id."', 'forumcache', '')");
 			return;
 		}
-		$this->db->query("REPLACE INTO ".TABLE_PREFIX."mod_forum_cache (page_id, section_id, varname, data) VALUES ('".$this->page_id."', '".$this->section_id."', 'forumcache', '".mysql_real_escape_string(serialize($this->cache), $this->db->db_handle)."')");
+		$this->db->query("REPLACE INTO ".TABLE_PREFIX."mod_forum_cache (page_id, section_id, varname, data) VALUES ('".$this->page_id."', '".$this->section_id."', 'forumcache', '".$this->db->escapeString(serialize($this->cache))."')");
 	}
 	
 	// build new cache after forum delete

@@ -82,9 +82,10 @@ if ($_REQUEST['forumid'])
 		
 		//delete settings if last forum in section was deleted
 		$sql = "SELECT * from ".TABLE_PREFIX."mod_forum_forum WHERE section_id = ".$section_id;
-	  if (mysql_num_rows(mysql_query($sql))  == 0) {
-		  $sql = "DELETE FROM ".TABLE_PREFIX."mod_forum_settings WHERE section_id = ".$section_id;
-			mysql_query($sql);
+		$temp_result = $database->query( $sql );
+		if ($temp_result->numRows() == 0) {	
+			$sql = "DELETE FROM ".TABLE_PREFIX."mod_forum_settings WHERE section_id = ".$section_id;
+			$database->query($sql);
 		}
     
 		$admin->print_success("Forum gel&ouml;scht!", ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
@@ -196,10 +197,10 @@ else
 	
 	//insert settings entry if first forum on section
 	$sql = "SELECT * from ".TABLE_PREFIX."mod_forum_settings WHERE section_id = ".$section_id;
-	$query_settings = mysql_query($sql);
-	if ($query_settings === false || mysql_num_rows($query_settings)  == 0) {
+	$query_settings = $database->query($sql);
+	if ($query_settings === false || $query_settings->numRows()  == 0) {
 		$sql = "INSERT INTO ".TABLE_PREFIX."mod_forum_settings VALUES(0,".$section_id.", 5, 5, 0, 1, 1, 1, 1, 1, 30, 0, '', 'admin@admin.de', 'WEBSite Forum')";
-		mysql_query($sql);
+		$database->query($sql);
 	}
 }
 

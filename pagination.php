@@ -2,7 +2,7 @@
 
 		require_once("functions.php");
 		$thread_count = $database->query("SELECT COUNT(threadid) AS total FROM " . TABLE_PREFIX . "mod_forum_thread WHERE forumid = '" . intval($forum['forumid']) . "'");
-		$thread_count = $thread_count->fetchRow();
+		$thread_count = $thread_count->fetchRow( MYSQL_ASSOC );
 		$page = (isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1);
 		$pagecount = ceil($thread_count['total'] / FORUMDISPLAY_PERPAGE);
 		if (($page * FORUMDISPLAY_PERPAGE) > $thread_count['total']) {

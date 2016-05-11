@@ -1,15 +1,19 @@
 <?php
+/**
+ *	0.5.5
+ */
+global $database;
 
-//insert settings if not exist
+// insert settings if not exist
 $sql = "SELECT * from ".TABLE_PREFIX."mod_forum_settings WHERE section_id = ".$section_id;
-$query_settings = mysql_query($sql);
-if ($query_settings === false || mysql_num_rows($query_settings)  == 0) {
-	$sql = "INSERT INTO ".TABLE_PREFIX."mod_forum_settings VALUES(0,".$section_id.", 5, 5, 0, 1, 1, 1, 1, 1, 30, 0, '', 'admin@admin.de', 'WEBSite Forum')";
-	mysql_query($sql);
+$query_settings = $database->query($sql);
+if ($query_settings === false || $query_settings->numRows()  == 0) {
+	$sql = "INSERT INTO ".TABLE_PREFIX."mod_forum_settings VALUES(0,".$section_id.", 5, 5, 0, 1, 1, 1, 1, 1, 30, 0, '', 'admin@admin.de', 'WEBSite Forum', 1, 0, '')";
+	$database->query($sql);
 } 
 
 // Get Settings from DB
-$settings = mysql_fetch_assoc($query_settings);
+$settings = $query_settings->fetchRow( MYSQL_ASSOC );;
 
 // Einträge, die in der Themenübersicht je Seite angezeigt werden sollen
 define('FORUMDISPLAY_PERPAGE', $settings['FORUMDISPLAY_PERPAGE']);
@@ -51,6 +55,15 @@ define('FORUM_MAIL_SENDER', $settings['FORUM_MAIL_SENDER']);
 
 // Sender's name
 define('FORUM_MAIL_SENDER_REALNAME', $settings['FORUM_MAIL_SENDER_REALNAME']);
+
+// use smileys
+define('FORUM_USE_SMILEYS', $settings['FORUM_USE_SMILEYS']);
+
+// show hide/unhide button instead of post editor
+define('FORUM_HIDE_EDITOR', $settings['FORUM_HIDE_EDITOR']);
+
+// remember user data
+define('FORUM_USERS', $settings['FORUM_USERS']);
 
 
 ?>
