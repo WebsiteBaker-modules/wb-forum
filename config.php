@@ -1,19 +1,20 @@
 <?php
+
 /**
  *	0.5.5
  */
 global $database;
 
 // insert settings if not exist
-$sql = "SELECT * from ".TABLE_PREFIX."mod_forum_settings WHERE section_id = ".$section_id;
+$sql = "SELECT * from `".TABLE_PREFIX."mod_forum_settings` WHERE `section_id` = ".$section_id;
 $query_settings = $database->query($sql);
 if ($query_settings === false || $query_settings->numRows()  == 0) {
-	$sql = "INSERT INTO ".TABLE_PREFIX."mod_forum_settings VALUES(0,".$section_id.", 5, 5, 0, 1, 1, 1, 1, 1, 30, 0, '', 'admin@admin.de', 'WEBSite Forum', 1, 0, '')";
+	$sql = "INSERT INTO `".TABLE_PREFIX."mod_forum_settings` VALUES(0,".$section_id.", 5, 5, 0, 1, 1, 1, 1, 1, 30, 0, '', 'admin@admin.de', 'WEBSite Forum', 1, 0, '')";
 	$database->query($sql);
 } 
 
 // Get Settings from DB
-$settings = $query_settings->fetchRow( MYSQL_ASSOC );;
+$settings = $query_settings->fetchRow( MYSQL_ASSOC );
 
 // Einträge, die in der Themenübersicht je Seite angezeigt werden sollen
 define('FORUMDISPLAY_PERPAGE', $settings['FORUMDISPLAY_PERPAGE']);
@@ -35,8 +36,6 @@ define('FORUM_USE_CAPTCHA', $settings['FORUM_USE_CAPTCHA']);
 
 // ID der Gruppe der Administratoren (Dürfen Beiträge + Themen ändern/löschen)
 define('ADMIN_GROUP_ID', $settings['ADMIN_GROUP_ID']);
-
-
 
 // Soll das Suchformular angezeigt werden ?
 define('VIEW_FORUM_SEARCH', $settings['VIEW_FORUM_SEARCH']);
@@ -64,6 +63,5 @@ define('FORUM_HIDE_EDITOR', $settings['FORUM_HIDE_EDITOR']);
 
 // remember user data
 define('FORUM_USERS', $settings['FORUM_USERS']);
-
 
 ?>
