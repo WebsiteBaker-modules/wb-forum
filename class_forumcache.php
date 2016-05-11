@@ -1,20 +1,38 @@
 <?php
-class ForumCacheBuilder {
-	var $db;
-	var $section_id;
-	var $page_id;
-	var $icache;
-	var $cache;
 
-	function __construct(&$database, $section_id, $page_id) {
+/**
+ *	Module:	wb forum
+ *
+ */
+class ForumCacheBuilder {
+	public $db;
+	public $section_id;
+	public $page_id;
+	public $icache;
+	public $cache;
+	
+	/**
+	 *	Version of this class
+	 */
+	protected $version = "0.2.0 - beta";
+	
+	/**
+	 *	Constructor of this class
+	 *
+	 *	@param	object	A valid instance of (any) DB-Connector (pass-by-reference)
+	 *	@param	int		A section id if the currend forum
+	 *	@param	int		A referending page id
+	 *
+	 */
+	public function __construct(&$database, $section_id, $page_id) {
 		$this->db =& $database;
 		$this->section_id = $section_id;
 		$this->page_id = $page_id;
 		$this->fetch_icache();
 	}
 
-	function fetch_icache() {
-		$forums = $this->db->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE section_id = '" . $this->section_id . "' AND page_id = '" . $this->page_id . "' ORDER BY displayorder ASC");
+	public function fetch_icache() {
+		$forums = $this->db->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `section_id` = '" . $this->section_id . "' AND `page_id` = '" . $this->page_id . "' ORDER BY displayorder ASC");
 		while ($forum = $forums->fetchRow()) {
 			foreach ($forum AS $key => $val)	{
 				if (is_numeric($key) OR $key == 'lastpostinfo')	{
@@ -25,7 +43,7 @@ class ForumCacheBuilder {
 		}
 	}
 
-	function build_cache($parentid, $readperms = 'both', $writeperms = 'both') {
+	public function build_cache($parentid, $readperms = 'both', $writeperms = 'both') {
 		if (empty($this->icache["$parentid"])) {
 			return;
 		}
@@ -67,16 +85,16 @@ class ForumCacheBuilder {
 		}
 	}
 
-	function save() {
+	public function save() {
 		if (empty($this->cache)) {
-			$this->db->query("REPLACE INTO ".TABLE_PREFIX."mod_forum_cache (page_id, section_id, varname, data) VALUES ('".$this->page_id."', '".$this->section_id."', 'forumcache', '')");
+			$this->db->query("REPLACE INTO `".TABLE_PREFIX."mod_forum_cache` (`page_id`, `section_id`, `publicname`, `data`) VALUES ('".$this->page_id."', '".$this->section_id."', 'forumcache', '')");
 			return;
 		}
-		$this->db->query("REPLACE INTO ".TABLE_PREFIX."mod_forum_cache (page_id, section_id, varname, data) VALUES ('".$this->page_id."', '".$this->section_id."', 'forumcache', '".$this->db->escapeString(serialize($this->cache))."')");
+		$this->db->query("REPLACE INTO `".TABLE_PREFIX."mod_forum_cache` (`page_id`, `section_id`, `publicname`, `data`) VALUES ('".$this->page_id."', '".$this->section_id."', 'forumcache', '".$this->db->escapeString(serialize($this->cache))."')");
 	}
 	
 	// build new cache after forum delete
-	function update_cache(){
+	public function update_cache(){
 		$this->cache="";
 		if(is_array($this->icache))
 			foreach($this->icache as $parentId => $itemes)
