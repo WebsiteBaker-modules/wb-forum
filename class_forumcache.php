@@ -94,10 +94,12 @@ class ForumCacheBuilder {
 
 	public function save() {
 		if (empty($this->cache)) {
-			$this->db->query("REPLACE INTO `".TABLE_PREFIX."mod_forum_cache` (`page_id`, `section_id`, `publicname`, `data`) VALUES ('".$this->page_id."', '".$this->section_id."', 'forumcache', '')");
+			$this->db->query("REPLACE INTO `".TABLE_PREFIX."mod_forum_cache` (`page_id`, `section_id`, `varname`, `data`) VALUES ('".$this->page_id."', '".$this->section_id."', 'forumcache', '')");
+			if( true === $this->db->is_error()) die( $this->db->get_error() );
 			return;
 		}
-		$this->db->query("REPLACE INTO `".TABLE_PREFIX."mod_forum_cache` (`page_id`, `section_id`, `publicname`, `data`) VALUES ('".$this->page_id."', '".$this->section_id."', 'forumcache', '".$this->db->escapeString(serialize($this->cache))."')");
+		$this->db->query("REPLACE INTO `".TABLE_PREFIX."mod_forum_cache` (`page_id`, `section_id`, `varname`, `data`) VALUES ('".$this->page_id."', '".$this->section_id."', 'forumcache', '".$this->db->escapeString(serialize($this->cache))."')");
+		if( true === $this->db->is_error()) die( $this->db->get_error() );
 	}
 	
 	// build new cache after forum delete

@@ -19,14 +19,9 @@ if(!defined('WB_PATH'))
 	exit;
 }
 
-/*
-$database->query("DELETE FROM `".TABLE_PREFIX."search` WHERE `name` = 'module' AND `value` = 'guestbook'");
-$database->query("DELETE FROM `".TABLE_PREFIX."search` WHERE `extra` = 'guestbook'");
-*/
-
-$database->query("DROP TABLE " . TABLE_PREFIX . "mod_forum_forum");
-$database->query("DROP TABLE " . TABLE_PREFIX . "mod_forum_cache");
-$database->query("DROP TABLE " . TABLE_PREFIX . "mod_forum_post");
-$database->query("DROP TABLE " . TABLE_PREFIX . "mod_forum_thread");
-$database->query("DROP TABLE " . TABLE_PREFIX . "mod_forum_settings");
+$database->query("DROP TABLE `" . TABLE_PREFIX . "mod_forum_forum`");
+$database->query("DROP TABLE `" . TABLE_PREFIX . "mod_forum_cache`");
+$database->query("DROP TABLE `" . TABLE_PREFIX . "mod_forum_post`");
+$database->query("DROP TABLE `" . TABLE_PREFIX . "mod_forum_thread`");
+$database->query("DROP TABLE `" . TABLE_PREFIX . "mod_forum_settings`");
 ?>
