@@ -1,28 +1,21 @@
 <?php
-/*
-  Module developed for the Open Source Content Management System Website Baker (http://websitebaker.org)
-  Copyright (C) 2008, Julian Schuh, Bernd Michna
-  Contact me: b.michna(at)wwnw.de
 
-  This module is free software. You can redistribute it and/or modify it
-  under the terms of the GNU General Public License  - version 2 or later,
-  as published by the Free Software Foundation: http://www.gnu.org/licenses/gpl.html.
+/**
+ *
+ *	@module			Forum
+ *	@version		0.5.8
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.4.x and higher
+ *
+ */
 
-  This module is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
- -----------------------------------------------------------------------------------------
-  DEUTSCHE SPRACHDATEI FÜR DAS FORUM MODUL
- -----------------------------------------------------------------------------------------
-**/
-
-// sprachabhängige Modulbeschreibungen wurden mit WB 2.7 eingeführt (default English in info.php)
+// sprachabhÃ¤ngige Modulbeschreibungen wurden mit WB 2.7 eingefÃ¼hrt (default English in info.php)
 $module_description = 'This module integrates a simple forum in your Website Baker website.';
 
 $MOD_FORUM = array(
-	// Variablen für Textausgaben im Frontend
+	// Variablen fÃ¼r Textausgaben im Frontend
 	'TXT_SUBFORUMS_F'				=> 'Subforums:',
 	'TXT_THEMES_F'					=> 'Themes',
 	'TXT_THEME_F'					=> 'Theme',
@@ -79,7 +72,7 @@ $MOD_FORUM = array(
 'TXT_MAILTEXT_NEW_POST_ADMIN'		=> "Hello ##USERNAME##, \n\nThere is a new post by ##POSTER## in \"##THREAD##\" .\n\n" .
 										"You can read the post by following this link: \n##LINK##\n",
 
-	// Variablen für Textausgaben im Backend
+	// Variablen fÃ¼r Textausgaben im Backend
 	'TXT_NO_FORUMS_B'				=> 'No forums in this category',
 	'TXT_CREATE_FORUM_B'			=> 'Create forum',
 	'TXT_FORUMS_B'					=> 'Forums:',
@@ -116,5 +109,5 @@ $MOD_FORUM = array(
 	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Email sender name?',	
 	'TXT_USE_SMILEYS_B'	=> 'Use Smileys?',
 	'TXT_HIDE_EDITOR_B'	=> 'Hide Editor?'
-)
+);
 ?>

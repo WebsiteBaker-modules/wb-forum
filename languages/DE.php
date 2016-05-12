@@ -1,28 +1,20 @@
 <?php
-/*
-  Module developed for the Open Source Content Management System Website Baker (http://websitebaker.org)
-  Copyright (C) 2008, Julian Schuh, Bernd Michna
-  Contact me: b.michna(at)wwnw.de
 
-  This module is free software. You can redistribute it and/or modify it
-  under the terms of the GNU General Public License  - version 2 or later,
-  as published by the Free Software Foundation: http://www.gnu.org/licenses/gpl.html.
+/**
+ *
+ *	@module			Forum
+ *	@version		0.5.8
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.4.x and higher
+ *
+ */
 
-  This module is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
- -----------------------------------------------------------------------------------------
-  DEUTSCHE SPRACHDATEI FÜR DAS FORUM MODUL
- -----------------------------------------------------------------------------------------
-**/
-
-// sprachabhängige Modulbeschreibungen wurden mit WB 2.7 eingeführt (default English in info.php)
 $module_description = 'Dieses Modul integriert ein einfaches Forum in ihre Webseite.';
 
 $MOD_FORUM = array(
-	// Variablen für Textausgaben im Frontend
+	// Variablen fÃ¼r Textausgaben im Frontend
 	'TXT_SUBFORUMS_F'				=> 'Unterforen:',
 	'TXT_THEMES_F'					=> 'Themen',
 	'TXT_THEME_F'					=> 'Thema',
@@ -78,7 +70,7 @@ $MOD_FORUM = array(
 	'TXT_MAILTEXT_NEW_POST_ADMIN'		=> "Hallo ##USERNAME##, \n\nZum Thema \"##THREAD##\" hat ##POSTER## einen Beitrag verfasst.\n\n" .
 										"Sie k&ouml;nnen Ihn nach dem Login hier abrufen: \n##LINK##\n",
 
-	// Variablen für Textausgaben im Backend
+	// Variablen fÃ¼r Textausgaben im Backend
 	'TXT_NO_FORUMS_B'				=> 'Keine Foren vorhanden.<br/>
 										Erstellen Sie zun&auml;chst ein Forum auf der ersten Ebene.<br/>
 										In dieses Forum (wie in alle der ersten Ebene) k&ouml;nnen Sie <i>nicht</i> posten!
@@ -118,5 +110,5 @@ $MOD_FORUM = array(
 	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Absendername f&uuml;r E-Mails?',
 	'TXT_USE_SMILEYS_B'	=> 'Smileys verwenden?',
 	'TXT_HIDE_EDITOR_B'	=> 'Editor verstecken?'
-)
+);
 ?>

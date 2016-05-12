@@ -2,10 +2,15 @@
 
 /**
  *
+ *	@module			Forum
+ *	@version		0.5.8
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.4.x and higher
  *
- * @version $Id$
- * @copyright 2009
  */
+
 if(!defined('WB_PATH')) {
 	exit("Cannot access this file directly");
 }

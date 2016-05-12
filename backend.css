@@ -50,3 +50,86 @@ li.mod_forum_forum_level3{
 	padding: 2px;
 	padding-left:20px;
 }
+
+/**
+ *	0.5.8 additions
+ */
+ul.forum_list_postings {
+	display: block;
+	float:left;
+	width:100%;
+	list-style: none;
+	margin:0;
+	padding:0;
+}
+
+ul.forum_list_postings li{
+	height: 22px;
+	padding-top:3px;
+	margin-bottom:2px;
+}
+ul.forum_list_postings li div {
+	display:block;
+	float:left;
+	width:100%;
+}
+ul.forum_list_postings li div.forum_list_action {
+	width:60px;
+	text-align:center;
+}
+ul.forum_list_postings li div.forum_list_id {
+	width: 50px;
+	text-align:left;
+}
+ul.forum_list_postings li div.forum_list_date {
+	width: 160px;
+	padding-left:20px;
+}
+ul.forum_list_postings li div.forum_list_title {
+	width: 200px;
+	padding-left:20px;
+}
+ul.forum_list_postings li.thread{
+	background-color:#AAAAAA;
+	width:100%;
+	display:block;
+	float:left;
+}
+
+ul.forum_list_postings li.post{
+	background-color:#CCCCCC;
+	width:100%;
+	display:block;
+	float:left;
+
+}
+
+li.post div.forum_list_id:before,
+li.post div.forum_list_date:before,
+li.post div.forum_list_title:before {
+	content:'> ';
+}
+img.f_action {
+	margin-right:5px;
+}
+
+.edit_post_label {
+	width:100px;
+	text-align:right;
+	vertical-align:top;
+	padding-right:10px;
+	padding-top:5px;
+}
+
+.edit_post_value {
+	width:400px;
+}
+
+.edit_post_value input[type='text']{
+	width:400px;
+}
+
+.edit_post_value textarea {
+	width:400px;
+	height:150px;
+}	

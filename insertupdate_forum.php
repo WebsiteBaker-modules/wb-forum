@@ -1,35 +1,26 @@
 <?php
-/*
 
-   Website Baker Project <http://www.websitebaker.org/>
-   Copyright (C) 2004-2008, Ryan Djurovich
-
-   Website Baker is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
-
-   Website Baker is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with Website Baker; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
+/**
+ *
+ *	@module			Forum
+ *	@version		0.5.8
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.4.x and higher
+ *
+ */
 
 require('../../config.php');
 require(WB_PATH . '/modules/admin.php');
 
 include_once(WB_PATH .'/framework/module.functions.php');
 
-if(!file_exists(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php')) {
-	require_once(WB_PATH . '/modules/forum/languages/EN.php');
-} else {
-	require_once(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php');
-}
+/**
+ *        Load Language file
+ */
+$lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
+require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang );
 
 if (!$section_id OR !$page_id) {
 	exit;
@@ -37,18 +28,51 @@ if (!$section_id OR !$page_id) {
 
 require_once(WB_PATH . '/modules/forum/class_forumcache.php');
 
+if(isset($_POST['job_'])) {
+	
+	if($_POST['job_'] == "del") {
+		$postid = intval($_POST['postid']);
+		
+		/**
+		 *	Delete a single post inside a thread
+		 *
+		 */
+		if($_POST['class'] == "post") {
+			$database->query("DELETE FROM `".TABLE_PREFIX."mod_forum_post` WHERE `postid`=".$postid);
+			if($database->is_error()) die($database->get_error());
+		}
+		
+		/**
+		 *	Delete a compete thread
+		 *
+		 */
+		if($_POST['class'] == "thread") {
+			$postid = intval($_POST['postid']);
+
+			$database->query( "DELETE FROM `".TABLE_PREFIX."mod_forum_thread` WHERE `threadid`=".$postid );
+			if($database->is_error()) die($database->get_error());
+			
+			$database->query( "DELETE FROM `".TABLE_PREFIX."mod_forum_post` WHERE `threadid`=".$postid );
+			if($database->is_error()) die($database->get_error());
+		}
+	}
+	
+	$admin->print_success("Forum gespeichert! [1]", ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
+	return 0;
+}
+
 // Have we to update? Verify given forum id
 if ($_REQUEST['forumid'])
 {
 	$forum = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE forumid = '" . intval($_REQUEST['forumid']) . "' AND section_id = '$section_id' AND page_id = '$page_id'");
-	if (!$forum->numRows())
+	if (0 === $forum->numRows())
 	{
 		$admin->print_error('Forum ung&uuml;ltig!', ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 	}
 
 	$forum = $forum->fetchRow();
 
-	//Delete the Forum + Contents
+	//	Delete the Forum + Contents
 	if (isset($_POST['delete']))
 	{		
 		$toDelete = array($forum['forumid']);
@@ -120,7 +144,7 @@ if ($_POST['parentid'])
 	$parentforum = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE forumid = '" . intval($_POST['parentid']) . "'");
 	if (!$parentforum->numRows())
 	{
-		$admin->print_error('Übergeordnetes Forum ungültig!', ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
+		$admin->print_error('Ãœbergeordnetes Forum ungÃ¼ltig!', ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 	}
 
 	$parentforum = $parentforum->fetchRow();

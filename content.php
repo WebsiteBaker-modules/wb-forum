@@ -1,4 +1,16 @@
 <?php
+
+/**
+ *
+ *	@module			Forum
+ *	@version		0.5.8
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.4.x and higher
+ *
+ */
+
 if(!file_exists(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php')) {
 	require_once(WB_PATH . '/modules/forum/languages/EN.php');
 } else {
@@ -224,7 +236,7 @@ elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
 			$mailing_result = "";
 			include 'include_sendmails.php';
 
-			// $mailing_result wird mit inhalt gefüllt, wenn es mails zu mailen gab
+			// $mailing_result wird mit inhalt gefÃ¼llt, wenn es mails zu mailen gab
 			$wb->print_success($MOD_FORUM['TXT_TOPIC_CREATED_F'] . $mailing_result, 'thread_view' . PAGE_EXTENSION . '?sid=' . SECTION_ID . '&pid=' . PAGE_ID . '&tid=' . $tid['id']);
 			
 			
@@ -400,19 +412,29 @@ $home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;
 			<table border="0" class="details_table" cellpadding="4" cellspacing="0" width="100%">
 			<tr>
 				<td class="details_topic  <?php echo ($i % 2 ? 'odd' : 'even') ?>">
-				<?php if (($post['userid'] == $wb->get_user_id() AND $post['userid']) OR ((in_array(intval(ADMIN_GROUP_ID), explode(',', $user['groups_id'])) OR $user['group_id'] == intval(ADMIN_GROUP_ID)) AND intval(ADMIN_GROUP_ID) !== 0))
+				<?php
+/**
+ *	Can the user edit the post?
+ */
+ $user_can_edit = false;
+ if( $post['userid'] == $wb->get_user_id()) {
+	if (  in_array( intval(ADMIN_GROUP_ID), explode(',', $user['groups_id'])) ) {
+		$user_can_edit = true;
+	}
+	if ($user['group_id'] == intval(ADMIN_GROUP_ID)) {
+		$user_can_edit = true;
+	}
+ }
+if( 1 == $user['group_id'] ) {
+	$user_can_edit = true;
+}
+				if ( true === $user_can_edit )
 				{
-					?>
-
-					<span style="float:right"><a href="<?php echo WB_URL; ?>/modules/forum/post_edit.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;postid=<?php echo $post['postid']; ?>"><img src="images/edit.png" width="16" height="16" border="0" title="<?php echo $MOD_FORUM['TXT_EDIT_F']; ?>" alt="" /></a>
-					<?php
-					if ((in_array(intval(ADMIN_GROUP_ID), explode(',', $user['groups_id'])) OR $user['group_id'] == intval(ADMIN_GROUP_ID)) AND intval(ADMIN_GROUP_ID) !== 0)
-					{
-						?>
-						 <a id="delete" href="<?php echo WB_URL; ?>/modules/forum/post_delete.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;postid=<?php echo $post['postid']; ?>" onclick="return confirm(unescape('<?php echo $MOD_FORUM['TXT_REALLY_DELETE_F']; ?>'));"><img src="images/delete.png" width="16" height="16" border="0" title="<?php echo $MOD_FORUM['TXT_DELETE_F']; ?>" alt="" /></a>
-						<?php
-					} ?>
-				</span> 
+				?>
+						<span style="float:right">
+							<a href="<?php echo WB_URL; ?>/modules/forum/post_edit.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;postid=<?php echo $post['postid']; ?>"><img src="images/edit.png" width="16" height="16" border="0" title="<?php echo $MOD_FORUM['TXT_EDIT_F']; ?>" alt="" /></a>
+							<a id="delete" href="<?php echo WB_URL; ?>/modules/forum/post_delete.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;postid=<?php echo $post['postid']; ?>" onclick="return confirm(unescape('<?php echo $MOD_FORUM['TXT_REALLY_DELETE_F']; ?>'));"><img src="images/delete.png" width="16" height="16" border="0" title="<?php echo $MOD_FORUM['TXT_DELETE_F']; ?>" alt="" /></a>
+						</span> 
 				<?php
 				}
 				?>
@@ -585,14 +607,14 @@ else if (FORUM_DISPLAY_CONTENT == 'reply_thread' &&	($forum['writeaccess'] !== '
 
 	/**
 	 * otherworld - FULLTEXT search implementiert
-	 * mit suchlänge ab 3 zeichen (für arme)
+	 * mit suchlÃ¤nge ab 3 zeichen (fÃ¼r arme)
 	 */
 
 	//$_search_string = strip_bbcode($_POST['text']);
-	// macht aus 3-Zeichen-Wörtern längere, um berücksichtigt zu werden:
+	// macht aus 3-Zeichen-WÃ¶rtern lÃ¤ngere, um berÃ¼cksichtigt zu werden:
 	// aus PHP wird PHP_x_PHP
-	$_search_string  = preg_replace("/\b([a-zöäüß0-9]{3})\b/i", "$1_x_$1", trim($_POST['title'])) ;
-	$_search_string .= preg_replace("/\b([a-zöäüß0-9]{3})\b/i", "$1_x_$1", strip_bbcode($_POST['text']) ) ;
+	$_search_string  = preg_replace("/\b([a-zÃ¶Ã¤Ã¼ï¬‚0-9]{3})\b/i", "$1_x_$1", trim($_POST['title'])) ;
+	$_search_string .= preg_replace("/\b([a-zÃ¶Ã¤Ã¼ï¬‚0-9]{3})\b/i", "$1_x_$1", strip_bbcode($_POST['text']) ) ;
 
 	// weiter im original: ===================================================
 	$database->query("
@@ -616,12 +638,12 @@ else if (FORUM_DISPLAY_CONTENT == 'reply_thread' &&	($forum['writeaccess'] !== '
 	/**
 	 * otherworld.de
 	 * Mails an die anderen im Thread absetzen:
-	 * wenn das in der config.php so gewünscht ist.
+	 * wenn das in der config.php so gewÃ¼nscht ist.
 	 */
   $mailing_result = "";
 	include 'include_sendmails.php';
 
-	// $mailing_result wird mit inhalt gefüllt, wenn es mails zu mailen gab
+	// $mailing_result wird mit inhalt gefÃ¼llt, wenn es mails zu mailen gab
 	$wb->print_success($MOD_FORUM['TXT_TOPIC_CREATED_F'] . $mailing_result, 'thread_view' . PAGE_EXTENSION . '?sid=' . SECTION_ID . '&pid=' . PAGE_ID . '&tid=' . $thread['threadid'] . '&page=' . $lastpage);
 }
 // ##################### DELETE POST (DATABSE STUFF ONLY) ######################
@@ -703,14 +725,14 @@ else if (FORUM_DISPLAY_CONTENT == 'post_edit') {
 
 		/**
 		 * otherworld - FULLTEXT search implementiert
-		 * mit suchlänge ab 3 zeichen (für arme)
+		 * mit suchlÃ¤nge ab 3 zeichen (fÃ¼r arme)
 		 */
 
 		//$_search_string = strip_bbcode($_POST['text']);
-		// macht aus 3-Zeichen-Wörtern längere, um berücksichtigt zu werden:
+		// macht aus 3-Zeichen-WÃ¶rtern lÃ¤ngere, um berÃ¼cksichtigt zu werden:
 		// aus PHP wird PHP_x_PHP
-		$_search_string  = preg_replace("/\b([a-zöäüß0-9]{3})\b/i", "$1_x_$1", trim($_POST['title']))." " ;
-		$_search_string .= preg_replace("/\b([a-zöäüß0-9]{3})\b/i", "$1_x_$1", strip_bbcode($_POST['text']) ) ;
+		$_search_string  = preg_replace("/\b([a-zÃ¶Ã¤Ã¼ï¬‚0-9]{3})\b/i", "$1_x_$1", trim($_POST['title']))." " ;
+		$_search_string .= preg_replace("/\b([a-zÃ¶Ã¤Ã¼ï¬‚0-9]{3})\b/i", "$1_x_$1", strip_bbcode($_POST['text']) ) ;
 
 
 		$database->query("

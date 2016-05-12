@@ -1,4 +1,16 @@
 <?php
+
+/**
+ *
+ *	@module			Forum
+ *	@version		0.5.8
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.4.x and higher
+ *
+ */
+
 function fetch_fontsize_from_page($pagenum, $selpage)
 {
 	$font_size = 10;
@@ -215,27 +227,27 @@ function parse_text($text)
 }
 
 function parse_bbcode($text, $quote) {
-// BBCode to find...
+	// BBCode to find...
 	$in = array(
-					 '/\[b\](.*?)\[\/b\]/ms',
-					 '/\[i\](.*?)\[\/i\]/ms',
-					 '/\[u\](.*?)\[\/u\]/ms',
-					 '/\[s\](.*?)\[\/s\]/ms',
-					 '/\[url\="?(.*?)"?\](.*?)\[\/url\]/ms',
-					 '/\[size\="?(.*?)"?\](.*?)\[\/size\]/ms',
-					 '/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms',
-					 '/\[quote](.*?)\[\/quote\]/ms'
+		'/\[b\](.*?)\[\/b\]/ms',
+		'/\[i\](.*?)\[\/i\]/ms',
+		'/\[u\](.*?)\[\/u\]/ms',
+		'/\[s\](.*?)\[\/s\]/ms',
+		'/\[url\="?(.*?)"?\](.*?)\[\/url\]/ms',
+		'/\[size\="?(.*?)"?\](.*?)\[\/size\]/ms',
+		'/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms',
+		'/\[quote](.*?)\[\/quote\]/ms'
 	);
 	// And replace them by...
 	$out = array(
-					 '<strong>\1</strong>',
-					 '<em>\1</em>',
-					 '<u>\1</u>',
-					 '<strike>\1</strike>',
-					 '<a href="\1">\2</a>',
-					 '<span style="font-size: \1%;">\2</span>',
-					 '<span style="color: \1;">\2</span>',
-					 '<fieldset style="background-color: #EEE; padding: 0 4px 2px; font-style: italic;"><legend>'.$quote.'</legend>\1</fieldset>'
+		'<strong>\1</strong>',
+		'<em>\1</em>',
+		'<u>\1</u>',
+		'<strike>\1</strike>',
+		'<a href="\1">\2</a>',
+		'<span style="font-size: \1%;">\2</span>',
+		'<span style="color: \1;">\2</span>',
+		'<fieldset style="background-color: #EEE; padding: 0 4px 2px; font-style: italic;"><legend>'.$quote.'</legend>\1</fieldset>'
 	);
 
 	return nl2br(preg_replace($in, $out, $text));
@@ -244,7 +256,7 @@ function parse_bbcode($text, $quote) {
 /**
  * strip_bb
  * otherworld.de
- * f¸r die Vorschau brauchen wir TAG freie zeichen, denn wir wollen den text
+ * für die Vorschau brauchen wir TAG freie zeichen, denn wir wollen den text
  * nicht komplett anzeigen. daher laufen wir gefahr, tags nicht zu schlieﬂen, so
  * dass es uns unser gesamt-layout um die ohren haut.
  */
@@ -252,29 +264,28 @@ function parse_bbcode($text, $quote) {
 function strip_bbcode($text) {
 	// BBCode to find...
 	$in = array(
-						 '/\[b\](.*?)\[\/b\]/ms',
-						 '/\[i\](.*?)\[\/i\]/ms',
-						 '/\[u\](.*?)\[\/u\]/ms',
-						 '/\[s\](.*?)\[\/s\]/ms',
-						 '/\[url\="?(.*?)"?\](.*?)\[\/url\]/ms',
-						 '/\[size\="?(.*?)"?\](.*?)\[\/size\]/ms',
-						 '/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms',
-						 '/\[quote](.*?)\[\/quote\]/ms'
-		);
+		'/\[b\](.*?)\[\/b\]/ms',
+		'/\[i\](.*?)\[\/i\]/ms',
+		'/\[u\](.*?)\[\/u\]/ms',
+		'/\[s\](.*?)\[\/s\]/ms',
+		'/\[url\="?(.*?)"?\](.*?)\[\/url\]/ms',
+		'/\[size\="?(.*?)"?\](.*?)\[\/size\]/ms',
+		'/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms',
+		'/\[quote](.*?)\[\/quote\]/ms'
+	);
 	// And replace them by...
 	$out = array(
-						 '\1',
-						 '\1',
-						 '\1',
-						 '',
-						 '\2',
-						 '\2',
-						 '\2',
-						 ''
-		);
+		'\1',
+		'\1',
+		'\1',
+		'',
+		'\2',
+		'\2',
+		'\2',
+		''
+	);
 
 	return preg_replace($in, $out, $text);
-	//return  substr_replace($in, $out,0) ;
 }
 
 /**

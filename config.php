@@ -1,8 +1,16 @@
 <?php
 
 /**
- *	0.5.5
+ *
+ *	@module			Forum
+ *	@version		0.5.8
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.4.x and higher
+ *
  */
+
 global $database;
 
 // insert settings if not exist
@@ -16,25 +24,25 @@ if ($query_settings === false || $query_settings->numRows()  == 0) {
 // Get Settings from DB
 $settings = $query_settings->fetchRow( MYSQL_ASSOC );
 
-// Einträge, die in der Themenübersicht je Seite angezeigt werden sollen
+// Eintr√§ge, die in der Themen√ºbersicht je Seite angezeigt werden sollen
 define('FORUMDISPLAY_PERPAGE', $settings['FORUMDISPLAY_PERPAGE']);
 
-// Einträge, die je Seite in einem Thema angezeigt werden sollen
+// Eintr√§ge, die je Seite in einem Thema angezeigt werden sollen
 define('SHOWTHREAD_PERPAGE', $settings['SHOWTHREAD_PERPAGE']);
 
-// Legt fest, ob für die Zahlen in der Seitennavigation verschiedene Schriftgrˆﬂen verwendet werden sollen
+// Legt fest, ob f√ºr die Zahlen in der Seitennavigation verschiedene Schriftgr√∂Ô¨Çen verwendet werden sollen
 define('PAGENAV_SIZES', $settings['PAGENAV_SIZES']);
 
 // Unterforen auf der Foren-Startseite anzeigen?
 define('DISPLAY_SUBFORUMS', $settings['DISPLAY_SUBFORUMS']);
 
-// Unterforen in der Themenübersicht anzeigen?
+// Unterforen in der Themen√ºbersicht anzeigen?
 define('DISPLAY_SUBFORUMS_FORUMDISPLAY', $settings['DISPLAY_SUBFORUMS_FORUMDISPLAY']);
 
-// Sollen für Gäste Captchas zum schreiben verwendet werden?
+// Sollen f√ºr G√§ste Captchas zum schreiben verwendet werden?
 define('FORUM_USE_CAPTCHA', $settings['FORUM_USE_CAPTCHA']);
 
-// ID der Gruppe der Administratoren (Dürfen Beiträge + Themen ändern/lˆschen)
+// ID der Gruppe der Administratoren (D√ºrfen Beitr√§ge + Themen √§ndern/l√∂schen)
 define('ADMIN_GROUP_ID', $settings['ADMIN_GROUP_ID']);
 
 // Soll das Suchformular angezeigt werden ?
@@ -46,7 +54,7 @@ define('FORUM_MAX_SEARCH_HITS', $settings['FORUM_MAX_SEARCH_HITS']);
 // sollen Mails versendet werden, wenn neue Posts eingehen?
 define('FORUM_SENDMAILS_ON_NEW_POSTS', $settings['FORUM_SENDMAILS_ON_NEW_POSTS']);
 
-// Diese Adresse bei neuen Beiträgen informieren?'
+// Diese Adresse bei neuen Beitr√§gen informieren?'
 define('FORUM_ADMIN_INFO_ON_NEW_POSTS', $settings['FORUM_ADMIN_INFO_ON_NEW_POSTS']);
 
 // Sender of notification emails on new posts

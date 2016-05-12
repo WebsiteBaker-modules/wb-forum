@@ -2,10 +2,15 @@
 
 /**
  *
+ *	@module			Forum
+ *	@version		0.5.8
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.4.x and higher
  *
- * @version $Id$
- * @copyright 2009
  */
+
 if(!defined('WB_PATH')) {
 	exit("Cannot access this file directly");
 }
@@ -17,7 +22,7 @@ global $database;
 
 //var_dump($_POST);
 $search_string = strip_tags( $database->escapeString($_GET['mod_forum_search']));
-$_search_string = preg_replace("/\b([a-zˆ‰¸ﬂ0-9]{3})\b/i", "$1_x_$1", $search_string);
+$_search_string = preg_replace("/\b([a-zöäüﬂ0-9]{3})\b/i", "$1_x_$1", $search_string);
 
 $arr_search_string = explode(' ', $search_string);
 if (is_array($arr_search_string) AND count($arr_search_string) >= 1 )

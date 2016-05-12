@@ -1,5 +1,16 @@
 <?php
 
+/**
+ *
+ *	@module			Forum
+ *	@version		0.5.8
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.4.x and higher
+ *
+ */
+
 		require_once("functions.php");
 		$thread_count = $database->query("SELECT COUNT(threadid) AS total FROM " . TABLE_PREFIX . "mod_forum_thread WHERE forumid = '" . intval($forum['forumid']) . "'");
 		$thread_count = $thread_count->fetchRow( MYSQL_ASSOC );

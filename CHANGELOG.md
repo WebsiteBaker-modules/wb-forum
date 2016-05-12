@@ -93,7 +93,7 @@ Neu
 	 EN und NL)
 
 (+) Extra-Modul "Last Forum Entries" zeigt die
-	letzten Beiträge an (benˆtigt diese
+	letzten Beiträge an (benötigt diese
 	Version 0.3), Pagination des Ziels wird
 	unterstützt
 
