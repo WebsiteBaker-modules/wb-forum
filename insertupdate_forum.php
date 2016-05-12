@@ -26,7 +26,7 @@ if (!$section_id OR !$page_id) {
 	exit;
 }
 
-require_once(WB_PATH . '/modules/forum/class_forumcache.php');
+require_once(WB_PATH . '/modules/forum/classes/class_forumcache.php');
 
 if(isset($_POST['job_'])) {
 	

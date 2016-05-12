@@ -29,11 +29,22 @@ $fields = array(
 
 foreach($fields as $name => $options) {
 	$temp = $oValidate->get_request( $name, $options['default'], $options['type'] );
-	if( NULL === $temp) die("fuck!".$name);
+	if( NULL === $temp) die();
 	${$name} = $temp;
 }
 
-require(WB_PATH . '/modules/admin.php');
+/**
+ *	Some 'parsing'fpr 'title' and 'text'
+ */
+if(method_exists($database, "escapeString")) {
+	$text = $database->escapeString($text);
+	$title = $database->escapeString($title);
+} else {
+	$text = str_replace( array("<","#", "/*"), "", htmlspecialchars($text) ); 
+	$title = str_replace( array("<","#", "/*"), "", htmlspecialchars($title) ); 
+}
+
+require( WB_PATH.'/modules/admin.php' );
 
 /**
  *        Load Language file
