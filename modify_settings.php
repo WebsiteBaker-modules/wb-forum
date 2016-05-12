@@ -57,7 +57,7 @@ if($query_settings = $database->query($sql)) {
 
 <input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
 <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
-<?php echo $admin->getFTAN(); ?>
+<?php echo (true === method_exists($admin, "getFTAN")) ? $admin->getFTAN() : ""; ?>
 
 <table summary="" class="row_a" cellpadding="2" cellspacing="0" border="0" width="90%">
 	<tr>

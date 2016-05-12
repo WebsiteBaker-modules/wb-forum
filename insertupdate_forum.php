@@ -14,6 +14,12 @@
 require('../../config.php');
 require(WB_PATH . '/modules/admin.php');
 
+if (!$admin->checkFTAN())
+{
+	$admin->print_header();
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+}
+
 include_once(WB_PATH .'/framework/module.functions.php');
 
 /**

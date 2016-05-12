@@ -54,6 +54,7 @@ $values = array(
 	"forumid"		=> $forumid,
 	"postid"		=> $postid,
 	"WB_URL"		=> WB_URL,
+	"FTAN"			=> (true === method_exists($admin, "getFTAN")) ? $admin->getFTAN() : "",
 	"title"			=> $post_data['title'],
 	"text"			=> ($class=="post") 
 		? $post_data['text'] 

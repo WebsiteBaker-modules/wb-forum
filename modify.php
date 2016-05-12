@@ -21,11 +21,11 @@ if(!defined('WB_PATH'))
 define('SKIP_CACHE', 1);
 require_once(WB_PATH . '/modules/forum/backend.php');
 
-if(!file_exists(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php')) {
-	require_once(WB_PATH . '/modules/forum/languages/EN.php');
-} else {
-	require_once(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php');
-}
+/**
+ *        Load Language file
+ */
+$lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
+require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang );
 
 ?>
 
@@ -45,7 +45,7 @@ if(!file_exists(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php')) {
 <ul>
 <?php
 
-$forums = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE section_id = '$section_id' AND page_id = '$page_id' ORDER BY displayorder ASC");
+$forums = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `section_id` = '".$section_id."' AND `page_id` = '".$page_id."' ORDER BY `displayorder` ASC");
 
 if (0 == $forums->numRows())
 {

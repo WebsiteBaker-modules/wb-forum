@@ -53,6 +53,7 @@ if(!function_exists("forum_str2js")) {
 		$s = str_replace( array_keys($a), array_values($a), $s);
 	}
 }
+
 ?>
 
 <h2><?php echo (isset($forum['forumid']) ? $MOD_FORUM['TXT_EDIT_FORUM_B'].' - '.$forum['title'] : $MOD_FORUM['TXT_CREATE_FORUM_B']); ?></h2>
@@ -62,6 +63,8 @@ if(!function_exists("forum_str2js")) {
 <input type="hidden" name="section_id" value="<?php echo $section_id; ?>">
 <input type="hidden" name="page_id" value="<?php echo $page_id; ?>">
 <input type="hidden" name="forumid" value="<?php echo (isset($forum['forumid']) ? $forum['forumid'] : ''); ?>">
+
+<?php echo (true === method_exists($admin, "getFTAN")) ? $admin->getFTAN() : ""; ?>
 
 <table class="row_a" cellpadding="2" cellspacing="0" border="0" align="center" width="100%" style="margin-top: 5px;">
 	<tr>

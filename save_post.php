@@ -11,8 +11,15 @@
  *
  */
  
- 
 require('../../config.php');
+
+require(WB_PATH . '/modules/admin.php');
+
+if (!$admin->checkFTAN())
+{
+	$admin->print_header();
+	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+}
 
 require_once( dirname(__FILE__)."/classes/class.validate.request.php" );
 $oValidate = new c_validate_request();
