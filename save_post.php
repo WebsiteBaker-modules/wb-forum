@@ -13,6 +13,7 @@
  
 require('../../config.php');
 
+$admin_header = false; // suppress to print the header, so no new FTAN will be set
 require(WB_PATH . '/modules/admin.php');
 
 if (!$admin->checkFTAN())

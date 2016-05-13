@@ -178,6 +178,7 @@ if(!function_exists("forum_str2js")) {
 <input type="hidden" name="class" value="-1" />
 <input type="hidden" name="ts_val" value="<?php echo time(); ?>" />
 <input type="hidden" name="job_" value="del" />
+<?php echo (true === method_exists($admin, "getFTAN")) ? $admin->getFTAN() : ""; ?>
 
 <ul class="forum_list_postings">
 
