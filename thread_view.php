@@ -13,9 +13,8 @@
 
 // Include config file
 require('../../config.php');
-//require_once WB_PATH . '/modules/forum/functions.php';
 
-
+if(!isset($_REQUEST['tid'])) die();
 
 /**
  * prüfen, ob wir auf einen einzelnes posting weiterleiten sollen

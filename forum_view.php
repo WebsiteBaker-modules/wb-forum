@@ -14,6 +14,8 @@
 // Include config file
 require('../../config.php');
 
+if(!isset($_REQUEST['fid'])) die();
+
 // Validation:
 $forum_query = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `forumid` = '" . intval($_REQUEST['fid']) . "'");
 $forum = $forum_query->fetchRow();

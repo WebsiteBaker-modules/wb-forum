@@ -11,12 +11,19 @@
  *
  */
 
-if(!file_exists(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php')) {
-	require_once(WB_PATH . '/modules/forum/languages/EN.php');
-} else {
-	require_once(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php');
-}
+/**
+ *	Must include code to stop this file being accessed directly
+ */
+if (!defined('WB_PATH')) { throw new Exception('Cannot access the addon \"'.basename(__DIR__).'\" directly'); }
+
+/**
+ *        Load Language file
+ */
+$lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
+require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang );
+
 echo '<script type="text/javascript" src="script/jquery.js"></script>';
+
 ?>
 
 <script type="text/javascript" >
