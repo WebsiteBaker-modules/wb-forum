@@ -65,13 +65,13 @@ $query_groups = $database->query('SELECT * FROM `'.TABLE_PREFIX.'groups`');
 while ($group = $query_groups->fetchRow(MYSQL_ASSOC)){
 
 	if (in_array( $group['group_id'], $this_page_admins)) {
-		$sGroupSelectHTML .= '\n<option disabled="disabled" value="'.$group['group_id'].'">'.$group['name'].'</option>';
+		$sGroupSelectHTML .= "\n<option disabled='disabled' value='".$group['group_id']."'>".$group['name']."</option>";
 
 	} elseif ($group['group_id'] == $settings['ADMIN_GROUP_ID']) {
-		$sGroupSelectHTML .= '\n<option selected="selected" value="'.$group['group_id'].'">'.$group['name'].'</option>';
+		$sGroupSelectHTML .= "\n<option selected='selected' value='".$group['group_id']."'>".$group['name']."</option>";
 
 	} else {
-		$sGroupSelectHTML .= '\n<option value="'.$group['group_id'].'">'.$group['name'].'</option>';
+		$sGroupSelectHTML .= "\n<option value='".$group['group_id']."'>".$group['name']."</option>";
 	}							
 }
 $sGroupSelectHTML .= "\n</select>\n";
