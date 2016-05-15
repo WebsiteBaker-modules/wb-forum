@@ -48,7 +48,7 @@ $forum_sendmails_on_new_posts = isset($_POST['forum_sendmails_on_new_posts']) ? 
 $forum_admin_info_on_new_posts = $admin->add_slashes($_POST['forum_admin_info_on_new_posts']);
 $forum_mail_sender = $admin->add_slashes($_POST['forum_mail_sender']);
 $forum_mail_sender_realname = $admin->add_slashes($_POST['forum_mail_sender_realname']);
-die($admin_group_id);
+
 // Update settings
 $sql  = 'UPDATE `'.TABLE_PREFIX.'mod_forum_settings` SET ';
 $sql .= '`FORUMDISPLAY_PERPAGE` = \''.$forumdisplay_perpage.'\', ';
