@@ -52,13 +52,17 @@ global $post, $user, $forum, $thread, $page_id, $section_id, $forumcache, $iforu
  */
 $user_can_create_topic = false;
 $user_can_create_answer = false;
+$user_can_edit = false;
 
 $temp_user = $wb->get_user_id();
 if($temp_user) {
 	$temp_groups = explode(",", $wb->page['admin_groups']);
 	$user_can_create_topic = in_array( $temp_user, $temp_groups);
 	$user_can_create_answer = in_array( $temp_user, $temp_groups);
+	$user_can_edit = in_array( $temp_user, $temp_groups);
 }
+if($temp_user == ADMIN_GROUP_ID) $user_can_edit = true;
+
 
 // ####################### EDIT POST (SEARCH) ########################
 if (FORUM_DISPLAY_CONTENT == 'search_the_forum')
@@ -438,7 +442,7 @@ $home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;
 				<?php
 /**
  *	Can the user edit the post?
- */
+ 
  $user_can_edit = false;
  if( $post['userid'] == $wb->get_user_id()) {
 	if (  in_array( intval(ADMIN_GROUP_ID), explode(',', $user['groups_id'])) ) {
@@ -450,7 +454,7 @@ $home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;
  }
 if( 1 == $user['group_id'] ) {
 	$user_can_edit = true;
-}
+}*/
 				if ( true === $user_can_edit )
 				{
 				?>
