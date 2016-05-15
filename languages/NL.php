@@ -68,7 +68,7 @@ $MOD_FORUM = array(
 	"There is a new post by ##POSTER## in this thread \n\n".
 	"You can read the post by following this link: \n##LINK##\n",
 	'TXT_MAILTEXT_NEW_POST_ADMIN'		=> "Hello ##USERNAME##, \n\nThere is a new post by ##POSTER## in \"##THREAD##\" .\n\n" .
-
+											"You can read the post by following this link: \n##LINK##\n",
 	// Backend
 	'TXT_NO_FORUMS_B'				=> 'Geen forums in deze categorie',
 	'TXT_CREATE_FORUM_B'			=> 'Forum maken',
