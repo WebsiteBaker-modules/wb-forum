@@ -100,7 +100,10 @@ $MOD_FORUM = array(
 	'TXT_DISPLAY_SUBFORUMS_B'	=> 'Unterforen auf der Startseite anzeigen?',
 	'TXT_DISPLAY_SUBFORUMS_FORUMDISPLAY_B'	=> 'Unterforen in der Themen&uuml;bersicht anzeigen?',
 	'TXT_FORUM_USE_CAPTCHA_B'	=> 'Sollen f&uuml;r G&auml;ste Captchas verwendet werden?',
-	'TXT_ADMIN_GROUP_ID_B'	=> 'Administratorengruppe (darf Beitr&auml;ge bearbeiten)?',
+	
+	'TXT_ADMIN_GROUP_ID_B'		=> 'Zusätzliche (Administratoren)gruppe (darf Beitr&auml;ge bearbeiten)?<br />Zusätzlich zu denen, die ohnehin diese Seite bearbeiten dürfen!',
+	'NO_ADDITIONAL_GROUP'		=> "keine zusätzliche Gruppe",
+	
 	'TXT_VIEW_FORUM_SEARCH_B'	=> 'Soll das Suchformular angezeigt werden?',
 	'TXT_FORUM_MAX_SEARCH_HITS_B'	=> 'Maximale Anzahl der Suchtreffer?',
 	'TXT_FORUM_SENDMAILS_ON_NEW_POSTS_B'	=> 'Die Autoren per Mail &uuml;ber neue Beitr&auml;ge im Thema benachrichtigen?',

@@ -52,7 +52,15 @@
 		<td class="forum_setting_value">
 			<input type="checkbox" name="forum_hide_editor" {{ settings.FORUM_HIDE_EDITOR.checked }} />
 		</td>
-	</tr>	
+	</tr>
+	
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_ADMIN_GROUP_ID_B }} :</td>
+		<td class="forum_setting_value">
+			{{ group_select }}
+		</td>
+	</tr>
+
 	<tr>
 		<td class="forum_setting_name">{{ MOD_FORUM.TXT_VIEW_FORUM_SEARCH_B }} : </td>
 		<td class="forum_setting_value">

@@ -97,7 +97,11 @@ $MOD_FORUM = array(
 	'TXT_DISPLAY_SUBFORUMS_B'		=> 'Show sub threads on start page?',
 	'TXT_DISPLAY_SUBFORUMS_FORUMDISPLAY_B'	=> 'Show sub threads in thread view?',
 	'TXT_FORUM_USE_CAPTCHA_B'		=> 'Use captchas for guests?',
+	
 	'TXT_ADMIN_GROUP_ID_B'			=> 'Admin group (has permission to edit posts)?',
+	'NO_ADDITIONAL_GROUP'			=> "no additional group",
+	
+	
 	'TXT_VIEW_FORUM_SEARCH_B'		=> 'Show search field?',
 	'TXT_FORUM_MAX_SEARCH_HITS_B'	=> 'Maximum search hits to show?',
 	'TXT_FORUM_SENDMAILS_ON_NEW_POSTS_B'	=> 'Send email notifiaction on new post in thread?',

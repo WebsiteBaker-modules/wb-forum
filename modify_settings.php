@@ -47,11 +47,34 @@ if(function_exists('edit_module_css')) {
 ?>
 
 <?php
+
 // Get Settings from DB
 $sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_forum_settings` WHERE `section_id` = '.$section_id.'';
 if($query_settings = $database->query($sql)) {
 	$settings = $query_settings->fetchRow();
 }
+
+/**
+ *	Build group select
+ */
+$this_page_admins = $database->get_one("SELECT `admin_groups` FROM `".TABLE_PREFIX."pages` WHERE `page_id`=".$page_id);
+$this_page_admins = explode(",",$this_page_admins);
+ 
+$sGroupSelectHTML = "<select name='admin_group_id' size='1' >\n<option value='0'>".$MOD_FORUM['NO_ADDITIONAL_GROUP']."</option>\n";
+$query_groups = $database->query('SELECT * FROM `'.TABLE_PREFIX.'groups`');
+while ($group = $query_groups->fetchRow(MYSQL_ASSOC)){
+
+	if (in_array( $group['group_id'], $this_page_admins)) {
+		$sGroupSelectHTML .= '\n<option disabled="disabled" value="'.$group['group_id'].'">'.$group['name'].'</option>';
+
+	} elseif ($group['group_id'] == $settings['ADMIN_GROUP_ID']) {
+		$sGroupSelectHTML .= '\n<option selected="selected" value="'.$group['group_id'].'">'.$group['name'].'</option>';
+
+	} else {
+		$sGroupSelectHTML .= '\n<option value="'.$group['group_id'].'">'.$group['name'].'</option>';
+	}							
+}
+$sGroupSelectHTML .= "\n</select>\n";
 
 $sHTMLchecked = "checked='checked'";
 
@@ -91,7 +114,10 @@ $page_data = array(
 	'MOD_FORUM.TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> $MOD_FORUM['TXT_FORUM_MAIL_SENDER_REALNAME_B'],
 	'settings.FORUM_MAIL_SENDER_REALNAME'	=> htmlspecialchars($settings['FORUM_MAIL_SENDER_REALNAME']),
 	'MOD_FORUM.TXT_SAVE_B'	=> $MOD_FORUM['TXT_SAVE_B'],
-	'MOD_FORUM.TXT_CANCEL_B'	=> $MOD_FORUM['TXT_CANCEL_B']
+	'MOD_FORUM.TXT_CANCEL_B'	=> $MOD_FORUM['TXT_CANCEL_B'],
+	
+	'MOD_FORUM.TXT_ADMIN_GROUP_ID_B'	=> $MOD_FORUM['TXT_ADMIN_GROUP_ID_B'],
+	'group_select'	=> $sGroupSelectHTML
 );
 
 echo $parser->render(
