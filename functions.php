@@ -3,7 +3,7 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.8
+ *	@version		0.5.9
  *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
@@ -52,16 +52,16 @@ function print_forums($parentid, $level = 0)
 {
 	global $forum_array, $section_id, $page_id, $arrLevel;
 
-	if (!empty($forum_array["$parentid"]))
+	if (!empty($forum_array[$parentid]))
 	{
-		foreach ($forum_array["$parentid"] AS $forumid => $forum)
+		foreach ($forum_array[$parentid ] AS $forumid => $forum)
 		{
 
 			echo '<li class="mod_forum_forum_level'.$arrLevel[$forumid].'">';
 			echo '<a href="' . WB_URL . '/modules/forum/addedit_forum.php?page_id=' . $page_id . '&amp;section_id=' . $section_id . '&amp;forumid=' . $forumid . '">' . htmlspecialchars($forum['title']) . '</a>';
 			if (!empty($forum_array["$forumid"]))
 			{
-				echo '<ul>';
+				echo '<ul class="forum_list">';
 					print_forums($forumid, $level);
 				echo '</ul>';
 			}
@@ -77,8 +77,7 @@ function getForumLevel($parentid = 0, $level = 1)
 	static $out;
 
 	$forumcache = array();
-	$sql = "SELECT * FROM " . TABLE_PREFIX . "mod_forum_cache WHERE section_id = '$section_id' AND page_id = '$page_id'";
-	$res = $database->query($sql);
+	$res = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_cache` WHERE `section_id` = '".$section_id."' AND `page_id` = '".$page_id."'");
 
 	while ($cache_entry = $res->fetchRow( MYSQL_ASSOC )) {
 		${$cache_entry['varname']} = unserialize($cache_entry['data']);
@@ -86,29 +85,26 @@ function getForumLevel($parentid = 0, $level = 1)
 
 	$iforumcache = array();
 	foreach ($forumcache AS $forumid => $f) {
-		$iforumcache[$f['parentid']]["$forumid"] = $forumid;
+		$iforumcache[$f['parentid']][ $forumid ] = $forumid;
 	}
 
-
-	if (!empty($iforumcache["$parentid"]))
+	if (!empty($iforumcache[ $parentid ]))
 	{
 
-		foreach ($iforumcache["$parentid"] AS $forumid)
+		foreach ($iforumcache[ $parentid ] AS $forumid)
 		{
 			$out[$forumid] = $level;
 
-			if (!empty($iforumcache["$forumid"]))
+			if (!empty($iforumcache[ $forumid ]))
 			{
 				getForumLevel($forumid, ($level + 1));
 			}
 		}
-
-	}//if
+	}
 
    return $out;
 
-}//getForumLevel
-
+}
 
 function print_forum_select_options($selectedforum, $parentid = 0, $level = 1)
 {

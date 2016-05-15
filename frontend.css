@@ -111,7 +111,7 @@
 	font-size: 12px;
 	margin-bottom: 5px;
 	padding-bottom: 5px;
-	border-bottom: 1px solid #999;
+/*	border-bottom: 1px solid #999; */
 	background: url(images/thread.png) no-repeat;
 	padding-left: 20px;
 }

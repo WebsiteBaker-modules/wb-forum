@@ -3,7 +3,7 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.8
+ *	@version		0.5.9
  *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
@@ -168,8 +168,8 @@ function is_subforum_of($forumid, $parentid)
 
 	if (empty($iforumcache))
 	{
-		$forums = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE section_id = '$section_id' AND page_id = '$page_id' ORDER BY displayorder ASC");
-		while ($forum = $forums->fetchRow())
+		$forums = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `section_id` = '".$section_id."' AND `page_id` = '".$page_id."' ORDER BY `displayorder` ASC");
+		while ($forum = $forums->fetchRow( MYSQL_ASSOC ))
 		{
 			$iforumcache["$forum[parentid]"]["$forum[forumid]"] = $forum;
 		}
@@ -189,44 +189,55 @@ function is_subforum_of($forumid, $parentid)
 	return false;
 }
 
-
-
 if (isset($forum['forumid']))
 {
 	// Update existing Forum
 	$database->query("
-		UPDATE " . TABLE_PREFIX . "mod_forum_forum
+		UPDATE `" . TABLE_PREFIX . "mod_forum_forum`
 			SET
-				title = '" . $_POST['title'] . "',
-				description = '" . $_POST['description'] . "',
-				displayorder = '" . intval($_POST['displayorder']) . "',
-				parentid = '" . intval($_POST['parentid']) . "',
-				readaccess = '" . $_POST['readaccess'] . "',
-				writeaccess = '" . $_POST['writeaccess'] . "'
+				`title` = '" . $database->escapeString($_POST['title']) . "',
+				`description` = '" . $database->escapeString($_POST['description']) . "',
+				`displayorder` = '" . intval($_POST['displayorder']) . "',
+				`parentid` = '" . intval($_POST['parentid']) . "',
+				`readaccess` = '" . $_POST['readaccess'] . "',
+				`writeaccess` = '" . $_POST['writeaccess'] . "'
 		WHERE
-			forumid = '$forum[forumid]'
+			forumid = '".$forum['forumid']."'
 	");
 
+	if($database->is_error()) {
+		$admin->print_error(
+			"Error[5]: ".$database->get_error(),
+			ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id
+		);
+	}
 	$fcb = new ForumCacheBuilder($database, $section_id, $page_id);
 	$fcb->build_cache(0);
 	$fcb->save();
 }
 else
 {
-	// Insert New Forum!
+	// Insert new Forum!
 	$database->query("
-		INSERT INTO " . TABLE_PREFIX . "mod_forum_forum
-			(title, description, displayorder, parentid, page_id, section_id, readaccess, writeaccess)
+		INSERT INTO `" . TABLE_PREFIX . "mod_forum_forum`
+			(`title`, `description`, `displayorder`, `parentid`, `page_id`, `section_id`, `readaccess`, `writeaccess`)
 		VALUES
 			('" . $_POST['title'] . "', '" . $_POST['description'] . "', '" . intval($_POST['displayorder']) . "', '" . intval($_POST['parentid']) . "', '$page_id', '$section_id', '" . $_POST['readaccess'] . "', '" . $_POST['writeaccess'] . "')
 	");
 
+	if($database->is_error()) {
+		$admin->print_error(
+			"Error[5.1]: ".$database->get_error(),
+			ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id
+		);
+	}
+	
 	$fcb = new ForumCacheBuilder($database, $section_id, $page_id);
 	$fcb->build_cache(0);
 	$fcb->save();
 	
 	//insert settings entry if first forum on section
-	$sql = "SELECT * from ".TABLE_PREFIX."mod_forum_settings WHERE section_id = ".$section_id;
+	$sql = "SELECT * from `".TABLE_PREFIX."mod_forum_settings` WHERE `section_id` = ".$section_id;
 	$query_settings = $database->query($sql);
 	if ($query_settings === false || $query_settings->numRows()  == 0) {
 		$sql = "INSERT INTO ".TABLE_PREFIX."mod_forum_settings VALUES(0,".$section_id.", 5, 5, 0, 1, 1, 1, 1, 1, 30, 0, '', 'admin@admin.de', 'WEBSite Forum')";
@@ -234,5 +245,5 @@ else
 	}
 }
 
-$admin->print_success("Forum gespeichert!", ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
+$admin->print_success("Forum gespeichert! [3]", ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 ?>

@@ -3,7 +3,7 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.8
+ *	@version		0.5.9
  *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
@@ -15,7 +15,7 @@
 require('../../config.php');
 
 // Validation:
-$forum_query = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE forumid = '" . intval($_REQUEST['fid']) . "'");
+$forum_query = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `forumid` = '" . intval($_REQUEST['fid']) . "'");
 $forum = $forum_query->fetchRow();
 
 if(!$forum)

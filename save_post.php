@@ -3,7 +3,7 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.8
+ *	@version		0.5.9
  *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
@@ -20,6 +20,9 @@ if (!$admin->checkFTAN())
 {
 	$admin->print_header();
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
+}
+else {
+	$admin->print_header();
 }
 
 require_once( dirname(__FILE__)."/classes/class.validate.request.php" );

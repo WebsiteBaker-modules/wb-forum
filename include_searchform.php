@@ -3,7 +3,7 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.8
+ *	@version		0.5.9
  *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x

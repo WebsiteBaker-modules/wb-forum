@@ -3,7 +3,7 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.8
+ *	@version		0.5.9
  *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
@@ -39,6 +39,19 @@ echo '<script type="text/javascript" src="script/jquery.js"></script>';
 
 <?php
 global $post, $user, $forum, $thread, $page_id, $section_id, $forumcache, $iforumcache;
+
+/**
+ *	Test the user
+ */
+$user_can_create_topic = false;
+$user_can_create_answer = false;
+
+$temp_user = $wb->get_user_id();
+if($temp_user) {
+	$temp_groups = explode(",", $wb->page['admin_groups']);
+	$user_can_create_topic = in_array( $temp_user, $temp_groups);
+	$user_can_create_answer = in_array( $temp_user, $temp_groups);
+}
 
 // ####################### EDIT POST (SEARCH) ########################
 if (FORUM_DISPLAY_CONTENT == 'search_the_forum')
@@ -100,13 +113,14 @@ elseif (FORUM_DISPLAY_CONTENT == 'view_forum') {
 			</td>
 			<td align="right">
 			<?php
-			if ($forum['parentid'] AND $forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id())) {
-			?>
+/* [1] */ 
+if( true === $user_can_create_topic ) {
+?>
 				<span class="thread_new_topic">
 					<a href="<?php echo WB_URL; ?>/modules/forum/thread_create.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;fid=<?php echo $forum['forumid']; ?>&amp;ts=<?php echo $t; ?>"><?php echo$MOD_FORUM['TXT_NEW_TOPIC_F']; ?>
 					</a>
 				</span>
-			<?php } ?>
+<?php } ?>
 
 				</td>
 			</tr>
@@ -124,13 +138,14 @@ elseif (FORUM_DISPLAY_CONTENT == 'view_forum') {
 			</td>
 			<td align="right">
 			<?php
-			if ($forum['parentid'] AND $forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id())) {
-			?>
+/* [1] */
+if( true === $user_can_create_topic ) {
+?>				
 				<span class="thread_new_topic">
 					<a href="<?php echo WB_URL; ?>/modules/forum/thread_create.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;fid=<?php echo $forum['forumid']; ?>"><?php echo$MOD_FORUM['TXT_NEW_TOPIC_F']; ?>
 					</a>
 				</span>
-			<?php } ?>
+<?php } ?>
 
 				</td>
 			</tr>
@@ -159,13 +174,14 @@ elseif (FORUM_DISPLAY_CONTENT == 'view_forum') {
 			</td>
 			<td align="right">
 			<?php
-			if ($forum['parentid'] AND $forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id())) {
-			?>
+/* [1] */
+if( true === $user_can_create_topic ) {
+?>
 				<span class="thread_new_topic">
 					<a href="<?php echo WB_URL; ?>/modules/forum/thread_create.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;fid=<?php echo $forum['forumid']; ?>"><?php echo$MOD_FORUM['TXT_NEW_TOPIC_F']; ?>
 					</a>
 				</span>
-			<?php } ?>
+<?php } ?>
 
 				</td>
 			</tr>
@@ -465,10 +481,10 @@ if( 1 == $user['group_id'] ) {
 		<?php
 
 
-		if ($forum['parentid'] AND ($forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id())))
-
-		{
-				?>
+//		if ($forum['parentid'] AND ($forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id())))
+/* [2] */
+if( true === $user_can_create_answer ) {
+?>
 				<script type="text/javascript">
 			<!--
 			function addsmiley(code)  {

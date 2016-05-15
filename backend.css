@@ -23,7 +23,7 @@ li.mod_forum_forum_level1{
 	background-color:#F0F0F0;
 	font-weight:bold;
 	margin:10px;
-	padding:2px;
+	padding:5px;
 	border:1px solid black;
 }
 
@@ -52,7 +52,7 @@ li.mod_forum_forum_level3{
 }
 
 /**
- *	0.5.8 additions
+ *	0.5.9 additions
  */
 ul.forum_list_postings {
 	display: block;
@@ -132,4 +132,34 @@ img.f_action {
 .edit_post_value textarea {
 	width:400px;
 	height:150px;
-}	
+}
+
+.forum_settings {
+	min-width:50%;
+	border-collapse: collapse;
+	border-spacing: 0px 0px;
+}
+.forum_settings tr {
+	height:25px;
+}
+.forum_settings tr:nth-child(even) {
+	background-color:#DDDDDD;
+}
+.forum_setting_name {
+	text-align:right;
+	padding-right:5px;
+}
+
+.forum_message {
+	font-weight:bold;
+	color:#880000;
+}
+
+ul.forum_list {
+	list-style: none;
+}
+
+ul.forum_list li {
+	margin-left:0px;
+	padding-left:10px;
+}

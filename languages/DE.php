@@ -3,7 +3,7 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.8
+ *	@version		0.5.9
  *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
@@ -14,7 +14,7 @@
 $module_description = 'Dieses Modul integriert ein einfaches Forum in ihre Webseite.';
 
 $MOD_FORUM = array(
-	// Variablen für Textausgaben im Frontend
+	// Frontend
 	'TXT_SUBFORUMS_F'				=> 'Unterforen:',
 	'TXT_THEMES_F'					=> 'Themen',
 	'TXT_THEME_F'					=> 'Thema',
@@ -53,7 +53,6 @@ $MOD_FORUM = array(
 	'TXT_GUEST_F'					=> 'Gast',
 	'TXT_PAGES_F'					=> 'Seiten:',
 
-	//neu:
 	'TXT_SEARCH_F'					=> 'Suche',
 	'TXT_HITS_F'					=> 'Treffer',
 	'TXT_NO_HITS_F'					=> 'Zu Ihrer Anfrage konnten wir leider keine Treffer ermitteln',
@@ -70,7 +69,7 @@ $MOD_FORUM = array(
 	'TXT_MAILTEXT_NEW_POST_ADMIN'		=> "Hallo ##USERNAME##, \n\nZum Thema \"##THREAD##\" hat ##POSTER## einen Beitrag verfasst.\n\n" .
 										"Sie k&ouml;nnen Ihn nach dem Login hier abrufen: \n##LINK##\n",
 
-	// Variablen für Textausgaben im Backend
+	// Backend
 	'TXT_NO_FORUMS_B'				=> 'Keine Foren vorhanden.<br/>
 										Erstellen Sie zun&auml;chst ein Forum auf der ersten Ebene.<br/>
 										In dieses Forum (wie in alle der ersten Ebene) k&ouml;nnen Sie <i>nicht</i> posten!

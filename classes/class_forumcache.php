@@ -3,7 +3,7 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.8
+ *	@version		0.5.9
  *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
@@ -51,10 +51,10 @@ class ForumCacheBuilder {
 	}
 
 	public function build_cache($parentid, $readperms = 'both', $writeperms = 'both') {
-		if (empty($this->icache["$parentid"])) {
+		if (empty($this->icache[ $parentid ])) {
 			return;
 		}
-		foreach ($this->icache["$parentid"] AS $forumid => $forum) {
+		foreach ($this->icache[ $parentid ] AS $forumid => $forum) {
 			switch ($readperms) {
 				case 'reg':
 					if ($forum['readaccess'] == 'both') {
@@ -87,7 +87,7 @@ class ForumCacheBuilder {
 					}
 					break;
 			}
-			$this->cache["$forumid"] = $forum;
+			$this->cache[ $forumid ] = $forum;
 			$this->build_cache($forumid, $forum['readaccess'], $forum['writeaccess']);
 		}
 	}

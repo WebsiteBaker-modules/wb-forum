@@ -1,0 +1,105 @@
+</br></br>
+<form name="edit" action="{{ WB_URL }}/modules/forum/save_settings.php" method="post" style="margin: 0;"/>
+
+<input type="hidden" name="page_id" value="{{ page_id }}" />
+<input type="hidden" name="section_id" value="{{ section_id }}" />
+{{ FTAN }}
+
+<table class="forum_settings">
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUMDISPLAY_PERPAGE_B }} : </td>
+		<td class="forum_setting_value">
+		  <input type="text" name="forumdisplay_perpage" style="width:20px;" maxlength="2" value="{{ settings.FORUMDISPLAY_PERPAGE }}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_SHOWTHREAD_PERPAGE_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="text" name="showthread_perpage" style="width:20px;" maxlength="2" value="{{ settings.SHOWTHREAD_PERPAGE }}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_PAGENAV_SIZES_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="checkbox" name="pagenav_sizes" {{ settings.PAGENAV_SIZES.checked }} />
+		</td>
+	</tr>
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_DISPLAY_SUBFORUMS_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="checkbox" name="display_subforums" {{ settings.DISPLAY_SUBFORUMS.checked }} />
+		</td>
+	</tr>
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_DISPLAY_SUBFORUMS_FORUMDISPLAY_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="checkbox" name="display_subforums_forumdisplay" {{ settings.DISPLAY_SUBFORUMS_FORUMDISPLAY.checked }} />
+		</td>
+	</tr>
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUM_USE_CAPTCHA_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="checkbox" name="forum_use_captcha" {{ settings.FORUM_USE_CAPTCHA.checked }} />
+		</td>
+	</tr>	
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_USE_SMILEYS_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="checkbox" name="forum_use_smileys" {{ settings.FORUM_USE_SMILEYS.checked }} />
+		</td>
+	</tr>	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_HIDE_EDITOR_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="checkbox" name="forum_hide_editor" {{ settings.FORUM_HIDE_EDITOR.checked }} />
+		</td>
+	</tr>	
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_VIEW_FORUM_SEARCH_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="checkbox" name="view_forum_search"  {{ settings.VIEW_FORUM_SEARCH.checked }} />
+		</td>
+	</tr>
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUM_MAX_SEARCH_HITS_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="text" name="forum_max_search_hits" style="width:20px;" maxlength="2" value="{{ settings.FORUM_MAX_SEARCH_HITS }}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUM_SENDMAILS_ON_NEW_POSTS_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="checkbox" name="forum_sendmails_on_new_posts"  {{ settings.FORUM_SENDMAILS_ON_NEW_POSTS.checked }} />
+		</td>
+	</tr>
+		<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUM_ADMIN_INFO_ON_NEW_POSTS_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="text" name="forum_admin_info_on_new_posts"  maxlength="30" value="{{ settings.FORUM_ADMIN_INFO_ON_NEW_POSTS }}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUM_MAIL_SENDER_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="text" name="forum_mail_sender"  maxlength="30" value="{{ settings.FORUM_MAIL_SENDER }}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUM_MAIL_SENDER_REALNAME_B }} : </td>
+		<td class="forum_setting_value">
+			<input type="text" name="forum_mail_sender_realname"  maxlength="30" value="{{ settings.FORUM_MAIL_SENDER_REALNAME }}" />
+		</td>
+	</tr>
+</table>
+<br />
+<br />
+<table class="forum_settings">
+	<tr>
+		<td align="left">
+			<input name="save" type="submit" value="{{ MOD_FORUM.TXT_SAVE_B }}" style="width: 100px; margin-top: 5px;">
+		</td>
+		<td align="right">
+			<input type="button" value="{{ MOD_FORUM.TXT_CANCEL_B }}" onclick="javascript: window.location = '{{ ADMIN_URL }}/pages/modify.php?page_id= {{ page_id }}';" style="width: 100px; margin-top: 5px;" />
+		</td>
+	</tr>
+</table>
+</form>

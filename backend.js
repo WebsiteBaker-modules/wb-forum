@@ -1,5 +1,5 @@
 /**
- *	0.5.8
+ *	0.5.9
  */
 function delete_thread(aRef, aId, aTitle, aClass) {
 	if(confirm("Are you sure you want to delete: "+aTitle+"?")) {
