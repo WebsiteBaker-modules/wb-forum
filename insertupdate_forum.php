@@ -245,5 +245,5 @@ else
 	}
 }
 
-$admin->print_success("Forum gespeichert! [3]", ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
+$admin->print_success("Forum gespeichert!", ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 ?>

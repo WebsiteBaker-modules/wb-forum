@@ -206,9 +206,12 @@ if( true === $user_can_create_topic ) {
 // ##################### CREATE THREAD (FORM AND DATABASE) ######################
 elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
 
-	if ((isset($_GET['ts']) && intval($_GET['ts']) !== $_SESSION['forum_ts']) && intval($_POST['forum_ts']) !== $_SESSION['forum_ts'])
-    $wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
-	
+	if( (!isset($_SESSION['forum_ts']) || ( isset($_POST['forum_ts']) ) ) {
+		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
+	}
+	if ((isset($_GET['ts']) && intval($_GET['ts']) !== $_SESSION['forum_ts']) && intval($_POST['forum_ts']) !== $_SESSION['forum_ts']) {
+    	$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
+	}
 	if (!($forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id()))) {
 		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
 	} else {
