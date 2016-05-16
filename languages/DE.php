@@ -111,6 +111,16 @@ $MOD_FORUM = array(
 	'TXT_FORUM_MAIL_SENDER_B'	=> 'Absenderadresse f&uuml;r E-Mails?',
 	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Absendername f&uuml;r E-Mails?',
 	'TXT_USE_SMILEYS_B'	=> 'Smileys verwenden?',
-	'TXT_HIDE_EDITOR_B'	=> 'Editor verstecken?'
+	'TXT_HIDE_EDITOR_B'	=> 'Editor verstecken?',
+	
+	//	0.5.9 
+	
+	'Forum_saved'	=> 'Forum wurde erfolgreich gespeichert!',
+	'Forum_deleted'	=> 'Forum erfolgreich gelöscht!',
+	'Error_no_title'	=> 'Bitte einen Titel angeben!',
+	'Error_no_comment'	=> 'Bitte einen Kommentar zu diesem Forum angeben.',
+	'Error_no_parent'	=> 'Übergeordnetes Forum ungültig!',
+	'Error_no_subforum'	=> 'Ein Forum kann nicht sich selbst untergeordnet sein!',
+	'Error_no_forum'	=> 'Forum ungültig!'
 );
 ?>

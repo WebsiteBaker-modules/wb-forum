@@ -1,0 +1,11 @@
+Forum
+Version 0.5.9
+
+--------------
+
+- Als erste ein neues Forum auf der Seite anlegen. Das ist quasie das "root"-Element.
+In dieses "erste" Forum kam nicht gepostet werden, es können auch keine Artikel angelegt werden.
+Es dient nur der internen Verwaltung, der internen Organisation.
+
+- Als zweites ein "Unterform anlegen. In dieses Forum kann dann geschrieben werden.
+Beim Verwalten eines Forum kann man angeben, ob NUR angemeldete Benz

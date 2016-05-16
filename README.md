@@ -7,7 +7,8 @@ Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
 
 #### Brief changelog 
 ##### 0.5.9
-- Templates
+- Bugfixes and codechanges for the user handling
+- Changes/additions inside the language-files
 
 ##### 0.5.8
 - Codeadditions for the backend

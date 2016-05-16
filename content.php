@@ -53,6 +53,7 @@ global $post, $user, $forum, $thread, $page_id, $section_id, $forumcache, $iforu
 $user_can_create_topic = false;
 $user_can_create_answer = false;
 $user_can_edit = false;
+$user_allowed_to_write = false;
 
 $temp_user = $wb->get_user_id();
 if($temp_user) {
@@ -62,7 +63,10 @@ if($temp_user) {
 	$user_can_edit = in_array( $temp_user, $temp_groups);
 }
 if($temp_user == ADMIN_GROUP_ID) $user_can_edit = true;
-
+/**
+ *	Guest are allowed to write?
+ */
+if ( ($forum['writeaccess'] == 'unreg') || ($forum['writeaccess'] == 'both')) $user_can_create_answer = true;
 
 // ####################### EDIT POST (SEARCH) ########################
 if (FORUM_DISPLAY_CONTENT == 'search_the_forum')
@@ -206,14 +210,14 @@ if( true === $user_can_create_topic ) {
 // ##################### CREATE THREAD (FORM AND DATABASE) ######################
 elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
 
-	if( (!isset($_SESSION['forum_ts']) || ( isset($_POST['forum_ts']) ) ) {
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
+	if( !isset($_SESSION['forum_ts']) ) {
+		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 101]","';history.back();'");
 	}
 	if ((isset($_GET['ts']) && intval($_GET['ts']) !== $_SESSION['forum_ts']) && intval($_POST['forum_ts']) !== $_SESSION['forum_ts']) {
-    	$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
+    	$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 102]","';history.back();'");
 	}
 	if (!($forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id()))) {
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
+		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 103]","';history.back();'");
 	} else {
 		if (isset($_POST['save'])) {
 			if (strlen(trim($_POST['title'])) < 3) {
@@ -593,8 +597,9 @@ if( true === $user_can_create_answer ) {
 // ################## REPLY TO THREAD (DATABSE STUFF ONLY) #####################
 else if (FORUM_DISPLAY_CONTENT == 'reply_thread' &&	($forum['writeaccess'] !== 'reg' OR ($forum['writeaccess'] == 'reg' && $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id())))
 {
-  if (intval($_POST['forum_ts']) !== $_SESSION['forum_ts'])
-    $wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"javascript:history.back()");
+	if (intval($_POST['forum_ts']) !== $_SESSION['forum_ts']) {
+	//	$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 110]","javascript:history.back()");
+	}
 	$perpage = 15;
 
 	if (strlen(trim($_POST['title'])) < 3)
@@ -674,7 +679,7 @@ else if (FORUM_DISPLAY_CONTENT == 'reply_thread' &&	($forum['writeaccess'] !== '
 	include 'include_sendmails.php';
 
 	// $mailing_result wird mit inhalt gefüllt, wenn es mails zu mailen gab
-	$wb->print_success($MOD_FORUM['TXT_TOPIC_CREATED_F'] . $mailing_result, 'thread_view' . PAGE_EXTENSION . '?sid=' . SECTION_ID . '&pid=' . PAGE_ID . '&tid=' . $thread['threadid'] . '&page=' . $lastpage);
+	$wb->print_success($MOD_FORUM['TXT_ARTICLE_SAVED_F'] . $mailing_result, 'thread_view' . PAGE_EXTENSION . '?sid=' . SECTION_ID . '&pid=' . PAGE_ID . '&tid=' . $thread['threadid'] . '&page=' . $lastpage);
 }
 // ##################### DELETE POST (DATABSE STUFF ONLY) ######################
 else if (FORUM_DISPLAY_CONTENT == 'post_delete') {

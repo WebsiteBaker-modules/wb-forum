@@ -109,6 +109,16 @@ $MOD_FORUM = array(
 	'TXT_FORUM_MAIL_SENDER_B'		=> 'Email sender address?',
 	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Email sender name?',
 	'TXT_USE_SMILEYS_B'				=> 'Use Smileys?',
-	'TXT_HIDE_EDITOR_B'				=> 'Hide Editor?'
+	'TXT_HIDE_EDITOR_B'				=> 'Hide Editor?',
+	
+	//	0.5.9 
+	
+	'Forum_saved'	=> 'Forum saved!',
+	'Forum_deleted'	=> 'Forum deleted!',
+	'Error_no_title'	=> 'Please insert a titel!',
+	'Error_no_comment'	=> 'Please insert a comment for this forum.',
+	'Error_no_parent'	=> 'Parent forum fouls!',
+	'Error_no_subforum'	=> 'You can not set a forum himself as a subforum!',
+	'Error_no_forum'	=> 'Forum fouls!'
 );
 ?>

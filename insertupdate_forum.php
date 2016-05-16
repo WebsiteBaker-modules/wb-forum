@@ -63,7 +63,7 @@ if(isset($_POST['job_'])) {
 		}
 	}
 	
-	$admin->print_success("Forum gespeichert! [1]", ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
+	$admin->print_success($MOD_FORUM["Forum_saved"], ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 	return 0;
 }
 
@@ -73,7 +73,7 @@ if ($_REQUEST['forumid'])
 	$forum = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE forumid = '" . intval($_REQUEST['forumid']) . "' AND section_id = '$section_id' AND page_id = '$page_id'");
 	if (0 === $forum->numRows())
 	{
-		$admin->print_error('Forum ung&uuml;ltig!', ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
+		$admin->print_error($MOD_FORUM["Error_no_forum"], ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 	}
 
 	$forum = $forum->fetchRow();
@@ -82,7 +82,7 @@ if ($_REQUEST['forumid'])
 	if (isset($_POST['delete']))
 	{		
 		$toDelete = array($forum['forumid']);
-		$getChildren =	$database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE parentid > '0'");	
+		$getChildren =	$database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `parentid` > '0'");	
 		while ($row = $getChildren->fetchRow()){
 			$children[$row['parentid']][] = $row['forumid'];
 		}
@@ -98,42 +98,35 @@ if ($_REQUEST['forumid'])
 
 		$delIds = implode(",",$toDelete);							
 		$sql = "DELETE t, p, f 
-						FROM ".TABLE_PREFIX . "mod_forum_forum as f 
+						FROM `".TABLE_PREFIX . "mod_forum_forum` as f 
 							LEFT JOIN ".TABLE_PREFIX . "mod_forum_thread as t 
 								ON  t.forumid=f.forumid
 								LEFT JOIN ". TABLE_PREFIX . "mod_forum_post as p 
 									ON t.threadid=p.threadid 								  
 						WHERE f.forumid IN (".$delIds.")";
 							
-    $database->query($sql);   
-    
-	  $fcb = new ForumCacheBuilder($database, $section_id, $page_id);
+    	$database->query($sql);   
+
+		$fcb = new ForumCacheBuilder($database, $section_id, $page_id);
 		$fcb->update_cache();
 		
 		//delete settings if last forum in section was deleted
-		$sql = "SELECT * from ".TABLE_PREFIX."mod_forum_forum WHERE section_id = ".$section_id;
+		$sql = "SELECT * from `".TABLE_PREFIX."mod_forum_forum` WHERE `section_id` = ".$section_id;
 		$temp_result = $database->query( $sql );
-		if ($temp_result->numRows() == 0) {	
-			$sql = "DELETE FROM ".TABLE_PREFIX."mod_forum_settings WHERE section_id = ".$section_id;
+		if ($temp_result->numRows() == 0) {
+			$sql = "DELETE FROM `".TABLE_PREFIX."mod_forum_settings` WHERE `section_id` = ".$section_id;
 			$database->query($sql);
 		}
     
-		$admin->print_success("Forum gel&ouml;scht!", ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
+		$admin->print_success($MOD_FORUM["Forum_deleted"], ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 		exit;
 	}
 }
 
 if (!$_POST['title'])
 {
-	$admin->print_error('Bitte einen Titel angeben!', ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
+	$admin->print_error($MOD_FORUM['Error_no_title'], ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 }
-/*
-if (!$_POST['description'])
-{
-	$admin->print_error('Bitte eine Beschreibung angeben!', ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
-}
-*/
-
 if (!in_array($_POST['writeaccess'], array('reg', 'unreg', 'both')))
 {
 	$_POST['writeaccess'] = 'reg';
@@ -143,21 +136,21 @@ if (!in_array($_POST['readaccess'], array('reg', 'unreg', 'both')))
 	$_POST['readaccess'] = 'reg';
 }
 
-// Verify FOrum Parent id (Very Important!! (Tree))
+// Verify Forum Parent id (Very Important!! (Tree))
 if ($_POST['parentid'])
 {
 	//TODO Forum = Unterforum von sich selbst?
 	$parentforum = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE forumid = '" . intval($_POST['parentid']) . "'");
 	if (!$parentforum->numRows())
 	{
-		$admin->print_error('Übergeordnetes Forum ungültig!', ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
+		$admin->print_error($MOD_FORUM['Error_no_parent'], ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 	}
 
 	$parentforum = $parentforum->fetchRow();
 
 	if (isset($forum['forumid']) AND ($forum['forumid'] == $parentforum['forumid'] OR is_subforum_of($forum['forumid'], $parentforum['forumid'])))
 	{
-		$admin->print_error('Ein Forum kann nicht sich selbst untergeordnet sein!', ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
+		$admin->print_error( $MOD_FORUM['Error_no_subforum'], ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 	}
 }
 
@@ -236,14 +229,28 @@ else
 	$fcb->build_cache(0);
 	$fcb->save();
 	
-	//insert settings entry if first forum on section
-	$sql = "SELECT * from `".TABLE_PREFIX."mod_forum_settings` WHERE `section_id` = ".$section_id;
-	$query_settings = $database->query($sql);
+	// insert settings entry if first forum on section
+	$query_settings = $database->query( "SELECT * from `".TABLE_PREFIX."mod_forum_settings` WHERE `section_id` = ".$section_id );
+	
+	if( $database->is_error() ) {
+		$admin->print_error(
+			"Error[3.1] 'try to get section_id' --> ".$database->get_error(),
+			ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id
+		);
+	}
+
 	if ($query_settings === false || $query_settings->numRows()  == 0) {
-		$sql = "INSERT INTO ".TABLE_PREFIX."mod_forum_settings VALUES(0,".$section_id.", 5, 5, 0, 1, 1, 1, 1, 1, 30, 0, '', 'admin@admin.de', 'WEBSite Forum')";
+		$sql = "INSERT INTO `".TABLE_PREFIX."mod_forum_settings` VALUES(0,".$section_id.", 5, 5, 0, 1, 1, 1, 1, 1, 30, 0, '', 'admin@admin.de', 'WEBSite Forum')";
 		$database->query($sql);
+		
+		if( $database->is_error() ) {
+			$admin->print_error(
+				"Error[3.2] 'try to insert defaults' --> ".$database->get_error(),
+				ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id
+			);
+		}
 	}
 }
 
-$admin->print_success("Forum gespeichert!", ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
+$admin->print_success($MOD_FORUM["Forum_saved"], ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 ?>
