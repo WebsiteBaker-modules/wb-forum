@@ -63,10 +63,14 @@ if($temp_user) {
 	$user_can_edit = in_array( $temp_user, $temp_groups);
 }
 if($temp_user == ADMIN_GROUP_ID) $user_can_edit = true;
+
 /**
  *	Guest are allowed to write?
  */
-if ( ($forum['writeaccess'] == 'unreg') || ($forum['writeaccess'] == 'both')) $user_can_create_answer = true;
+if ( ($forum['writeaccess'] == 'unreg') || ($forum['writeaccess'] == 'both')) {
+	$user_can_create_answer = true;
+	$user_can_create_topic = true;
+}
 
 // ####################### EDIT POST (SEARCH) ########################
 if (FORUM_DISPLAY_CONTENT == 'search_the_forum')
