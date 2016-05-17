@@ -25,14 +25,24 @@ $module_description	= 'Dieses Modul integriert ein einfaches Forum in ihre Webse
 /**
  *	0.5.9	- Codeadditions in the backend
  *
+ *	0.5.8	- Codeadditions for the backend
+ *			- Set all files to utf-8
+ *			- Update headers
+ *
  *	0.5.7	- Bugfix for missing var in "content.php" while editing post in frontend.
  *			- Add missing constructor to class class_forumcache.php.
+ *			- Codechanges/Bugfixes for WB 2.8.3 SP6 and PHP7
+ *			- Add missing files to the Project
  *
  *	0.5.6	- Upgrade and codechanges for WebsiteBaker 2.8.3 SP3 - (4.q 2014)
  *			- Add external Changelog.
  *			- Add missing license var.
  *			- Try to set the 'module_home' link to the WebsiteBaker AddOn repository.
  *			- Remove/change deprecated mysql_xxx (PHP-)function calls.
+ *
+ *	0.5.5	- Codechanges in add.php
+ *
+ *	Original Text prior 0.5.5 see changelog.md
  *
  */
 ?>
