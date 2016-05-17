@@ -18,7 +18,7 @@ if(!defined('WB_PATH'))
 	exit;
 }
 
-define('SKIP_CACHE', 1);
+if(!defined('SKIP_CACHE')) define('SKIP_CACHE', 1);
 require_once(WB_PATH . '/modules/forum/backend.php');
 
 /**

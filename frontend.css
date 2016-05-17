@@ -298,3 +298,9 @@
 	background-color: #DDD;
 	padding:5px;
 }
+
+.forum_textarea {
+	font-family: Verdana, sans-serif !important;
+	font-size:13px !important;
+	line-height:1.5em !important;
+}
