@@ -1,4 +1,5 @@
-# WB Forum
+
+## WB Forum
 This module integrates a simple forum in your Website Baker website.
 
 ###
