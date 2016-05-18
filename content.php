@@ -22,6 +22,10 @@ if (!defined('WB_PATH')) { throw new Exception('Cannot access the addon \"'.base
 $lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
 require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang );
 
+require_once(dirname(__FILE__)."/classes/class.subway.php");
+$subway = new subway();
+
+
 echo '<script type="text/javascript" src="script/jquery.js"></script>';
 
 ?>
@@ -83,13 +87,20 @@ elseif (FORUM_DISPLAY_CONTENT == 'view_forum') {
 
 	$perpage = FORUMDISPLAY_PERPAGE;
 	if (!($forum['readaccess'] == 'both' OR ($forum['readaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['readaccess'] == 'unreg' AND !$wb->get_user_id()))) {
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
+		
+		echo $subway->print_error(
+			$MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 10]",
+			"';history.back();'"
+		);
+		return 0;
+	
 	} else {
 		include('pagination.php');
 
 		$home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;
 		$page_link = WB_URL.'/modules/forum/forum_view.php';
-		$query = $database->query("SELECT * FROM ".TABLE_PREFIX."mod_forum_forum WHERE forumid = '". $forum['parentid']."'");
+		$query = $database->query("SELECT * FROM `".TABLE_PREFIX."mod_forum_forum` WHERE `forumid` = '". $forum['parentid']."'");
+
 		$parent = $query->fetchRow();
 
 		?>
@@ -215,39 +226,76 @@ if( true === $user_can_create_topic ) {
 elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
 
 	if( !isset($_SESSION['forum_ts']) ) {
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 101]","';history.back(2);'");
+		
+		echo $subway->print_error(
+			$MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 101]",
+			"';history.back(2);'"
+		);
+		return 0;
 	}
 	
 	if ((isset($_GET['ts']) && intval($_GET['ts']) !== $_SESSION['forum_ts']) && intval($_POST['forum_ts']) !== $_SESSION['forum_ts']) {
-    
-    	$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 102]","';history.back(2);'");
+    	
+    	echo $subway->print_error(
+    		$MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 102]",
+    		"';history.back(2);'"
+    	);
+    	return 0;
 	}
 	
 	if (!($forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id()))) {
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 103]","';history.back(2);'");
+		
+		echo $subway->print_error(
+			$MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 103]",
+			"';history.back(2);'"
+		);
+		return 0;
+	
 	} else {
 		if (isset($_POST['save'])) {
 			if (strlen(trim($_POST['title'])) < 3) {
 				
-				$wb->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F']." [Error: 201]","';history.back();'");
+				echo $subway->print_error(
+					$MOD_FORUM['TXT_TITLE_TO_SHORT_F']." [Error: 201]",
+					"';history.back();'"
+				);
+				return 0;
 			
 			} elseif (strlen(trim($_POST['text'])) < 3) {
 			
-				$wb->print_error($MOD_FORUM['TXT_TEXT_TO_SHORT_F']." [Error: 202]","';history.back();'");
+				echo $subway->print_error(
+					$MOD_FORUM['TXT_TEXT_TO_SHORT_F']." [Error: 202]",
+					"';history.back();'"
+				);
+				return 0;
 				
 			} elseif (strlen(trim(@$_POST['username'])) < 3 AND !$wb->get_user_id()) {
 			
-				$wb->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F']." [Error: 203]","';history.back();'");
+				echo $subway->print_error(
+					$MOD_FORUM['TXT_USERNAME_TO_SHORT_F']." [Error: 203]",
+					"';history.back();'"
+				);
+				return 0;
 			}
 			if (!$wb->get_user_id()) {
 				$username =& $_POST['username'];
 				if (FORUM_USE_CAPTCHA != false) {
 					if(isset($_POST['captcha']) AND $_POST['captcha'] != '') {
 						if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha']) {
-							$wb->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F'],"';history.back();'");
+							
+							echo $subway->print_error(
+								$MOD_FORUM['TXT_WRONG_CAPTCHA_F']." [Error: 401]",
+								"';history.back();'"
+							);
+							return 0;
 						}
 					} else {
-						$wb->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F'],"';history.back();'");
+					
+						echo $subway->print_error(
+							$MOD_FORUM['TXT_WRONG_CAPTCHA_F']." [Error: 402]",
+							"';history.back();'"
+						);
+						return 0;
 					}
 					if(isset($_SESSION['captcha'])) {
 						unset($_SESSION['captcha']);
@@ -381,7 +429,11 @@ else if (FORUM_DISPLAY_CONTENT == 'view_thread') {
 
 	if (!($forum['readaccess'] == 'both' OR ($forum['readaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['readaccess'] == 'unreg' AND !$wb->get_user_id())))
 	{
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
+		echo $subway->print_error(
+			$MOD_FORUM['TXT_NO_ACCESS_F']." [Error 601]",
+			"';history.back();'"
+		);
+		return 0;
 	}
 	else
 	{
@@ -616,15 +668,17 @@ else if (FORUM_DISPLAY_CONTENT == 'reply_thread' &&	($forum['writeaccess'] !== '
 
 	if (strlen(trim($_POST['title'])) < 3)
 	{
-		$wb->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F'],"';history.back();'");
+		echo $subway->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F']." [Error 221]","';history.back();'");
 	}
 	else if (strlen(trim($_POST['text'])) < 3)
 	{
-		$wb->print_error($MOD_FORUM['TXT_TEXT_TO_SHORT_F'],"';history.back();'");
+		echo $subway->print_error($MOD_FORUM['TXT_TEXT_TO_SHORT_F']." [Error 222]","';history.back();'");
+		return 0;
 	}
 	else if (@strlen(trim($_POST['username'])) < 3 AND !$wb->get_user_id())
 	{
-		$wb->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F'],"';history.back();'");
+		echo $subway->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F']." [Error 223]","';history.back();'");
+		return 0;
 	}
 
 	if (!$wb->get_user_id())
@@ -637,12 +691,14 @@ else if (FORUM_DISPLAY_CONTENT == 'reply_thread' &&	($forum['writeaccess'] !== '
 			{
 				if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha'])
 				{
-					$wb->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F'],"';history.back();'");
+					echo $subway->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F'],"';history.back();'");
+					return 0;
 				}
 			}
 			else
 			{
-				$wb->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F'],"';history.back();'");
+				echo $subway->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F'],"';history.back();'");
+				return 0;
 			}
 
 			if(isset($_SESSION['captcha']))
@@ -698,7 +754,8 @@ else if (FORUM_DISPLAY_CONTENT == 'post_delete') {
 
 	if (!((in_array(intval(ADMIN_GROUP_ID), explode(',', $user['groups_id'])) OR $user['group_id'] == intval(ADMIN_GROUP_ID)) AND intval(ADMIN_GROUP_ID) !== 0))
 	{
-		$wb->print_error($MOD_FORUM['TXT_NOACCESS_F'],"';history.back();'");
+		echo $subway->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 304]","';history.back();'");
+		return 0;
 	}
 
 	if ($post['postid'] == $thread['firstpostid'])
@@ -744,24 +801,39 @@ else if (FORUM_DISPLAY_CONTENT == 'post_edit') {
 
 	if (!(($post['userid'] == $wb->get_user_id() AND $post['userid']) OR ((in_array(intval(ADMIN_GROUP_ID), explode(',', $user['groups_id'])) OR $user['group_id'] == intval(ADMIN_GROUP_ID)) AND intval(ADMIN_GROUP_ID) !== 0)))
 	{
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
+		echo $subway->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
+		return 0;
 	}
 
 	if (isset($_POST['save']))
 	{
-		if (intval($_POST['forum_ts']) !== $_SESSION['forum_ts'])
-    	$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F'],"';history.back();'");
+		if (intval($_POST['forum_ts']) !== $_SESSION['forum_ts']) {
+    		echo $subway->print_error(
+    			$MOD_FORUM['TXT_NO_ACCESS_F'],
+    			"';history.back();'"
+    		);
+			return 0;
+		}
 		if (strlen(trim($_POST['title'])) < 3)
 		{
-			$wb->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F'],"';history.back();'");
+			echo $subway->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F'],"';history.back();'");
+			return 0;
 		}
 		else if (strlen(trim($_POST['text'])) < 3)
 		{
-			$wb->print_error($MOD_FORUM['TXT_TEXT_TO_SHORT_F'],"';history.back();'");
+			echo $subway->print_error(
+				$MOD_FORUM['TXT_TEXT_TO_SHORT_F'],
+				"';history.back();'"
+			);
+			return 0;
 		}
 		else if (@strlen(trim($_POST['username'])) < 3 AND !$post['userid'])
 		{
-			$wb->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F'],"';history.back();'");
+			echo $subway->print_error(
+				$MOD_FORUM['TXT_USERNAME_TO_SHORT_F'],
+				"';history.back();'"
+			);
+			return 0;
 		}
 
 		if (!$post['userid'])
