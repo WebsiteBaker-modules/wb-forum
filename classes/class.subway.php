@@ -31,7 +31,10 @@ class subway extends forum_parser
 			$values
 		);
 	}
-
+	
+	public function register(&$aLookUp, $aKey="", $aDefault=NULL) {
+		if(!isset($aLookUp[ $aKey ])) $aLookUp[ $aKey ] = $aDefault;
+	}
 }
 
 ?>

@@ -233,7 +233,7 @@ elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
 		);
 		return 0;
 	}
-	
+	$subway->register($_POST, 'forum_ts', NULL);
 	if ((isset($_GET['ts']) && intval($_GET['ts']) !== $_SESSION['forum_ts']) && intval($_POST['forum_ts']) !== $_SESSION['forum_ts']) {
     	
     	echo $subway->print_error(
@@ -920,7 +920,7 @@ else if (FORUM_DISPLAY_CONTENT == 'post_edit') {
 			<div class="edit_head_home"><a href="<?php echo $home_link.'">'.PAGE_TITLE; ?></a></div>
 			<div class="edit_head_forum"><a href="<?php echo WB_URL; ?>/modules/forum/forum_view.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;fid=<?php echo $forum['forumid']; ?>"><?php echo $forum['title'] ?></a></div>
 
-			<div class="edit_head_topic"><?php echo $thread['title']; ?></div>
+			<div class="edit_head_topic"><?php echo $thread['title']; ?> answer</div>
 			<div class="edit_head_edit"><?php echo $MOD_FORUM['TXT_EDIT_ARTICLE_F']; ?></div>
 		</div>
 
