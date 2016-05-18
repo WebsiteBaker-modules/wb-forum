@@ -15,7 +15,17 @@
 require('../../config.php');
 
 // Validation:
+// [1| no 'fid' (forum id) given
+if(!isset($_REQUEST['fid'])) exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
+
 $forum_query = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `forumid` = '" . intval($_REQUEST['fid']) . "'");
+
+//	[2]	There was an query error
+if( $database->is_error()) die( "[Error: 2004] ".$database->get_error());
+
+//	[3] Result list is empty - no matches found
+if( $forum_query->numRows() == 0 ) exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
+
 $forum = $forum_query->fetchRow();
 
 if(!$forum)
