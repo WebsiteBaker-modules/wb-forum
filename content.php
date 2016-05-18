@@ -215,21 +215,29 @@ if( true === $user_can_create_topic ) {
 elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
 
 	if( !isset($_SESSION['forum_ts']) ) {
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 101]","';history.back();'");
+		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 101]","';history.back(2);'");
 	}
+	
 	if ((isset($_GET['ts']) && intval($_GET['ts']) !== $_SESSION['forum_ts']) && intval($_POST['forum_ts']) !== $_SESSION['forum_ts']) {
-    	$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 102]","';history.back();'");
+    
+    	$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 102]","';history.back(2);'");
 	}
+	
 	if (!($forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id()))) {
-		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 103]","';history.back();'");
+		$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 103]","';history.back(2);'");
 	} else {
 		if (isset($_POST['save'])) {
 			if (strlen(trim($_POST['title'])) < 3) {
-				$wb->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F'],"';history.back();'");
+				
+				$wb->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F']." [Error: 201]","';history.back();'");
+			
 			} elseif (strlen(trim($_POST['text'])) < 3) {
-				$wb->print_error($MOD_FORUM['TXT_TEXT_TO_SHORT_F'],"';history.back();'");
+			
+				$wb->print_error($MOD_FORUM['TXT_TEXT_TO_SHORT_F']." [Error: 202]","';history.back();'");
+				
 			} elseif (strlen(trim(@$_POST['username'])) < 3 AND !$wb->get_user_id()) {
-				$wb->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F'],"';history.back();'");
+			
+				$wb->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F']." [Error: 203]","';history.back();'");
 			}
 			if (!$wb->get_user_id()) {
 				$username =& $_POST['username'];
