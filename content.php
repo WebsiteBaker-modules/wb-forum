@@ -243,8 +243,8 @@ elseif (FORUM_DISPLAY_CONTENT == 'create_thread') {
     	return 0;
 	}
 	
-	if (!($forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id()))) {
-		
+//	if (!($forum['writeaccess'] == 'both' OR ($forum['writeaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id()))) {
+if(false === $user_can_create_topic) {		
 		echo $subway->print_error(
 			$MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 103]",
 			"';history.back(2);'"
@@ -775,7 +775,8 @@ else if (FORUM_DISPLAY_CONTENT == 'reply_thread' &&	($forum['writeaccess'] !== '
 // ##################### DELETE POST (DATABSE STUFF ONLY) ######################
 else if (FORUM_DISPLAY_CONTENT == 'post_delete') {
 
-	if (!((in_array(intval(ADMIN_GROUP_ID), explode(',', $user['groups_id'])) OR $user['group_id'] == intval(ADMIN_GROUP_ID)) AND intval(ADMIN_GROUP_ID) !== 0))
+//	if (!((in_array(intval(ADMIN_GROUP_ID), explode(',', $user['groups_id'])) OR $user['group_id'] == intval(ADMIN_GROUP_ID)) AND intval(ADMIN_GROUP_ID) !== 0))
+	if( false === $user_can_edit )
 	{
 		echo $subway->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 304]","';history.back();'");
 		return 0;
