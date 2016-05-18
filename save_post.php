@@ -72,6 +72,6 @@ if ($class=="post") {
 
 if($database->is_error()) die($database->get_error());
 
-$admin->print_success("Forum gespeichert! [1]", ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
+$admin->print_success("Forum gespeichert! [1]", WB_URL . '/modules/forum/addedit_forum.php?page_id=' . $page_id . '&section_id=' . $section_id."&forumid=".$forumid);
 return 0;
 ?>

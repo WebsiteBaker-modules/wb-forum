@@ -580,11 +580,19 @@ if( true === $user_can_create_answer ) {
 			}
 			-->
 			</script>
-		<?php if(FORUM_HIDE_EDITOR) echo '<input type="button" id="toggleEditor" style="float: right; width: 150px; padding: 2px 0;" value="'.$MOD_FORUM['TXT_CREATE_ANSWER_F'].'" onclick="toggleEditor(this);" />';?>
+		<?php 
+			if(FORUM_HIDE_EDITOR) echo '<input type="button" id="toggleEditor" style="float: right; width: 150px; padding: 2px 0;" value="'.$MOD_FORUM['TXT_CREATE_ANSWER_F'].'" onclick="toggleEditor(this);" />';
+		
+		
+			$temp_time = time();
+			$_SESSION['forum_ts'] = $temp_time;
+		?>
 				<fieldset id="editor" style="margin-top: 10px; clear:right; <?php echo (FORUM_HIDE_EDITOR) ? "display:none;" : ""?>">
 					<legend><?php echo $MOD_FORUM['TXT_CREATE_ANSWER_F']; ?></legend>
 				<form action="<?php echo WB_URL; ?>/modules/forum/thread_reply.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>" method="post">
-				<input type="hidden" name="forum_ts" value="<?php $t=time(); echo $t; $_SESSION['forum_ts']=$t; ?>" />
+				
+				<input type="hidden" name="forum_ts" value="<?php echo $temp_time; ?>" />
+				
 				<table cellpadding="2" cellspacing="0" align="center" border="0" style="width: 100%;">
 				<colgroup>
 				<col width="1%" />
@@ -662,22 +670,31 @@ if( true === $user_can_create_answer ) {
 else if (FORUM_DISPLAY_CONTENT == 'reply_thread' &&	($forum['writeaccess'] !== 'reg' OR ($forum['writeaccess'] == 'reg' && $wb->get_user_id()) OR ($forum['writeaccess'] == 'unreg' AND !$wb->get_user_id())))
 {
 	if (intval($_POST['forum_ts']) !== $_SESSION['forum_ts']) {
-	//	$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 110]","javascript:history.back()");
+		//	$wb->print_error($MOD_FORUM['TXT_NO_ACCESS_F']." [Error: 110]","javascript:history.back()");
 	}
 	$perpage = 15;
 
 	if (strlen(trim($_POST['title'])) < 3)
 	{
-		echo $subway->print_error($MOD_FORUM['TXT_TITLE_TO_SHORT_F']." [Error 221]","';history.back();'");
+		echo $subway->print_error(
+			$MOD_FORUM['TXT_TITLE_TO_SHORT_F']." [Error 221]",
+			"';history.back();'");
+		return 0;
 	}
 	else if (strlen(trim($_POST['text'])) < 3)
 	{
-		echo $subway->print_error($MOD_FORUM['TXT_TEXT_TO_SHORT_F']." [Error 222]","';history.back();'");
+		echo $subway->print_error(
+			$MOD_FORUM['TXT_TEXT_TO_SHORT_F']." [Error 222]",
+			"';history.back();'"
+		);
 		return 0;
 	}
 	else if (@strlen(trim($_POST['username'])) < 3 AND !$wb->get_user_id())
 	{
-		echo $subway->print_error($MOD_FORUM['TXT_USERNAME_TO_SHORT_F']." [Error 223]","';history.back();'");
+		echo $subway->print_error(
+			$MOD_FORUM['TXT_USERNAME_TO_SHORT_F']." [Error 223]",
+			"';history.back();'"
+		);
 		return 0;
 	}
 
@@ -691,13 +708,19 @@ else if (FORUM_DISPLAY_CONTENT == 'reply_thread' &&	($forum['writeaccess'] !== '
 			{
 				if(!isset($_POST['captcha']) OR !isset($_SESSION['captcha']) OR $_POST['captcha'] != $_SESSION['captcha'])
 				{
-					echo $subway->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F'],"';history.back();'");
+					echo $subway->print_error(
+						$MOD_FORUM['TXT_WRONG_CAPTCHA_F']." [Error 224]",
+						"';history.back();'"
+					);
 					return 0;
 				}
 			}
 			else
 			{
-				echo $subway->print_error($MOD_FORUM['TXT_WRONG_CAPTCHA_F'],"';history.back();'");
+				echo $subway->print_error(
+					$MOD_FORUM['TXT_WRONG_CAPTCHA_F']." [Error 225]",
+					"';history.back();'"
+				);
 				return 0;
 			}
 

@@ -27,7 +27,6 @@ else
 	$section_id = $forum['section_id'];
 	$page_id = $forum['page_id'];
 	define('SECTION_ID', $section_id);
-	//define('PAGE_ID', $page_id);
 }
 
 require_once(WB_PATH . '/modules/forum/backend.php');
