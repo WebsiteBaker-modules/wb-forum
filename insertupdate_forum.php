@@ -188,8 +188,8 @@ if (isset($forum['forumid']))
 	$database->query("
 		UPDATE `" . TABLE_PREFIX . "mod_forum_forum`
 			SET
-				`title` = '" . $database->escapeString($_POST['title']) . "',
-				`description` = '" . $database->escapeString($_POST['description']) . "',
+				`title` = \"" . $database->escapeString($_POST['title']) . "\",
+				`description` = \"" . $database->escapeString($_POST['description']) . "\",
 				`displayorder` = '" . intval($_POST['displayorder']) . "',
 				`parentid` = '" . intval($_POST['parentid']) . "',
 				`readaccess` = '" . $_POST['readaccess'] . "',
@@ -215,7 +215,7 @@ else
 		INSERT INTO `" . TABLE_PREFIX . "mod_forum_forum`
 			(`title`, `description`, `displayorder`, `parentid`, `page_id`, `section_id`, `readaccess`, `writeaccess`)
 		VALUES
-			('" . $_POST['title'] . "', '" . $_POST['description'] . "', '" . intval($_POST['displayorder']) . "', '" . intval($_POST['parentid']) . "', '$page_id', '$section_id', '" . $_POST['readaccess'] . "', '" . $_POST['writeaccess'] . "')
+			('" . $database->escapeString($_POST['title']) . "', '" .$database->escapeString( $_POST['description'] ). "', '" . intval($_POST['displayorder']) . "', '" . intval($_POST['parentid']) . "', '$page_id', '$section_id', '" . $_POST['readaccess'] . "', '" . $_POST['writeaccess'] . "')
 	");
 
 	if($database->is_error()) {

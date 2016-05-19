@@ -15,7 +15,6 @@
 require('../../config.php');
 
 
-/*
 require_once(WB_PATH . '/modules/forum/backend.php');
 
 
@@ -33,12 +32,12 @@ else
 {
 
 	$page = $query_page->fetchRow();
-*/
+
 	define('FORUM_DISPLAY_CONTENT', 'search_the_forum');
 	define('PAGE_CONTENT', WB_PATH . '/modules/forum/content.php');
 
 	require(WB_PATH . '/index.php');
 
-//}
+}
 
 ?>

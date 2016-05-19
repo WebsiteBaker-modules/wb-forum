@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `" . TABLE_PREFIX . "mod_forum_settings` (
 * otherworld.de
 * Auskommentiert, da die Suche einen Fehler auswirft;
 * es gibt auch noch keine modul eigene search.php
-
+*/
 
 // STEP 2.1:	Module query info
 $field_info = array();
@@ -131,7 +131,5 @@ $database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`
 // STEP 2.4.:	Query end
 $query_end_code = "";
 $database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`) VALUES ('query_end', '$query_end_code', 'forum')");
-
-*/
 
 ?>
