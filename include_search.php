@@ -15,12 +15,11 @@ if(!defined('WB_PATH')) {
 	exit("Cannot access this file directly");
 }
 
-include WB_PATH . '/modules/forum/config.php';
-include WB_PATH . '/modules/forum/functions.php';
+require_once WB_PATH . '/modules/forum/config.php';
+require_once WB_PATH . '/modules/forum/functions.php';
 
 global $database;
 
-//var_dump($_POST);
 $search_string = strip_tags( $database->escapeString($_GET['mod_forum_search']));
 $_search_string = preg_replace("/\b([a-zöäüﬂ0-9]{3})\b/i", "$1_x_$1", $search_string);
 
@@ -29,7 +28,6 @@ if (is_array($arr_search_string) AND count($arr_search_string) >= 1 )
 {
 	$strWHERE = implode(' OR ', $arr_search_string);
 }
-//echo $strWHERE;
 
 if (!empty($search_string))
 {
@@ -47,10 +45,8 @@ if (!empty($search_string))
 
 
 	$res = $database->query($sql);
-	//echo $sql;
 }
 
-//var_dump($res);
 $out = "";
 if( isset($res) AND $res->numRows() > 0)
 {
@@ -89,7 +85,7 @@ if( isset($res) AND $res->numRows() > 0)
 
 			$out .= '<p class="mod_last_forum_entries_text">'. $text2 . '</p><br/><br/>' ;
 
-		}//while
+		}
 
 		$out .= '</div>';
 
@@ -103,12 +99,12 @@ if( isset($res) AND $res->numRows() > 0)
 		$out .= '</div>';
 	}
 
-}//else treffer
+}
 
 ?>
 
 <h1>Forum durchsuchen</h1>
 
-<?php include WB_PATH . '/modules/forum/include_searchform.php' ?>
+<?php include_once WB_PATH . '/modules/forum/include_searchform.php' ?>
 
 <?php echo $out ?>

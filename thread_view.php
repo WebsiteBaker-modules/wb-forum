@@ -14,7 +14,9 @@
 // Include config file
 require('../../config.php');
 
-if(!isset($_REQUEST['tid'])) die();
+if(isset($_REQUEST['goto'])) $_REQUEST['tid'] = $_REQUEST['goto'];
+
+if(!isset($_REQUEST['tid'])) die("E: 120023");
 
 /**
  * prüfen, ob wir auf einen einzelnes posting weiterleiten sollen
