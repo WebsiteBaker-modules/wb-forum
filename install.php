@@ -120,7 +120,7 @@ $field_info['link'] = 'link';
 $field_info = serialize($field_info);
 $database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`) VALUES ('module', 'forum', '$field_info')");
 
-$query_start_code = "SELECT [TP]pages.page_id, [TP]pages.page_title, CONCAT('test.php?do=bla&x=', [TP]mod_forum_post.threadid) AS link FROM [TP]mod_forum_post, [TP]pages WHERE ";
+$query_start_code = "SELECT [TP]pages.page_id, [TP]pages.page_title, [TP]mod_forum_post.threadid AS link FROM [TP]mod_forum_post, [TP]pages WHERE ";
 $database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`) VALUES ('query_start', '$query_start_code', 'forum')");
 
 $query_body_code = "

@@ -21,7 +21,8 @@ require_once WB_PATH . '/modules/forum/functions.php';
 global $database;
 
 $search_string = strip_tags( $database->escapeString($_GET['mod_forum_search']));
-$_search_string = preg_replace("/\b([a-zöäüﬂ0-9]{3})\b/i", "$1_x_$1", $search_string);
+//$_search_string = preg_replace("/\b([a-zöäüﬂ0-9]{3})\b/i", "$1_x_$1", $search_string);
+$_search_string=$search_string;
 
 $arr_search_string = explode(' ', $search_string);
 if (is_array($arr_search_string) AND count($arr_search_string) >= 1 )

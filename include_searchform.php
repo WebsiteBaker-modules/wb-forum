@@ -13,10 +13,7 @@
 
 if (defined('VIEW_FORUM_SEARCH') AND VIEW_FORUM_SEARCH)
 {
-
-
-	$query = $database->query('SELECT link FROM '.TABLE_PREFIX.'pages WHERE page_id = ' . (int) PAGE_ID);
-
+	$query = $database->query('SELECT `link` FROM `'.TABLE_PREFIX.'pages` WHERE `page_id` = ' . (int) PAGE_ID);
 
 	if($query->numRows() > 0)
 	{
@@ -35,8 +32,6 @@ if (defined('VIEW_FORUM_SEARCH') AND VIEW_FORUM_SEARCH)
 		echo '<input type="submit" value="OK" />';
 		echo '</form></div>';
 
-	}//if numRows
-
-
-}//VIEW_FORUM_SEARCH
+	}
+}
 ?>
