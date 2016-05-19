@@ -14,15 +14,17 @@
 if(!defined('WB_PATH')) {
 	exit("Cannot access this file directly");
 }
-if(!file_exists(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php')) {
-	require_once(WB_PATH . '/modules/forum/languages/EN.php');
-} else {
-	require_once(WB_PATH . '/modules/forum/languages/' . LANGUAGE . '.php');
-}
+
+/**
+ *        Load Language file
+ */
+$lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
+require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang );
 
 if (isset($_GET['search']) AND $_GET['search']==1 )
 {
 	include 'include_search.php';
+	unset($_GET['search']);
 }
 else 
 {

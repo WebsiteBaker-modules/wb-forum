@@ -21,13 +21,15 @@ require_once WB_PATH . '/modules/forum/functions.php';
 global $database;
 
 $search_string = strip_tags( $database->escapeString($_GET['mod_forum_search']));
-//$_search_string = preg_replace("/\b([a-zöäüﬂ0-9]{3})\b/i", "$1_x_$1", $search_string);
-$_search_string=$search_string;
+$_search_string = preg_replace("/\b([a-zöäüﬂ0-9]{3})\b/i", "$1_x_$1", $search_string);
+// die(print_r($_search_string));
+//$_search_string=$search_string;
 
+$add_search_string = "";
 $arr_search_string = explode(' ', $search_string);
 if (is_array($arr_search_string) AND count($arr_search_string) >= 1 )
 {
-	$strWHERE = implode(' OR ', $arr_search_string);
+	//$add_search_string = ' OR \'%'.implode('%\' OR \'%', $arr_search_string)."%'";
 }
 
 if (!empty($search_string))
@@ -39,13 +41,16 @@ if (!empty($search_string))
 				JOIN  ".TABLE_PREFIX."mod_forum_thread t USING(threadid)
 				JOIN  ".TABLE_PREFIX."mod_forum_forum f ON (t.forumid = f.forumid)
 
-			WHERE f.title LIKE '%$search_string%' OR
-				   MATCH(p.title, p.search_text) AGAINST('".$database->escapeString($_search_string)."' IN BOOLEAN MODE )
+			WHERE ( f.title LIKE '%$search_string%' ".$add_search_string.")
 
 			LIMIT " . FORUM_MAX_SEARCH_HITS;
-
-
+	
 	$res = $database->query($sql);
+	
+	if($database->is_error()) {
+		echo $database->get_error();
+		return 0;
+	}
 }
 
 $out = "";
