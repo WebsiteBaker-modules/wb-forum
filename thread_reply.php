@@ -15,7 +15,7 @@
 require('../../config.php');
 
 // Validation:
-// [1| no 'tid' (thread id) given
+//	[1| no 'tid' (thread id) given
 if(!isset($_REQUEST['tid'])) exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 
 $thread_query = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_thread` WHERE `threadid` = '" . intval($_REQUEST['tid']) . "'");
