@@ -121,6 +121,6 @@ $page_data = array(
 );
 
 echo $parser->render(
-	dirname(__FILE__)."/templates/settings.tmpl",
+	"settings.lte",
 	$page_data
 );	

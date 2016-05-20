@@ -151,7 +151,7 @@ if(!function_exists("forum_str2js")) {
 			<input type="reset" value="<?php echo $MOD_FORUM['TXT_RESET_B']; ?>" style="width: 150; margin-top: 5px;" />
 		</td>
 		<td align="right">
-			<input type="button" value="<?php echo $MOD_FORUM['TXT_CANCEL_B']; ?>" onclick="javascript:history.back();" style="width: 150; margin-top: 5px;" />
+			<input type="button" value="<?php echo $MOD_FORUM['TXT_CANCEL_B']; ?>" onclick="document.location.href='<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page_id; ?>';" style="width: 150; margin-top: 5px;" />
 		</td>
 	</tr>
 </table>

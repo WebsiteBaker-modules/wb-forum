@@ -25,7 +25,6 @@ require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $
 require_once(dirname(__FILE__)."/classes/class.subway.php");
 $subway = new subway();
 
-
 echo '<script type="text/javascript" src="script/jquery.js"></script>';
 
 ?>
@@ -874,8 +873,8 @@ else if (FORUM_DISPLAY_CONTENT == 'post_edit') {
 		//$_search_string = strip_bbcode($_POST['text']);
 		// macht aus 3-Zeichen-Wörtern längere, um berücksichtigt zu werden:
 		// aus PHP wird PHP_x_PHP
-		$_search_string  = preg_replace("/\b([a-zöäüﬂ0-9]{3})\b/i", "$1_x_$1", trim($_POST['title']))." " ;
-		$_search_string .= preg_replace("/\b([a-zöäüﬂ0-9]{3})\b/i", "$1_x_$1", strip_bbcode($_POST['text']) ) ;
+		$_search_string  = preg_replace("/\b([a-zöäüß0-9]{3})\b/i", "$1_x_$1", trim($_POST['title']))." " ;
+		$_search_string .= preg_replace("/\b([a-zöäüß0-9]{3})\b/i", "$1_x_$1", strip_bbcode($_POST['text']) ) ;
 
 
 		$database->query("

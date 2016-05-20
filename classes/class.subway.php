@@ -1,5 +1,11 @@
 <?php
 
+/**
+ *	We are not using LEPTON-CMS here.
+ *
+ */
+ 
+
 require_once( dirname(__FILE__)."/class.forum_parser.php");
 
 class subway extends forum_parser
@@ -11,10 +17,13 @@ class subway extends forum_parser
 	
 	protected	$version = "0.1.0";
 	
-	public $base_path = "";
+	public $db = NULL;
 	
 	public function __construct() {
-		$this->base_path = WB_PATH."/modules/forum/templates/";
+	
+		parent::__construct();
+		
+		$this->db = new database2();
 	}
 	
 	public function print_error( $sMessage="", $sLink="" ) {
@@ -27,7 +36,7 @@ class subway extends forum_parser
 		);
 		
 		return $this->render(
-			$this->base_path."error.lte",
+			"error.lte",
 			$values
 		);
 	}
@@ -35,6 +44,27 @@ class subway extends forum_parser
 	public function register(&$aLookUp, $aKey="", $aDefault=NULL) {
 		if(!isset($aLookUp[ $aKey ])) $aLookUp[ $aKey ] = $aDefault;
 	}
+	
+	public function display($any) {
+		$s = "<pre>";
+		ob_start();
+			print_r($any);
+		$s .= ob_get_clean();
+		$s .= "</pre>";
+		return $s;
+	}
 }
 
+class database2 extends database
+{
+
+	public function get_all( $sql="", &$storrage=array() )
+	{
+		$result = $this->query( $sql );
+		while($ref = $result->fetchRow( MYSQL_ASSOC )) {
+			$storrage[] = $ref;
+		}
+	}
+	
+}
 ?>

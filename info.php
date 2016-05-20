@@ -20,10 +20,14 @@ $module_license		= 'GNU General Public License';
 $module_author		= 'Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)';
 $module_home		= 'http://addon.websitebaker.org/pages/en/browse-add-ons.php?type=1';
 $module_guid		= '44CF11ED-D38A-4B51-AF80-EE95F7C4C00D';
-$module_description	= 'Dieses Modul integriert ein einfaches Forum in ihre Webseite.<br/>';
+$module_description	= 'This module integrates a simple forum on your website.<br/>';
 
 /**
+ *	Detailed changelog at: https://github.com/AMASP-workbanch/wb-forum/commits/master
+ *
  *	0.5.9	- Codeadditions in the backend
+ *			- Add readme to the project (thanks to Tomno399 and EvaKi)
+ *			- Rework forum-search
  *
  *	0.5.8	- Codeadditions for the backend
  *			- Set all files to utf-8

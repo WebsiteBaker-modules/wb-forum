@@ -1,4 +1,5 @@
-<!-- Forum :: post edit -->
+{% autoescape false %}
+
 <form id="forum_{{ section_id }}" class="forum" action="{{ WB_URL }}/modules/forum/save_post.php" method="post">
 <input type="hidden" name="page_id" value="{{ page_id }}" />
 <input type="hidden" name="section_id" value="{{ section_id }}" />
@@ -24,3 +25,5 @@
 </tr>
 </table>
 </form>
+
+{% endautoescape %}

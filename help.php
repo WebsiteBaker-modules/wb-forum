@@ -21,7 +21,7 @@ $lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
 require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang );
 
 /**
- *	Tem. parser for wb 2.8.3
+ *	Parser for wb 2.8.3
  */
 require_once( dirname(__FILE__)."/classes/class.forum_parser.php" );
 $parser = new forum_parser();
@@ -42,7 +42,7 @@ $page_values = array(
 );
 
 echo $parser->render(
-	dirname(__FILE__)."/templates/help.lte",
+	"help.lte",
 	$page_values
 );
 

@@ -39,13 +39,16 @@ require(WB_PATH . '/modules/admin.php');
 $lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
 require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang ); 
 
+require_once( dirname(__FILE__)."/classes/class.forum_parser.php" );
+$parser = new forum_parser();
+
 $result = ($class=="post")
 	? $database->query("SELECT * from `".TABLE_PREFIX."mod_forum_post` where `postid`=".$postid)
 	: $database->query("SELECT * from `".TABLE_PREFIX."mod_forum_thread` where `threadid`=".$postid)
 	;
 
 if($database->is_error()) die($database->get_error());
-$post_data = $result->fetchRow();
+$post_data = $result->fetchRow( MYSQL_ASSOC );
 
 $values = array(
 	"section_id"	=> $section_id,
@@ -61,10 +64,8 @@ $values = array(
 		: $database->get_one( "SELECT `text` from `".TABLE_PREFIX."mod_forum_post` where `threadid`=".$postid)
 );
 
-$source = file_get_contents( dirname(__FILE__)."/templates/edit_post.tmpl");
-foreach($values as $key=>$value){
-	$source = str_replace("{{ ".$key." }}", $value, $source);
-}
-
-echo $source;
+echo $parser->render(
+	"edit_post.lte",
+	$values
+);
 ?>

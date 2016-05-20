@@ -77,16 +77,16 @@ $page_data = array(
 	'WB_URL' => WB_URL,
 	'section_id'	=> $section_id,
 	'page_id'	=> $page_id,
-	'MOD_FORUM.TXT_CREATE_FORUM_B'	=> $MOD_FORUM['TXT_CREATE_FORUM_B'],
-	'MOD_FORUM.TXT_FORUMS_B'	=> $MOD_FORUM['TXT_FORUMS_B'],
+	'MOD_FORUM_TXT_CREATE_FORUM_B'	=> $MOD_FORUM['TXT_CREATE_FORUM_B'],
+	'MOD_FORUM_TXT_FORUMS_B'	=> $MOD_FORUM['TXT_FORUMS_B'],
 	'TEXT_HELP'	=> $MENU["HELP"],
-	'TEXT.SETTINGS'	=> $TEXT['SETTINGS'],
+	'TEXT_SETTINGS'	=> $TEXT['SETTINGS'],
 	'message'		=> $message,
 	'forums_list'	=> $forums_list
 );
 
 echo $parser->render(
-	dirname(__FILE__)."/templates/modify.tmpl",
+	"modify.lte",
 	$page_data
 );
 
