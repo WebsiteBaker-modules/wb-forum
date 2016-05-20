@@ -176,10 +176,13 @@ td.edit_forum_title {
 	color:#777777;
 	text-align: center;
 	background-color: #DDDDDD;
+	border:2px solid #FFFFFF;
+	outline: 1px solid #CCCCCC;
 	font-weight:bold;
 	height: 22px;
 	font-size:12px;
 }
+
 input.forum_button {
 	width: 200px;
 }
@@ -187,4 +190,15 @@ input.forum_button {
 table.edit_forum {
 	margin-top:20px;
 	margin-bottom:22px;
+	width:70%;
+}
+
+td.setting_value input[type='text'],
+td.setting_value select,
+td.setting_value textarea {
+	width: 400px;
+}
+
+#cb_delete {
+	width:20px !important;
 }

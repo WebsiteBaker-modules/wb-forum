@@ -72,13 +72,10 @@
 	</tr>
 </table>
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<table class="edit_forum">
 	<tr>
 		<td align="left">
 			<input class="forum_button" name="save" type="submit" value="{{ MOD_FORUM_TXT_SAVE_B }}" />
-		</td>
-		<td align="center">
-			<input class="forum_button" type="reset" value="{{ MOD_FORUM_TXT_RESET_B }}" />
 		</td>
 		<td align="right">
 			<input class="forum_button" type="button" value="{{ MOD_FORUM_TXT_CANCEL_B }}" onclick="document.location.href='{{ ADMIN_URL }}/pages/modify.php?page_id={{ page_id }}';" />
