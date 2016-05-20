@@ -23,9 +23,9 @@ class forum_parser
 	public $parser = NULL;
 	public $template_path = "";
 	
-	private $CMS_PATH	= "";
-	private $CMS_URL	= "";
-	private $CMS		= 0;
+	public $CMS_PATH = "";
+	public $CMS_URL	= "";
+	public $CMS		= 0;
 	
 	public function __construct() {
 		

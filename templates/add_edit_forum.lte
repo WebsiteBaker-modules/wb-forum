@@ -1,0 +1,88 @@
+{% autoescape false %}
+
+<h2>{{ add_edit_titel }}</h2>
+
+<form name="modify" action="{{ WB_URL }}/modules/forum/insertupdate_forum.php" method="post">
+
+<input type="hidden" name="section_id" value="{{ section_id }}">
+<input type="hidden" name="page_id" value="{{ page_id }}">
+<input type="hidden" name="forumid" value="{{ forum_id }}">
+
+{{ ftan }}
+
+<table class="edit_forum">
+	<tr>
+		<td colspan="2" class="edit_forum_title">{{ MOD_FORUM_TXT_SETTINGS_B }}</td>
+	</tr>
+	<tr>
+		<td class="setting_name">{{ MOD_FORUM_TXT_TITLE_B }}</td>
+		<td class="setting_value"><input type="text" name="title" value="{{ forum_title }}" /></td>
+	</tr>
+	<tr>
+		<td class="setting_name">{{ MOD_FORUM_TXT_DESCRIPTION_B }}</td>
+		<td class="setting_value"><textarea name="description">{{ forum_description }}</textarea></td>
+	</tr>
+	<tr>
+		<td class="setting_name">{{ MOD_FORUM_TXT_DISPLAY_ORDER_B }}</td>
+		<td class="setting_value"><input type="text" name="displayorder" value="{{ forum_displayorder }}" /></td>
+	</tr>
+	
+	<tr>
+		<td class="setting_name">{{ MOD_FORUM_TXT_PARENT_FORUM_B }}</td>
+		<td class="setting_value">
+			<select name="parentid">
+				<option value="0"> - </option>
+				{{ forum_select_parent }}
+			</select>
+		</td>
+	</tr>
+
+		<tr class="{{ class_show_delete_forum }}">
+			<td class="setting_name">{{ MOD_FORUM_TXT_DELETE_B }}</td>
+			<td class="setting_value">
+				<input type="checkbox" name="delete" value="1" id="cb_delete" /><label for="cb_delete">{{ MOD_FORUM_TXT_DELETE_FORUM_B }}</label>
+			</td>
+		</tr>
+
+</table>
+
+<table class="edit_forum">
+	<tr>
+		<td colspan="2" class="edit_forum_title">{{ MOD_FORUM_TXT_PERMISSIONS_B }}</td>
+	</tr>
+	<tr>
+		<td class="setting_name" width="100">{{ MOD_FORUM_TXT_READ_B }}</td>
+		<td class="setting_value">
+			<select name="readaccess">
+				<option value="reg" {{ forum_readaccess_reg_selected }}>{{ MOD_FORUM_TXT_REGISTRATED_B }}</option>
+				<option value="unreg" {{ forum_readaccess_unreg_selected }}>{{ MOD_FORUM_TXT_NOT_REGISTRATED_B }}</option>
+				<option value="both" {{ forum_readaccess_both_selected }}>{{ MOD_FORUM_TXT_BOTH_B }}</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="setting_name">{{ MOD_FORUM_TXT_WRITE_B }}</td>
+		<td class="setting_value">
+			<select name="writeaccess">
+				<option value="reg" {{ forum_writeaccess_reg_selected }}>{{ MOD_FORUM_TXT_REGISTRATED_B }}</option>
+				<option value="unreg" {{ forum_writeaccess_unreg_selected }}>{{ MOD_FORUM_TXT_NOT_REGISTRATED_B }}</option>
+				<option value="both" {{ forum_writeaccess_both_selected }}>{{ MOD_FORUM_TXT_BOTH_B }}</option>
+			</select>
+		</td>
+	</tr>
+</table>
+
+<table class="edit_forum">
+	<tr>
+		<td align="left">
+			<input class="forum_button" name="save" type="submit" value="{{ MOD_FORUM_TXT_SAVE_B }}" />
+		</td>
+		<td align="right">
+			<input class="forum_button" type="button" value="{{ MOD_FORUM_TXT_CANCEL_B }}" onclick="document.location.href='{{ ADMIN_URL }}/pages/modify.php?page_id={{ page_id }}';" />
+		</td>
+	</tr>
+</table>
+
+</form>
+
+{% endautoescape %}

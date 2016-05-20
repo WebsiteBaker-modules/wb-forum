@@ -53,6 +53,14 @@ class subway extends forum_parser
 		$s .= "</pre>";
 		return $s;
 	}
+	
+	public function get_pageinfo($aID) {
+		$r = $this->db->query("SELECT * FROM `".TABLE_PREFIX."pages` WHERE `page_id`=".$aID);
+		
+		if($r) {
+			return $r->fetchRow( MYSQL_ASSOC ); // WB_URL.PAGES_DIRECTORY.$r.PAGE_EXTENSION;
+		}
+	}
 }
 
 class database2 extends database
