@@ -22,6 +22,9 @@ include_once(WB_PATH .'/framework/module.functions.php');
 $lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
 require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang );
 
+require_once( dirname(__FILE__)."/classes/class.forum_parser.php" );
+$parser = new forum_parser();
+
 if (isset($_REQUEST['forumid'])) {
 	$forum = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `forumid` = '" . intval($_REQUEST['forumid']) . "' AND `section_id` = '".$section_id."' AND `page_id` = '".$page_id."'");
 	if ( 0 === $forum->numRows() ) {
@@ -54,110 +57,57 @@ if(!function_exists("forum_str2js")) {
 	}
 }
 
-?>
+ob_start();
+print_forum_select_options( isset($forum) ? $forum['parentid'] : "" );
+$forum_select_parent = ob_get_clean();
 
-<h2><?php echo (isset($forum['forumid']) ? $MOD_FORUM['TXT_EDIT_FORUM_B'].' - '.$forum['title'] : $MOD_FORUM['TXT_CREATE_FORUM_B']); ?></h2>
-
-<form name="modify" action="<?php echo WB_URL; ?>/modules/forum/insertupdate_forum.php" method="post" style="margin: 0;">
-
-<input type="hidden" name="section_id" value="<?php echo $section_id; ?>">
-<input type="hidden" name="page_id" value="<?php echo $page_id; ?>">
-<input type="hidden" name="forumid" value="<?php echo (isset($forum['forumid']) ? $forum['forumid'] : ''); ?>">
-
-<?php echo (true === method_exists($admin, "getFTAN")) ? $admin->getFTAN() : ""; ?>
-
-<table class="row_a" cellpadding="2" cellspacing="0" border="0" align="center" width="100%" style="margin-top: 5px;">
-	<tr>
-		<td colspan="2"><strong><?php echo $MOD_FORUM['TXT_SETTINGS_B']; ?></strong></td>
-	</tr>
-	<tr>
-		<td class="setting_name" width="100"><?php echo $MOD_FORUM['TXT_TITLE_B']; ?></td>
-		<td class="setting_name">
-			<input type="text" name="title" style="width: 500px;" value="<?php echo (isset($forum['title']) ? htmlspecialchars($forum['title']) : ''); ?>" />
-		</td>
-	</tr>
-	<tr>
-		<td class="setting_name"><?php echo $MOD_FORUM['TXT_DESCRIPTION_B']; ?></td>
-		<td class="setting_name">
-			<textarea name="description" style="width: 500px; height: 140px;"><?php echo (isset($forum['description']) ? htmlspecialchars($forum['description']) : ''); ?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td class="setting_name"><?php echo $MOD_FORUM['TXT_DISPLAY_ORDER_B']; ?></td>
-		<td class="setting_name">
-			<input type="text" name="displayorder" style="width: 500px;" value="<?php echo (isset($forum['displayorder']) ? $forum['displayorder'] : ''); ?>" />
-		</td>
-	</tr>
+$page_values = array(
+	'add_edit_titel'	=> (isset($forum['forumid']) ? $MOD_FORUM['TXT_EDIT_FORUM_B'].' - '.$forum['title'] : $MOD_FORUM['TXT_CREATE_FORUM_B']),
+	'WB_URL'	=> WB_URL,
+	'ADMIN_URL'	=> ADMIN_URL,
+	'section_id'	=> $section_id,
+	'page_id'		=> $page_id,
+	'forum_id'		=> (isset($forum['forumid']) ? $forum['forumid'] : ''),
+	'ftan'			=> (true === method_exists($admin, "getFTAN")) ? $admin->getFTAN() : "",
+	'MOD_FORUM_TXT_SETTINGS_B'	=> $MOD_FORUM['TXT_SETTINGS_B'],
+	'MOD_FORUM_TXT_TITLE_B'	=> $MOD_FORUM['TXT_TITLE_B'],
+	'forum_title'	=> (isset($forum['title']) ? htmlspecialchars($forum['title']) : ''),
+	'MOD_FORUM_TXT_DESCRIPTION_B'	=> $MOD_FORUM['TXT_DESCRIPTION_B'],
+	'forum_description'	=> (isset($forum['description']) ? htmlspecialchars($forum['description']) : ''),
+	'MOD_FORUM_TXT_DISPLAY_ORDER_B'	=> $MOD_FORUM['TXT_DISPLAY_ORDER_B'],
+	'forum_displayorder'	=> (isset($forum['displayorder']) ? $forum['displayorder'] : ''),
+	'MOD_FORUM_TXT_PARENT_FORUM_B'	=> $MOD_FORUM['TXT_PARENT_FORUM_B'],
+	'forum_select_parent'	=> $forum_select_parent,
+	'class_show_delete_forum'	=> ( isset($forum['forumid']) ? 'show_delete_forum' : 'hide_delete_forum' ),
+	'MOD_FORUM_TXT_DELETE_B'	=> $MOD_FORUM['TXT_DELETE_B'],
+	'MOD_FORUM_TXT_DELETE_FORUM_B'	=> $MOD_FORUM['TXT_DELETE_FORUM_B'],
 	
-	<tr>
-		<td class="setting_name"><?php echo $MOD_FORUM['TXT_PARENT_FORUM_B'];?></td>
-		<td class="setting_name">
-			<select name="parentid" style="width: 500px;">
-				<option value="0"> - </option>
-				<?php
-				print_forum_select_options(isset($forum) ? $forum['parentid'] : "");
-				?>
-			</select>
-		</td>
-	</tr>
-	<?php
-	if (isset($forum['forumid']))	{
-	?>
-		<tr>
-			<td class="setting_name"><?php echo $MOD_FORUM['TXT_DELETE_B']; ?></td>
-			<td class="setting_name">
-				<input type="checkbox" name="delete" value="1" id="cb_delete" />
-				<label for="cb_delete"><?php echo $MOD_FORUM['TXT_DELETE_FORUM_B']; ?></label>
-			</td>
-		</tr>
-	<?php
-	}
-	?>
-</table>
+	'MOD_FORUM_TXT_PERMISSIONS_B'	=> $MOD_FORUM['TXT_PERMISSIONS_B'],
+	'MOD_FORUM_TXT_READ_B'	=> $MOD_FORUM['TXT_READ_B'],
+	'MOD_FORUM_TXT_REGISTRATED_B'	=> $MOD_FORUM['TXT_REGISTRATED_B'],
+	'MOD_FORUM_TXT_NOT_REGISTRATED_B'	=> $MOD_FORUM['TXT_NOT_REGISTRATED_B'],
+	'MOD_FORUM_TXT_BOTH_B'		=> $MOD_FORUM['TXT_BOTH_B'],
+	
+	'forum_readaccess_reg_selected'	=> (isset($forum['readaccess']) && $forum['readaccess'] == 'reg' ? 'selected="selected"' : ''),
+	'forum_readaccess_unreg_selected'	=> (isset($forum['readaccess']) && $forum['readaccess'] == 'unreg' ? ' selected="selected"' : ''),
+	'forum_readaccess_both_selected'	=> (isset($forum['readaccess']) && $forum['readaccess'] == 'both' ? ' selected="selected"' : ''),
+	
+	'MOD_FORUM_TXT_WRITE_B'	=> $MOD_FORUM['TXT_WRITE_B'],
+	'forum_writeaccess_reg_selected'	=> (isset($forum['writeaccess']) && $forum['writeaccess'] == 'reg' ? ' selected="selected"' : ''),
+	'forum_writeaccess_unreg_selected'	=> (isset($forum['writeaccess']) && $forum['writeaccess'] == 'unreg' ? ' selected="selected"' : ''),
+	'forum_writeaccess_both_selected'	=> (isset($forum['writeaccess']) && $forum['writeaccess'] == 'both' ? ' selected="selected"' : ''),
+	
+	'MOD_FORUM_TXT_SAVE_B'	=> $MOD_FORUM['TXT_SAVE_B'],
+	'MOD_FORUM_TXT_RESET_B'	=> $MOD_FORUM['TXT_RESET_B'],
+	'MOD_FORUM_TXT_CANCEL_B'	=> $MOD_FORUM['TXT_CANCEL_B'],
+);
 
-<table class="row_a" cellpadding="2" cellspacing="0" border="0" align="center" width="100%" style="margin-top: 5px;">
-	<tr>
-		<td colspan="2"><strong><?php echo $MOD_FORUM['TXT_PERMISSIONS_B']; ?></strong></td>
-	</tr>
-	<tr>
-		<td class="setting_name" width="100"><?php echo $MOD_FORUM['TXT_READ_B']; ?></td>
-		<td class="setting_name">
-			<select name="readaccess">
-				<option value="reg"<?php echo (isset($forum['readaccess']) && $forum['readaccess'] == 'reg' ? ' selected="selected"' : '');  ?>><?php echo $MOD_FORUM['TXT_REGISTRATED_B']; ?></option>
-				<option value="unreg"<?php echo (isset($forum['readaccess']) && $forum['readaccess'] == 'unreg' ? ' selected="selected"' : '');  ?>><?php echo $MOD_FORUM['TXT_NOT_REGISTRATED_B']; ?></option>
-				<option value="both"<?php echo (isset($forum['readaccess']) && $forum['readaccess'] == 'both' ? ' selected="selected"' : '');  ?>><?php echo $MOD_FORUM['TXT_BOTH_B']; ?></option>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td class="setting_name"><?php echo $MOD_FORUM['TXT_WRITE_B']; ?></td>
-		<td class="setting_name">
-			<select name="writeaccess">
-				<option value="reg"<?php echo (isset($forum['writeaccess']) && $forum['writeaccess'] == 'reg' ? ' selected="selected"' : '');  ?>><?php echo $MOD_FORUM['TXT_REGISTRATED_B']; ?></option>
-				<option value="unreg"<?php echo (isset($forum['writeaccess']) && $forum['writeaccess'] == 'unreg' ? ' selected="selected"' : '');  ?>><?php echo $MOD_FORUM['TXT_NOT_REGISTRATED_B']; ?></option>
-				<option value="both"<?php echo (isset($forum['writeaccess']) && $forum['writeaccess'] == 'both' ? ' selected="selected"' : '');  ?>><?php echo $MOD_FORUM['TXT_BOTH_B']; ?></option>
-			</select>
-		</td>
-	</tr>
-</table>
+echo $parser->render(
+	'add_edit_forum.lte',
+	$page_values
+);
 
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
-	<tr>
-		<td align="left">
-			<input name="save" type="submit" value="<?php echo $MOD_FORUM['TXT_SAVE_B']; ?>" style="width: 150; margin-top: 5px;" />
-		</td>
-		<td align="center">
-			<input type="reset" value="<?php echo $MOD_FORUM['TXT_RESET_B']; ?>" style="width: 150; margin-top: 5px;" />
-		</td>
-		<td align="right">
-			<input type="button" value="<?php echo $MOD_FORUM['TXT_CANCEL_B']; ?>" onclick="document.location.href='<?php echo ADMIN_URL; ?>/pages/modify.php?page_id=<?php echo $page_id; ?>';" style="width: 150; margin-top: 5px;" />
-		</td>
-	</tr>
-</table>
-
-</form>
-<?php
 	
 	if(!isset($forum)) return 0;
 	
@@ -167,6 +117,7 @@ if(!function_exists("forum_str2js")) {
 	if(0 === $result->numRows()) return 0;
 	
 	$edit_link = WB_URL."/modules/forum/edit_post.php";
+
 ?>
 <p></p>
 <h3>List of postings</h3>
