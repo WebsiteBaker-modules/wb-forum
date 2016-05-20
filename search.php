@@ -29,6 +29,8 @@ function forum_search($search) {
 		$all_results
 	);
   	
+  	$result = true;
+  	
   	foreach($all_results as $found_item) {
   	
   		$page_info = $subway->get_pageinfo( $found_item['page_id'] );
@@ -45,7 +47,7 @@ function forum_search($search) {
   		);
   		if ( print_excerpt2($item, $search)) $result = true;
   	}
-	$result = true;
+	
 	return $result;
 }
 
