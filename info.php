@@ -28,6 +28,7 @@ $module_description	= 'This module integrates a simple forum on your website.<br
  *	0.5.9	- Codeadditions in the backend
  *			- Add readme to the project (thanks to Tomno399 and EvaKi)
  *			- Rework forum-search
+ *			- Start using templates (backend first).
  *
  *	0.5.8	- Codeadditions for the backend
  *			- Set all files to utf-8
