@@ -163,3 +163,28 @@ ul.forum_list li {
 	margin-left:0px;
 	padding-left:10px;
 }
+
+tr.show_delete_forum {
+	
+}
+
+tr.hide_delete_forum {
+	display: none !important;
+}
+
+td.edit_forum_title {
+	color:#777777;
+	text-align: center;
+	background-color: #DDDDDD;
+	font-weight:bold;
+	height: 22px;
+	font-size:12px;
+}
+input.forum_button {
+	width: 200px;
+}
+
+table.edit_forum {
+	margin-top:20px;
+	margin-bottom:22px;
+}
