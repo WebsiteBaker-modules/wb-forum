@@ -1,3 +1,4 @@
+{% autoescape false %}
 </br></br>
 <form name="edit" action="{{ WB_URL }}/modules/forum/save_settings.php" method="post" style="margin: 0;"/>
 
@@ -7,94 +8,94 @@
 
 <table class="forum_settings">
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUMDISPLAY_PERPAGE_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_FORUMDISPLAY_PERPAGE_B }} : </td>
 		<td class="forum_setting_value">
-		  <input type="text" name="forumdisplay_perpage" style="width:20px;" maxlength="2" value="{{ settings.FORUMDISPLAY_PERPAGE }}" />
+		  <input type="text" name="forumdisplay_perpage" style="width:20px;" maxlength="2" value="{{ settings_FORUMDISPLAY_PERPAGE }}" />
 		</td>
 	</tr>
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_SHOWTHREAD_PERPAGE_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_SHOWTHREAD_PERPAGE_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="text" name="showthread_perpage" style="width:20px;" maxlength="2" value="{{ settings.SHOWTHREAD_PERPAGE }}" />
+			<input type="text" name="showthread_perpage" style="width:20px;" maxlength="2" value="{{ settings_SHOWTHREAD_PERPAGE }}" />
 		</td>
 	</tr>
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_PAGENAV_SIZES_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_PAGENAV_SIZES_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="checkbox" name="pagenav_sizes" {{ settings.PAGENAV_SIZES.checked }} />
+			<input type="checkbox" name="pagenav_sizes" {{ settings_PAGENAV_SIZES_checked }} />
 		</td>
 	</tr>
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_DISPLAY_SUBFORUMS_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_DISPLAY_SUBFORUMS_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="checkbox" name="display_subforums" {{ settings.DISPLAY_SUBFORUMS.checked }} />
+			<input type="checkbox" name="display_subforums" {{ settings_DISPLAY_SUBFORUMS_checked }} />
 		</td>
 	</tr>
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_DISPLAY_SUBFORUMS_FORUMDISPLAY_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_DISPLAY_SUBFORUMS_FORUMDISPLAY_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="checkbox" name="display_subforums_forumdisplay" {{ settings.DISPLAY_SUBFORUMS_FORUMDISPLAY.checked }} />
+			<input type="checkbox" name="display_subforums_forumdisplay" {{ settings_DISPLAY_SUBFORUMS_FORUMDISPLAY_checked }} />
 		</td>
 	</tr>
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUM_USE_CAPTCHA_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_FORUM_USE_CAPTCHA_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="checkbox" name="forum_use_captcha" {{ settings.FORUM_USE_CAPTCHA.checked }} />
+			<input type="checkbox" name="forum_use_captcha" {{ settings_FORUM_USE_CAPTCHA_checked }} />
 		</td>
 	</tr>	
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_USE_SMILEYS_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_USE_SMILEYS_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="checkbox" name="forum_use_smileys" {{ settings.FORUM_USE_SMILEYS.checked }} />
+			<input type="checkbox" name="forum_use_smileys" {{ settings_FORUM_USE_SMILEYS_checked }} />
 		</td>
 	</tr>	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_HIDE_EDITOR_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_HIDE_EDITOR_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="checkbox" name="forum_hide_editor" {{ settings.FORUM_HIDE_EDITOR.checked }} />
+			<input type="checkbox" name="forum_hide_editor" {{ settings_FORUM_HIDE_EDITOR_checked }} />
 		</td>
 	</tr>
 	
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_ADMIN_GROUP_ID_B }} :</td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_ADMIN_GROUP_ID_B }} :</td>
 		<td class="forum_setting_value">
 			{{ group_select }}
 		</td>
 	</tr>
 
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_VIEW_FORUM_SEARCH_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_VIEW_FORUM_SEARCH_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="checkbox" name="view_forum_search"  {{ settings.VIEW_FORUM_SEARCH.checked }} />
+			<input type="checkbox" name="view_forum_search"  {{ settings_VIEW_FORUM_SEARCH_checked }} />
 		</td>
 	</tr>
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUM_MAX_SEARCH_HITS_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_FORUM_MAX_SEARCH_HITS_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="text" name="forum_max_search_hits" style="width:20px;" maxlength="2" value="{{ settings.FORUM_MAX_SEARCH_HITS }}" />
+			<input type="text" name="forum_max_search_hits" style="width:20px;" maxlength="2" value="{{ settings_FORUM_MAX_SEARCH_HITS }}" />
 		</td>
 	</tr>
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUM_SENDMAILS_ON_NEW_POSTS_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_FORUM_SENDMAILS_ON_NEW_POSTS_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="checkbox" name="forum_sendmails_on_new_posts"  {{ settings.FORUM_SENDMAILS_ON_NEW_POSTS.checked }} />
+			<input type="checkbox" name="forum_sendmails_on_new_posts"  {{ settings_FORUM_SENDMAILS_ON_NEW_POSTS_checked }} />
 		</td>
 	</tr>
 		<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUM_ADMIN_INFO_ON_NEW_POSTS_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_FORUM_ADMIN_INFO_ON_NEW_POSTS_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="text" name="forum_admin_info_on_new_posts"  maxlength="30" value="{{ settings.FORUM_ADMIN_INFO_ON_NEW_POSTS }}" />
+			<input type="text" name="forum_admin_info_on_new_posts"  maxlength="30" value="{{ settings_FORUM_ADMIN_INFO_ON_NEW_POSTS }}" />
 		</td>
 	</tr>
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUM_MAIL_SENDER_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_FORUM_MAIL_SENDER_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="text" name="forum_mail_sender"  maxlength="30" value="{{ settings.FORUM_MAIL_SENDER }}" />
+			<input type="text" name="forum_mail_sender"  maxlength="30" value="{{ settings_FORUM_MAIL_SENDER }}" />
 		</td>
 	</tr>
 	<tr>
-		<td class="forum_setting_name">{{ MOD_FORUM.TXT_FORUM_MAIL_SENDER_REALNAME_B }} : </td>
+		<td class="forum_setting_name">{{ MOD_FORUM_TXT_FORUM_MAIL_SENDER_REALNAME_B }} : </td>
 		<td class="forum_setting_value">
-			<input type="text" name="forum_mail_sender_realname"  maxlength="30" value="{{ settings.FORUM_MAIL_SENDER_REALNAME }}" />
+			<input type="text" name="forum_mail_sender_realname"  maxlength="30" value="{{ settings_FORUM_MAIL_SENDER_REALNAME }}" />
 		</td>
 	</tr>
 </table>
@@ -103,11 +104,12 @@
 <table class="forum_settings">
 	<tr>
 		<td align="left">
-			<input name="save" type="submit" value="{{ MOD_FORUM.TXT_SAVE_B }}" style="width: 100px; margin-top: 5px;">
+			<input name="save" type="submit" value="{{ MOD_FORUM_TXT_SAVE_B }}" style="width: 100px; margin-top: 5px;">
 		</td>
 		<td align="right">
-			<input type="button" value="{{ MOD_FORUM.TXT_CANCEL_B }}" onclick="javascript: window.location = '{{ ADMIN_URL }}/pages/modify.php?page_id= {{ page_id }}';" style="width: 100px; margin-top: 5px;" />
+			<input type="button" value="{{ MOD_FORUM_TXT_CANCEL_B }}" onclick="javascript: window.location = '{{ ADMIN_URL }}/pages/modify.php?page_id= {{ page_id }}';" style="width: 100px; margin-top: 5px;" />
 		</td>
 	</tr>
 </table>
 </form>
+{% endautoescape %}

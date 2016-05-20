@@ -87,20 +87,21 @@ class forum_parser
 		$this->template_path = dirname(dirname(__FILE__))."/templates/";
 		
 		switch( $this->CMS ) {
-			case (self::IS_LEPTON) :
+			case self::IS_LEPTON :
 			
 				// LEPTON-CMS
 				$look_up_path = $this->CMS_PATH."/modules/lib_twig/Twig/Autoloader.php";
 				break;
 			
-			case (self::IS_WBCE) :
+			case self::IS_WBCE :
 				// WBCE
 				$look_up_path = $this->CMS_PATH."/modules/twig/classes/Sensio/Twig/lib/Twig/Autoloader.php";
 				break;
 				
-			case (self::IS_WB) :
+			case self::IS_WB :
 				// WB
 				$look_up_path = $this->CMS_PATH."/include/Sensio/Twig/lib/Twig/Autoloader.php";
+				break;
 				
 			default:
 				$look_up_path = "";
@@ -119,9 +120,6 @@ class forum_parser
 		
 			$this->twig_loaded = true;
 		}
-		
-		
-
 	}
 }
 ?>

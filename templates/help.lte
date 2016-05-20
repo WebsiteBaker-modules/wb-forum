@@ -1,3 +1,4 @@
+{% autoescape false %}
 </br></br>
 <form name="edit" action="{{ WB_URL }}/modules/forum/save_settings.php" method="post" style="margin: 0;"/>
 
@@ -15,3 +16,4 @@
 	</tr>
 </table>
 </form>
+{% endautoescape %}
