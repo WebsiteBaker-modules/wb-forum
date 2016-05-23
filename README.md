@@ -5,13 +5,14 @@ This module integrates a simple forum in your Website Baker website.
 ###
 - license	http://www.gnu.org/licenses/gpl.html
 - platform	WebsiteBaker > 2.8.3 SP3
-- version	0.5.9.4
-- lastmodified	2016-05-17
+- version	0.5.9.10
+- lastmodified	2016-05-23
 
 ### Authors
 Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last) 
 
-#### Brief changelog 
+#### Brief changelog
+
 ##### 0.5.9
 - Bugfixes and codechanges for the user handling
 - Changes/additions inside the language-files
