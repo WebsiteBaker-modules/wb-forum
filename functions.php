@@ -225,28 +225,34 @@ function parse_text($text)
 function parse_bbcode($text, $quote) {
 	// BBCode to find...
 	$in = array(
-		'/\[b\](.*?)\[\/b\]/ms',
-		'/\[i\](.*?)\[\/i\]/ms',
-		'/\[u\](.*?)\[\/u\]/ms',
-		'/\[s\](.*?)\[\/s\]/ms',
-		'/\[url\="?(.*?)"?\](.*?)\[\/url\]/ms',
-		'/\[size\="?(.*?)"?\](.*?)\[\/size\]/ms',
-		'/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms',
-		'/\[quote](.*?)\[\/quote\]/ms'
-	);
-	// And replace them by...
-	$out = array(
-		'<strong>\1</strong>',
-		'<em>\1</em>',
-		'<u>\1</u>',
-		'<strike>\1</strike>',
-		'<a href="\1">\2</a>',
-		'<span style="font-size: \1%;">\2</span>',
-		'<span style="color: \1;">\2</span>',
-		'<fieldset style="background-color: #EEE; padding: 0 4px 2px; font-style: italic;"><legend>'.$quote.'</legend>\1</fieldset>'
+		'/\[list\](.*?)\[\/list\]/ms'	=> '<ul>\1</ul>',	//	#1
+		'/\[list=([0-9]{1,})\](.*?)\[\/list\]/ms'	=> '<ol class="with_counter" start="\1">\2</ol>',	//	#1.2
+		
+		'/\[li\](.*?)\[\/li\]/ms'		=> '<li>\1</li>',	//	#2
+		
+		'/\[\*\](.*?)[\r|\n]/ms'		=> '<li>\1</li>',	//	#3
+		
+		'/\[code\](.*?)\[\/code\]/ms'	=> '<pre class="forum_code">\1</pre>',	//	#4
+		
+		'/\[img\](.*?)\[\/img\]/ms'	=> '<img src="\1" alt="\1"/>',	//	#5
+		
+		'/\[b\](.*?)\[\/b\]/ms'			=> '<strong>\1</strong>',
+		'/\[i\](.*?)\[\/i\]/ms'			=> '<em>\1</em>',
+		'/\[u\](.*?)\[\/u\]/ms'			=> '<u>\1</u>',
+		'/\[s\](.*?)\[\/s\]/ms'			=> '<strike>\1</strike>',
+		'/\[url\="?(.*?)"?\](.*?)\[\/url\]/ms'	=> '<a href="\1">\2</a>',
+		'/\[size\="?(.*?)"?\](.*?)\[\/size\]/ms'	=> '<span style="font-size: \1%;">\2</span>',
+		'/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms'	=> '<span style="color: \1;">\2</span>',
+		'/\[quote](.*?)\[\/quote\]/ms'	=> '<fieldset style="background-color: #EEE; padding: 0 4px 2px; font-style: italic;"><legend>'.$quote.'</legend>\1</fieldset>'
 	);
 
-	return nl2br(preg_replace($in, $out, $text));
+	return nl2br(
+		preg_replace(
+			array_keys($in),
+			array_values($in),
+			$text
+		)
+	);
 }
 
 /**
@@ -260,28 +266,31 @@ function parse_bbcode($text, $quote) {
 function strip_bbcode($text) {
 	// BBCode to find...
 	$in = array(
-		'/\[b\](.*?)\[\/b\]/ms',
-		'/\[i\](.*?)\[\/i\]/ms',
-		'/\[u\](.*?)\[\/u\]/ms',
-		'/\[s\](.*?)\[\/s\]/ms',
-		'/\[url\="?(.*?)"?\](.*?)\[\/url\]/ms',
-		'/\[size\="?(.*?)"?\](.*?)\[\/size\]/ms',
-		'/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms',
-		'/\[quote](.*?)\[\/quote\]/ms'
-	);
-	// And replace them by...
-	$out = array(
-		'\1',
-		'\1',
-		'\1',
-		'',
-		'\2',
-		'\2',
-		'\2',
-		''
-	);
+		'/\[list\](.*?)\[\/list\]/ms'	=> '\1',	// #1
+		'/\[list=[0-9]{1,}\](.*?)\[\/list\]/ms'	=> '\1',	//	#1.2
+		'/\[li\](.*?)\[\/li\]/ms'		=> '\1',	// #2
 
-	return preg_replace($in, $out, $text);
+		'/\[\*\](.*?)[\r|\n]/ms'		=> '\1',	// #3
+		
+		'/\[code\](.*?)\[\/code\]/ms'	=> '\1',	// #4
+		
+		'/\[img\](.*?)\[\/img\]/ms'		=> '\1',		// #5
+		
+		'/\[b\](.*?)\[\/b\]/ms'			=> '\1',
+		'/\[i\](.*?)\[\/i\]/ms'			=> '\1',
+		'/\[u\](.*?)\[\/u\]/ms'			=> '\1',
+		'/\[s\](.*?)\[\/s\]/ms'			=> '',
+		'/\[url\="?(.*?)"?\](.*?)\[\/url\]/ms'	=> '\2',
+		'/\[size\="?(.*?)"?\](.*?)\[\/size\]/ms'	=> '\2',
+		'/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms'	=> '\2',
+		'/\[quote](.*?)\[\/quote\]/ms'	=> ''	// strip quotet text?
+	);
+	
+	return preg_replace(
+		array_keys($in),
+		array_values($in),
+		$text
+	);
 }
 
 /**

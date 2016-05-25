@@ -14,7 +14,7 @@
 /**
  *	Must include code to stop this file being accessed directly
  */
-if (!defined('WB_PATH')) { throw new Exception('Cannot access the addon \"'.basename(__DIR__).'\" directly'); }
+if (!defined('WB_PATH')) die(); // { throw new Exception('Cannot access the addon \"'.basename(__DIR__).'\" directly'); }
 
 /**
  *        Load Language file
@@ -25,19 +25,19 @@ require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $
 require_once(dirname(__FILE__)."/classes/class.subway.php");
 $subway = new subway();
 
-echo '<script type="text/javascript" src="script/jquery.js"></script>';
-
+// echo '<script type="text/javascript" src="script/jquery.js"></script>';
+// echo '<script type="text/javascript" src="'.WB_URL.'/include/jquery/jquery-min.js"></script>';
 ?>
 
 <script type="text/javascript" >
 	if (typeof($) == "undefined") alert("Please activate jQuery in index.php of your template or uncomment line 7 of content.php of this module!");
 </script>
 
-<script type="text/javascript" src="script/markitup/jquery.markitup.js"></script>
-<script type="text/javascript" src="script/markitup/sets/bbcode/set.js"></script>
+<script type="text/javascript" src="<?php echo WB_URL; ?>/modules/forum/script/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="<?php echo WB_URL; ?>/modules/forum/script/markitup/sets/bbcode/set.js"></script>
 
-<link rel="stylesheet" type="text/css" href="script/markitup/skins/simple/style.css" />
-<link rel="stylesheet" type="text/css" href="script/markitup/sets/bbcode/style.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo WB_URL; ?>/modules/forum/script/markitup/skins/simple/style.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo WB_URL; ?>/modules/forum/script/markitup/sets/bbcode/style.css" />
 
 <script type="text/javascript" >
 	if (!$) alert("Please activate jQuery in index.php of your template or uncomment line 7 of content.php of this module ");
