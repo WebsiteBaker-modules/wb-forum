@@ -24,7 +24,7 @@ function forum_search($search) {
 	$subway = new subway();
 
 	$all_results = array();
-	$subway->db->get_all(
+	$subway->get_all(
 		"SELECT * FROM `".TABLE_PREFIX."mod_forum_post`  WHERE `section_id` ='{$search['section_id']}'",
 		$all_results
 	);

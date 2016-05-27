@@ -41,7 +41,7 @@ if (!empty($search_string))
 	$sql = "SELECT `threadid`,`postid`,`title`,`text`,`section_id`,`page_id` FROM `".TABLE_PREFIX."mod_forum_post` WHERE `section_id`=".$section_id;
 	$sql .= " AND ((`text` LIKE ".$sSearch.") OR (`title` LIKE ".$sSearch."))";
 
-	$res = $subway->db->get_all($sql, $all_posts);
+	$res = $subway->get_all($sql, $all_posts);
 	
 	if($subway->db->is_error()) {
 		echo $subway->db->get_error();
