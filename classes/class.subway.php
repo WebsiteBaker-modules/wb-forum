@@ -27,7 +27,7 @@ class subway extends forum_parser
 	
 		parent::__construct();
 		
-		$this->db = new database2();
+		$this->db = &$GLOBALS['database'];
 	}
 	
 	public function print_error( $sMessage="", $sLink="" ) {
@@ -65,22 +65,15 @@ class subway extends forum_parser
 			return $r->fetchRow( MYSQL_ASSOC ); // WB_URL.PAGES_DIRECTORY.$r.PAGE_EXTENSION;
 		}
 	}
-}
-
-class database2
-{
-	private $db = NULL;
 	
-	public function __construct() {
-		global $database;
-		$this->db = &$database;
-	}
-	
-	public function get_all( $sql="", &$storrage=array() )
-	{
+	public function get_all($sql="", &$aStorage) {
 		$result = $this->db->query( $sql );
-		while($ref = $result->fetchRow( MYSQL_ASSOC )) {
-			$storrage[] = $ref;
+		if(!$result) {
+			return 0;
+		} else {
+			while($ref = $result->fetchRow( MYSQL_ASSOC )) {
+				$aStorage[] = $ref;
+			}
 		}
 	}
 	
