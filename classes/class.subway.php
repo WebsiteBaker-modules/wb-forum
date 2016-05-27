@@ -1,5 +1,9 @@
 <?php
 
+//	No direct file access
+if(count(get_included_files())==1) die(header("Location: ../../index.php",TRUE,301));
+if(!defined('WB_PATH')) die(header("Location: ../../index.php",TRUE,301));
+
 /**
  *	We are not using LEPTON-CMS here.
  *
@@ -63,12 +67,18 @@ class subway extends forum_parser
 	}
 }
 
-class database2 extends database
+class database2
 {
-
+	private $db = NULL;
+	
+	public function __construct() {
+		global $database;
+		$this->db = &$database;
+	}
+	
 	public function get_all( $sql="", &$storrage=array() )
 	{
-		$result = $this->query( $sql );
+		$result = $this->db->query( $sql );
 		while($ref = $result->fetchRow( MYSQL_ASSOC )) {
 			$storrage[] = $ref;
 		}
