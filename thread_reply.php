@@ -16,7 +16,7 @@ require('../../config.php');
 
 // Validation:
 //	[1| no 'tid' (thread id) given
-if(!isset($_REQUEST['tid'])) exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
+if(!isset($_REQUEST['tid'])) die(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 
 $thread_query = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_thread` WHERE `threadid` = '" . intval($_REQUEST['tid']) . "'");
 
@@ -24,7 +24,7 @@ $thread_query = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_t
 if( $database->is_error()) die( "[Error: 2005] ".$database->get_error());
 
 //	[3] Result list is empty - no matches found
-if( $thread_query->numRows() == 0 ) exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
+if( $thread_query->numRows() == 0 ) die(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 
 $thread = $thread_query->fetchRow();
 

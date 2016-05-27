@@ -16,7 +16,7 @@ require('../../config.php');
 
 // Validation:
 // [1| no 'fid' (forum id) given
-if(!isset($_REQUEST['fid'])) exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
+if(!isset($_REQUEST['fid'])) die(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 
 $forum_query = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `forumid` = '" . intval($_REQUEST['fid']) . "'");
 

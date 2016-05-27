@@ -65,7 +65,7 @@ if (isset($_GET['goto']))
 	//die($owd_link);
 	unset($_GET['goto']);
 
-	exit(header('Location: ' . $owd_link));
+	die(header('Location: ' . $owd_link));
 
 
 	}//isset($res)
@@ -78,7 +78,7 @@ $thread = $thread_query->fetchRow( MYSQL_ASSOC );
 
 if(!$thread)
 {
-	exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
+	die(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 }
 
 $forum_query = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE forumid = '" . intval($thread['forumid']) . "'");
@@ -86,14 +86,13 @@ $forum = $forum_query->fetchRow( MYSQL_ASSOC );
 
 if(!$forum)
 {
-	exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
+	die(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 }
 else
 {
 	$section_id = $forum['section_id'];
 	$page_id = $forum['page_id'];
 	define('SECTION_ID', $section_id);
-	// define('PAGE_ID', $page_id);
 }
 
 require_once(WB_PATH . '/modules/forum/backend.php');
