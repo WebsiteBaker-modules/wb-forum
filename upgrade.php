@@ -46,5 +46,11 @@ $database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`
 $query_end_code = "";
 $database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`) VALUES ('query_end', '$query_end_code', 'forum')");
 
+// [3]	Set charset to utf-8
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_cache` CHARACTER SET = utf8;");
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_forum` CHARACTER SET = utf8;");
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_post` CHARACTER SET = utf8;");
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_settings` CHARACTER SET = utf8;");
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_thread` CHARACTER SET = utf8;");
 
 ?>
