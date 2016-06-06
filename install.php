@@ -3,7 +3,7 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.9
+ *	@version		0.5.10
  *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
@@ -11,10 +11,7 @@
  *
  */
 
-if (!defined('WB_URL'))
-{
-	exit;
-}
+if (!defined('WB_URL')) die();
 
 $database->query("
 CREATE TABLE IF NOT EXISTS `" . TABLE_PREFIX . "mod_forum_forum` (
@@ -29,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `" . TABLE_PREFIX . "mod_forum_forum` (
   readaccess enum('reg','unreg','both') NOT NULL default 'both',
   writeaccess enum('reg','unreg','both') NOT NULL default 'both',
   PRIMARY KEY  (forumid)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+);
 ");
 
 $database->query("
@@ -39,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `" . TABLE_PREFIX . "mod_forum_cache` (
   page_id int(10) unsigned NOT NULL default '0',
   `data` mediumtext NOT NULL,
   UNIQUE KEY `UNIQUE` (varname,section_id,page_id)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 ");
 
 $database->query("
@@ -57,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `" . TABLE_PREFIX . "mod_forum_post` (
   PRIMARY KEY (postid),
   KEY threadid (threadid),
   FULLTEXT KEY Volltext (title,search_text)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+);
 ");
 
 $database->query("
@@ -79,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `" . TABLE_PREFIX . "mod_forum_thread` (
   PRIMARY KEY  (threadid),
   KEY titel (title),
   KEY forumid (forumid)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+);
 ");
 
 $database->query("
@@ -103,14 +100,8 @@ CREATE TABLE IF NOT EXISTS `" . TABLE_PREFIX . "mod_forum_settings` (
   `FORUM_HIDE_EDITOR` tinyint(4) NOT NULL,
   `FORUM_USERS` mediumtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+);
 ");
-
-/**
-* otherworld.de
-* Auskommentiert, da die Suche einen Fehler auswirft;
-* es gibt auch noch keine modul eigene search.php
-*/
 
 // STEP 2.1:	Module query info
 $field_info = array();
