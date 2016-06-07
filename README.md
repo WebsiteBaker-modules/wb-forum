@@ -6,7 +6,6 @@ This module integrates a simple forum in your Website Baker website.
 - license	http://www.gnu.org/licenses/gpl.html
 - platform	WebsiteBaker > 2.8.3 SP3
 - version	0.5.10
-- lastmodified	2016-06-06
 
 ### Authors
 Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last) 
