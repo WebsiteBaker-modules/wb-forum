@@ -139,7 +139,7 @@ echo $parser->render(
 	<li class='{{ class }}'>
 		<div class='forum_list_action'>
 			<!--<a href='#'><img class='f_action' src='".THEME_URL."/images/modify_16.png' alt='' title='edit'></a>-->
-			<a href='#' onclick=\"delete_thread('forum_".$section_id."',{{ id }},'{{ title }}','{{ class }}');\"><img class='f_action' src='".THEME_URL."/images/delete_16.png' alt='' title='delete'></a>
+			<a href='#' onclick=\"delete_thread('forum_".$section_id."',{{ id }},'{{ title }}','{{ class }}','{{ lang }}');\"><img class='f_action' src='".THEME_URL."/images/delete_16.png' alt='' title='delete'></a>
 		</div>
 		<div class='forum_list_id'>[ {{ id }} ]</div>
 		<div class='forum_list_date'>{{ date }}</div>
@@ -152,6 +152,7 @@ echo $parser->render(
 		forum_str2js( $temp_post['title'] );
 		$t = array(
 			'{{ class }}' => "thread",
+			'{{ lang }}'	=> LANGUAGE,
 			'{{ id }}' => $temp_post['threadid'],
 			'{{ date }}' => date("Y-m-d - H:i:s",$temp_post['dateline']),
 			'{{ title }}'	=> $temp_post['title']
@@ -169,6 +170,7 @@ echo $parser->render(
 			forum_str2js($sub_post['text']);
 			$t = array(
 				'{{ class }}' => "post",
+				'{{ lang }}'	=> LANGUAGE,
 				'{{ id }}' => $sub_post['postid'],
 				'{{ date }}' => date("Y-m-d - H:i:s",$sub_post['dateline']),
 				'{{ title }}'	=> substr($sub_post['text'],0,30)
