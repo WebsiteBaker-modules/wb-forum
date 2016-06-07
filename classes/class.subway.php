@@ -5,10 +5,10 @@ if(count(get_included_files())==1) die(header("Location: ../../index.php",TRUE,3
 if(!defined('WB_PATH')) die(header("Location: ../../index.php",TRUE,301));
 
 /**
- *	We are not using LEPTON-CMS here.
+ *	Nothing more and nothing less than 
+ *	some helper-functions.
  *
  */
- 
 
 require_once( dirname(__FILE__)."/class.forum_parser.php");
 
