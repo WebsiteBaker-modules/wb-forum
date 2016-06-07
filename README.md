@@ -100,7 +100,8 @@ Die Berechtigungen zum Lesen und Schreiben im Forum werden durch die Auswahl »B
 Die Einträge in dieser Seite können durch den Button »Zurücksetzen« (gelöscht) werden.  
 Die Seite wird über Abbrechen oder Speichern (der Einträge) verlassen.
 
-Nach dem Speichern des ersten Forums muss ein zweites (untergeordnetes) Forum erstellt werden. Als Titel kann (um bei dem Beispiel zu bleiben) "Fahrzeuge mit Superbenzin" geschrieben werden. In der Beschreibung stünde dann »nur Straßenfahrzeuge«.  
+Nach dem Speichern des ersten Forums muss ein zweites (untergeordnetes) Forum erstellt werden.  
+Als Titel kann (um bei dem Beispiel zu bleiben) »Fahrzeuge mit Superbenzin« geschrieben werden. In der Beschreibung stünde dann »nur Straßenfahrzeuge«.  
 Um das zweite Forum unterzuordnen, ist bei »Übergeordnetes Forum« die Auswahl auf »Personenkraftwagen ab 2000« zu setzen.
 
 Erst wenn beide Foren (über- und untergeordnetes) angelegt sind, können im Frontend Themen eingetragen (gepostet) werden. 
