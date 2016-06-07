@@ -48,10 +48,11 @@ if(function_exists('register_frontend_modfiles')) {
 Attention to the call of JavaScript (filename.js) more than once in the template which would make problems. Perhaps you need to comment the last line out with "//".
 
 ##### Using the module:
-Add a new page with the type "forum". Check the page administration if a usergroup should get permissions to modify/delete the page.
+Add a new page with the type «forum».  
+Check the page administration if a usergroup should get permissions to modify/delete the page.
 Click on the settings button. The settings are self explanatory. Use existent email addresses, if you want a message about new post in the forum! Change it to your wishes, save it or cancel the settings page.
 
-Create a new forum and write a title (by example "motor cars").  
+Create a new forum and write a title (e.g. «motor cars»).  
 Describe the forum (e.g. «motor cars since 2000»).  
 Display order is empty for the first forum. When you have more forums you can order the forums here with a number.  
 Parent forum is also empty "-" for the first forum.  
@@ -81,22 +82,29 @@ if(function_exists('register_frontend_modfiles')) {
 
 ```
 
-Achtung der Aufruf von JavaScript (dateiname.js) mehr als einmal im template kann zu Problemen führen. Dann sollte der js-Aufruf in der letzten Zeile auskommentiert werden mit "//".
+Achtung der Aufruf von JavaScript (dateiname.js) mehr als einmal im template kann zu Problemen führen.  
+Dann sollte der js-Aufruf in der letzten Zeile auskommentiert werden mit "//".
 
 #### Modulverwendung:
-Erstelle eine neue Seite vom Typ "forum". Prüfe welche Administratoren (-Gruppen) die Berechtigung zur Seitenbearbeitung und Seitenlöschung erhalten sollen.
+Erstelle eine neue Seite vom Typ »forum«.  
+Prüfe welche Administratoren (-Gruppen) die Berechtigung zur Seitenbearbeitung und Seitenlöschung erhalten sollen.
 
-Wähle im Backend der Modulseite "Optionen". Die möglichen Einstellungen sind selbsterklärend. Die einzutragende E-Mail-Adresse muss existieren, when eine Benachrichtigung über einen neuen Forumseintrag erfolgen soll. 
+Wähle im Backend der Modulseite »Optionen«.  
+Die möglichen Einstellungen sind selbsterklärend. Die einzutragende E-Mail-Adresse muss existieren, when eine Benachrichtigung über einen neuen Forumseintrag erfolgen soll. 
 
-Erstelle das erste Forum, verwende dazu eine sinngebende Überschrift (z. B. "Kraftfahrzeuge").  
+Erstelle das erste Forum, verwende dazu eine sinngebende Überschrift (z. B. »Kraftfahrzeuge«).  
 Die Beschreibung des Forums dient der Zielsetzung des Forums (z. B. »Personenkraftwagen ab 2000«).  
-Die Felder "Anzeigenreihenfolge" und »Übergeordnetes Forum« bleiben leer. Wenn mehrere Foren erstellt werden, kann die Reihenfolge der Anzeige im Frontend durch Nummernvergabe geändert werden.  
-Die Berechtigungen zum Lesen und Schreiben im Forum werden durch die Auswahl »Beide«, »registrierte« oder »unregistrierte User« vorgenommen. Die Einträge in dieser Seite können durch den Button "Zurücksetzen" (gelöscht) werden. Die Seite wird über Abbrechen oder Speichern (der Einträge) verlassen.
+Die Felder »Anzeigenreihenfolge« und »Übergeordnetes Forum« bleiben leer.  
+Wenn mehrere Foren erstellt werden, kann die Reihenfolge der Anzeige im Frontend durch Nummernvergabe geändert werden.  
+Die Berechtigungen zum Lesen und Schreiben im Forum werden durch die Auswahl »Beide«, »registrierte« oder »unregistrierte User« vorgenommen.  
+Die Einträge in dieser Seite können durch den Button »Zurücksetzen« (gelöscht) werden.  
+Die Seite wird über Abbrechen oder Speichern (der Einträge) verlassen.
 
-Nach dem Speichern des ersten Forums muss ein zweites (untergeordnetes) Forum erstellt werden. Als Titel kann (um bei dem Beispiel zu bleiben) "Fahrzeuge mit Superbenzin" geschrieben werden. In der Beschreibung stünde dann "nur Straßenfahrzeuge".  
+Nach dem Speichern des ersten Forums muss ein zweites (untergeordnetes) Forum erstellt werden. Als Titel kann (um bei dem Beispiel zu bleiben) "Fahrzeuge mit Superbenzin" geschrieben werden. In der Beschreibung stünde dann »nur Straßenfahrzeuge«.  
 Um das zweite Forum unterzuordnen, ist bei »Übergeordnetes Forum« die Auswahl auf »Personenkraftwagen ab 2000« zu setzen.
 
 Erst wenn beide Foren (über- und untergeordnetes) angelegt sind, können im Frontend Themen eingetragen (gepostet) werden. 
 
-Die im Frontend sichtbaren Themen sind im Backend durch Aufruf der untergeordneten Foren am unteren Rand ebenfalls sichtbar. Sie können dort bearbeitet und gelöscht werden.
+Die im Frontend sichtbaren Themen sind im Backend durch Aufruf der untergeordneten Foren am unteren Rand ebenfalls sichtbar.  
+Sie können dort bearbeitet und gelöscht werden.
 
