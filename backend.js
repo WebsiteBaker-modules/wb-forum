@@ -5,7 +5,7 @@
 var mod_forum = [ 
 	'Sind Sie sicher das Sie \n\n#1\n\nl%F6schen wollen?\nDas kann nicht widerufen werden!',
 	'Are you sure you want to delete \n\n#1\n\nnow? This can not be undone!',
-	'Om \n\n#1\n\n nu verwijderen?'
+	'Willen ze\n\n#1\n\n lossen?'
 ];
 
 function delete_thread(aRef, aId, aTitle, aClass, aLang) {
