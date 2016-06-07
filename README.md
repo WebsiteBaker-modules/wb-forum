@@ -11,6 +11,7 @@ This module integrates a simple forum in your Website Baker website.
 Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last) 
 
 #### Brief changelog
+Details on [GitHub] [3]
 
 ##### 0.5.10
 - Bugfixes inside installer.
@@ -110,4 +111,5 @@ Sie können dort bearbeitet und gelöscht werden.
 
 [1]: http://websitebaker.org/ 	"WebsiteBaker"
 [2]: http://www.wbce.org/	"WBCE"
+[3]: https://github.com/AMASP-workbanch/wb-forum/commits/ "Commits"
   
