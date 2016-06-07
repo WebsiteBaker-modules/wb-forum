@@ -4,7 +4,7 @@ This module integrates a simple forum in your Website Baker website.
 
 ###
 - license	http://www.gnu.org/licenses/gpl.html
-- platform	WebsiteBaker > 2.8.3 SP3
+- platform	[WebsiteBaker][1] > 2.8.3 SP3 and [WBCE][2] >= 1.1.6
 - version	0.5.10
 
 ### Authors
@@ -108,3 +108,6 @@ Erst wenn beide Foren (über- und untergeordnetes) angelegt sind, können im Fro
 Die im Frontend sichtbaren Themen sind im Backend durch Aufruf der untergeordneten Foren am unteren Rand ebenfalls sichtbar.  
 Sie können dort bearbeitet und gelöscht werden.
 
+[1]: http://websitebaker.org/ 	"WebsiteBaker"
+[2]: http://www.wbce.org/	"WBCE"
+  
