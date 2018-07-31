@@ -7,14 +7,14 @@
  *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
- *	@requirements	PHP 5.4.x and higher
+ *	@requirements	PHP 5.6.x and higher
  *
  */
 
 $module_directory	= 'forum';
 $module_name		= 'Forum';
 $module_function	= 'page';
-$module_version		= '0.5.9';
+$module_version		= '0.5.10';
 $module_platform	= '2.8';
 $module_license		= 'GNU General Public License';
 $module_author		= 'Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)';

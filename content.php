@@ -7,7 +7,7 @@
  *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
- *	@requirements	PHP 5.4.x and higher
+ *	@requirements	PHP 5.6.x and higher
  *
  */
 
@@ -24,6 +24,8 @@ require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $
 
 require_once(dirname(__FILE__)."/classes/class.subway.php");
 $subway = new subway();
+
+$username = "";
 
 // echo '<script type="text/javascript" src="script/jquery.js"></script>';
 // echo '<script type="text/javascript" src="'.WB_URL.'/include/jquery/jquery-min.js"></script>';
@@ -305,7 +307,7 @@ if(false === $user_can_create_topic) {
 				INSERT INTO " . TABLE_PREFIX . "mod_forum_post
 					(userid, title, dateline, text, username, page_id, section_id)
 				VALUES
-					('" . $wb->get_user_id() . "', '" . trim($_POST['title']) . "', '" . time() . "', '" . trim($_POST['text']) . "', '" . @$username . "', '$page_id', '$section_id')
+					('" . $wb->get_user_id() . "', '" . trim($_POST['title']) . "', '" . time() . "', '" . trim($_POST['text']) . "', '" . $username . "', '$page_id', '$section_id')
 			");
 
 			$id = $database->query("SELECT LAST_INSERT_ID() AS id");
@@ -315,8 +317,10 @@ if(false === $user_can_create_topic) {
 				INSERT INTO " . TABLE_PREFIX . "mod_forum_thread
 					(user_id, username, title, dateline, firstpostid, lastpostid, lastpost, forumid, open, page_id, section_id)
 				VALUES
-					('" . $wb->get_user_id() . "', '" . @$username . "', '" . trim($_POST['title']) . "', '" . time() . "', '" . $id['id'] . "', '" . $id['id'] . "', '" . time() . "', '" . $forum['forumid'] . "', 1, '$page_id', '$section_id')
+					('" . $wb->get_user_id() . "', '" . @$username . "', '" . trim($database->escapeString($_POST['title'])) . "', '" . time() . "', '" . $id['id'] . "', '" . $id['id'] . "', '" . time() . "', '" . $forum['forumid'] . "', 1, '$page_id', '$section_id')
 			");
+			
+if($database->is_error()) die( $database->get_error());
 
 			$tid = $database->query("SELECT LAST_INSERT_ID() AS id");
 			$tid = $tid->fetchRow();
@@ -673,6 +677,9 @@ else if (FORUM_DISPLAY_CONTENT == 'reply_thread' &&	($forum['writeaccess'] !== '
 	}
 	$perpage = 15;
 
+$_POST['title'] = $database->escapeString($_POST['title']);
+$_POST['text'] = $database->escapeString($_POST['text']);
+
 	if (strlen(trim($_POST['title'])) < 3)
 	{
 		echo $subway->print_error(
@@ -746,9 +753,11 @@ else if (FORUM_DISPLAY_CONTENT == 'reply_thread' &&	($forum['writeaccess'] !== '
 		INSERT INTO " . TABLE_PREFIX . "mod_forum_post
 			(userid, title, dateline, text, search_text, username, threadid, page_id, section_id)
 		VALUES
-			('" . $wb->get_user_id() . "', '" . trim($_POST['title']) . "', '" . time() . "', '" . trim($_POST['text']) . "', '" . $_search_string . "', '" . @$username . "', '$thread[threadid]', '$page_id', '$section_id')
+			('" . $wb->get_user_id() . "', '" . trim($_POST['title']) . "', '" . time() . "', '" . trim($_POST['text']) . "', '" . $_search_string . "', '" . $username . "', '$thread[threadid]', '$page_id', '$section_id')
 	");
-
+if($database->is_error()) {
+    die("[111] ".$username."   ".$database->get_error());
+}
 	$id = $database->query("SELECT LAST_INSERT_ID() AS id");
 	$id = $id->fetchRow();
 
@@ -830,6 +839,10 @@ else if (FORUM_DISPLAY_CONTENT == 'post_edit') {
 
 	if (isset($_POST['save']))
 	{
+		$_POST['title'] = $database->escapeString($_POST['title']);
+        $_POST['text'] = $database->escapeString($_POST['text']);
+
+		
 		if (intval($_POST['forum_ts']) !== $_SESSION['forum_ts']) {
     		echo $subway->print_error(
     			$MOD_FORUM['TXT_NO_ACCESS_F'],
