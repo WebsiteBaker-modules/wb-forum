@@ -112,9 +112,12 @@ class forum_parser
 		}
 
 		if(file_exists($look_up_path)) {
-			require_once( $look_up_path );
-			Twig_Autoloader::register();
-			
+    	    if(!class_exists("Twig_Autoloader", true))
+		    {
+			    require_once( $look_up_path );
+			    Twig_Autoloader::register();
+			}
+		
 			$this->loader = new Twig_Loader_Filesystem( $this->template_path );
 		
 			$this->parser = new Twig_Environment( $this->loader, array(

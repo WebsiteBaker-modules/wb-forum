@@ -41,7 +41,7 @@ require_once(WB_PATH . '/modules/forum/backend.php');
 if(!function_exists("forum_str2js")) {
 	function forum_str2js(&$s) {
 		$a = array(
-			"'"	=> "&apos;",
+			"\\'"	=> "&apos;",
 			"\""	=> "&quot;",
 			'&auml;' => "%E4",
 			'&Auml;' => "%C4",
@@ -168,6 +168,7 @@ echo $parser->render(
 		
 		while($sub_post = $sub_result->fetchRow()) {
 			forum_str2js($sub_post['text']);
+			forum_str2js($sub_post['title']);
 			$t = array(
 				'{{ class }}' => "post",
 				'{{ lang }}'	=> LANGUAGE,
