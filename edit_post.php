@@ -68,4 +68,6 @@ echo $parser->render(
 	"edit_post.lte",
 	$values
 );
+
+$admin->print_footer();
 ?>
