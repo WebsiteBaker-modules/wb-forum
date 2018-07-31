@@ -111,11 +111,11 @@ elseif (FORUM_DISPLAY_CONTENT == 'view_forum') {
 			<?php
 			if ($parent['parentid'] == 0) {
 			?>
-				<div class="thread_head_parent"><?php echo $parent['title']; ?></div>
+				<div class="thread_head_parent"><?php echo stripslashes($parent['title']); ?></div>
 			<?php } else { ?>
-				<div class="thread_head_parent"><a href="<?php echo $page_link.'?sid='.$section_id.'&pid='.$page_id.'&fid='.$forum['parentid'].'">'.$parent['title']; ?></a></div>
+				<div class="thread_head_parent"><a href="<?php echo $page_link.'?sid='.$section_id.'&pid='.$page_id.'&fid='.$forum['parentid'].'">'.stripslashes($parent['title']); ?></a></div>
 			<?php } ?>
-			<div class="thread_head_forum"><?php echo $forum['title']; ?></div>
+			<div class="thread_head_forum"><?php echo stripslashes($forum['title']); ?></div>
 		</div>
 
 		<?php
@@ -126,7 +126,7 @@ elseif (FORUM_DISPLAY_CONTENT == 'view_forum') {
 					if (!($forum_sub['readaccess'] == 'both' OR ($forum_sub['readaccess'] == 'reg' AND $wb->get_user_id()) OR ($forum_sub['readaccess'] == 'unreg' AND !$wb->get_user_id()))) {
 						continue;
 					}
-					$subforumbits[] = '<a href="' . WB_URL . '/modules/forum/forum_view.php?sid=' . $section_id . '&amp;pid=' . $page_id . '&amp;fid=' . $subforumid . '">' . $forum_sub['title'] . '</a>';
+					$subforumbits[] = '<a href="' . WB_URL . '/modules/forum/forum_view.php?sid=' . $section_id . '&amp;pid=' . $page_id . '&amp;fid=' . $subforumid . '">' . stripslashes($forum_sub['title']) . '</a>';
 				}
 				if (sizeof($subforumbits)) {
 					echo '<div class="thread_subs"><strong>'.$MOD_FORUM['TXT_SUBFORUMS_F'].' </strong>' . implode(', ', $subforumbits) . '</div>';
@@ -350,7 +350,7 @@ if($database->is_error()) die( $database->get_error());
 			<?php 	$home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;	?>
 			<div class="newtopic_head">
 			<div class="newtopic_head_link"><a href="<?php echo $home_link.'">'.PAGE_TITLE; ?></a></div>
-			<div class="newtopic_head_forum"><a href="<?php echo WB_URL; ?>/modules/forum/forum_view.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;fid=<?php echo $forum['forumid']; ?>"><?php echo $forum['title'] ?></a></div>
+			<div class="newtopic_head_forum"><a href="<?php echo WB_URL; ?>/modules/forum/forum_view.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;fid=<?php echo $forum['forumid']; ?>"><?php echo stripslashes($forum['title']) ?></a></div>
 
 			<div class="newtopic_head_create"><?php echo $MOD_FORUM['TXT_CREATE_NEW_TOPIC_F']; ?></div>
 
@@ -494,7 +494,7 @@ $home_link = WB_URL.PAGES_DIRECTORY.$wb->page['link'].PAGE_EXTENSION;
 			<div class="details_head_home"><a href="<?php echo $home_link.'">'.PAGE_TITLE; ?></a></div>
 			<div class="details_head_forum"><a href="<?php echo WB_URL; ?>/modules/forum/forum_view.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;fid=<?php echo $forum['forumid']; ?>"><?php echo $forum['title'] ?></a></div>
 
-			<div class="details_head_topic"><?php echo $thread['title']; ?></div>
+			<div class="details_head_topic"><?php echo stripslashes($thread['title']); ?></div>
 
 		</div>
 		<div class="details_page_nav">
@@ -930,9 +930,9 @@ else if (FORUM_DISPLAY_CONTENT == 'post_edit') {
 
 			<div class="edit_head">
 			<div class="edit_head_home"><a href="<?php echo $home_link.'">'.PAGE_TITLE; ?></a></div>
-			<div class="edit_head_forum"><a href="<?php echo WB_URL; ?>/modules/forum/forum_view.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;fid=<?php echo $forum['forumid']; ?>"><?php echo $forum['title'] ?></a></div>
+			<div class="edit_head_forum"><a href="<?php echo WB_URL; ?>/modules/forum/forum_view.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;fid=<?php echo $forum['forumid']; ?>"><?php echo stripslashes($forum['title']) ?></a></div>
 
-			<div class="edit_head_topic"><?php echo $thread['title']; ?> answer</div>
+			<div class="edit_head_topic"><?php echo stripslashes($thread['title']); ?> answer</div>
 			<div class="edit_head_edit"><?php echo $MOD_FORUM['TXT_EDIT_ARTICLE_F']; ?></div>
 		</div>
 
@@ -945,7 +945,7 @@ else if (FORUM_DISPLAY_CONTENT == 'post_edit') {
 			</colgroup>
 			<tr>
 				<td valign="top"><?php echo $MOD_FORUM['TXT_TITLE_F']; ?></td>
-				<td><input class="forum_input" type="text" name="title" value="<?php echo htmlspecialchars($post['title']); ?>" /></td>
+				<td><input class="forum_input" type="text" name="title" value="<?php echo stripslashes($post['title']); ?>" /></td>
 			</tr>
 			<?php
 			if (!$post['userid'])

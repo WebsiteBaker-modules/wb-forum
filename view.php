@@ -64,9 +64,9 @@ else
 
 		<div class="board_tree">
 			<div class="board_level1">
-				<?php echo $forum_level1['title']; ?>
+				<?php echo stripslashes($forum_level1['title']); ?>
 				<div class="board_description">
-					<?php echo $forum_level1['description']; ?>
+					<?php echo stripslashes($forum_level1['description']); ?>
 				</div>
 			</div>
 	 	</div>
@@ -81,10 +81,10 @@ else
 		?>
 		<div class="board_level2">
 			<a href="<?php echo $url; ?>/modules/forum/forum_view.php?sid=<?php echo $section_id; ?>&amp;pid=<?php echo $page_id; ?>&amp;fid=<?php echo $sfid; ?>">
-			<?php echo $forum_level2['title']; ?>
+			<?php echo stripslashes($forum_level2['title']); ?>
 			</a> <span class="board_themes">(<?php echo (isset($forum_level2['threadcount']) ? number_format($forum_level2['threadcount']) : '0'); ?><?php echo (isset($forum_level2['threadcount']) && $forum_level2['threadcount']==1 ? ' '.$MOD_FORUM['TXT_THEME_F'].')' : ' '.$MOD_FORUM['TXT_THEMES_F'].')'); ?></span>
 			<div class="board_description">
-				<?php echo $forum_level2['description']; ?>
+				<?php echo stripslashes($forum_level2['description']); ?>
 			</div>
 		</div>
 
@@ -102,10 +102,10 @@ else
 				
 				$themes = ( $forum_level3['threadcount']==1 ? $MOD_FORUM['TXT_THEME_F'] :  $MOD_FORUM['TXT_THEMES_F']);
 				$subforumbits[]  = '<div class="board_level3">';
-				$subforumbits[] .= '<a href="' . $url . '/modules/forum/forum_view.php?sid=' . $section_id . '&amp;pid=' . $page_id . '&amp;fid=' . $subforumid . '">' . $forum_level3['title'];
+				$subforumbits[] .= '<a href="' . $url . '/modules/forum/forum_view.php?sid=' . $section_id . '&amp;pid=' . $page_id . '&amp;fid=' . $subforumid . '">' . stripslashes($forum_level3['title']);
 				$subforumbits[] .= '</a>';
 				$subforumbits[] .= '<span class="board_themes"> (' . number_format(@$forum_level3['threadcount']) . ' '.$themes.')</span>';
-				$subforumbits[] .= '<div class="board_description">'.$forum_level3['description'].'</div>';
+				$subforumbits[] .= '<div class="board_description">'.stripslashes($forum_level3['description']).'</div>';
 				$subforumbits[] .= '</div>';
 			}
 			if (sizeof($subforumbits)) {
