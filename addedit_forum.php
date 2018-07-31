@@ -107,15 +107,25 @@ echo $parser->render(
 	$page_values
 );
 
-
 	
-	if(!isset($forum)) return 0;
+	if(!isset($forum))
+	{
+	    //$admin->print_footer();
+	    return 0;
+	}
 	
 	$query = "SELECT * FROM `".TABLE_PREFIX."mod_forum_thread` WHERE `section_id`=".$section_id." AND `page_id`=".$page_id." AND `forumid`=".$forum['forumid']." ORDER BY `threadid` DESC";
 	$result = $database->query( $query );
-	if( true === $database->is_error() ) die($database->get_error());
-	if(0 === $result->numRows()) return 0;
-	
+	if( true === $database->is_error() )
+	{
+	    die($database->get_error());
+    }
+    
+	if(0 === $result->numRows())
+	{
+	    $admin->print_footer();
+	    return 0;
+	}
 	$edit_link = WB_URL."/modules/forum/edit_post.php";
 
 ?>
@@ -183,3 +193,6 @@ echo $parser->render(
 ?>
 </ul>
 </form>
+<?php
+    $admin->print_footer();
+?>
