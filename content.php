@@ -540,7 +540,7 @@ if( 1 == $user['group_id'] ) {
 				}
 				?>
 				<!-- owd | otherworld.de -->
-				<a name="post<?php echo $post['postid']; ?>">#<?php echo number_format($postcount); ?></a> <strong><?php echo htmlspecialchars($post['title']);  ?></strong></td>
+				<a name="post<?php echo $post['postid']; ?>">#<?php echo number_format($postcount); ?></a> <strong><?php echo stripslashes($post['title']);  ?></strong></td>
 			</tr>
 			<tr>
 				<td class="details_info"><?php echo $MOD_FORUM['TXT_FROM_F'].' '; ?><?php echo htmlspecialchars($post['display_name']);  ?> (<?php echo date(DATE_FORMAT . ', ' . TIME_FORMAT, $post['dateline'] + TIMEZONE); ?>)</td>
@@ -603,7 +603,7 @@ if( true === $user_can_create_answer ) {
 				</colgroup>
 				<tr>
 				<td valign="top"><?php echo $MOD_FORUM['TXT_TITLE_F']; ?></td>
-				<td><input class="forum_input" type="text" name="title" value="<?php echo $thread['title']; ?>" /></td>
+				<td><input class="forum_input" type="text" name="title" value="<?php echo stripslashes($thread['title']); ?>" /></td>
 				</tr>
 				<?php
 				if (!$wb->get_user_id())
