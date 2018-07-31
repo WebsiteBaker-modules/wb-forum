@@ -41,7 +41,7 @@ require_once(WB_PATH . '/modules/forum/backend.php');
 if(!function_exists("forum_str2js")) {
 	function forum_str2js(&$s) {
 		$a = array(
-			"'"	=> "\\'",
+			"'"	=> "&apos;",
 			"\""	=> "&quot;",
 			'&auml;' => "%E4",
 			'&Auml;' => "%C4",

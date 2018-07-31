@@ -28,6 +28,16 @@ class subway extends forum_parser
 		parent::__construct();
 		
 		$this->db = &$GLOBALS['database'];
+		
+		if( true === method_exists ( $this->db , "escapeString" ) )
+		{
+		    if(isset($_POST['title'])) {
+		        $_POST['title'] = $this->db->escapeString( $_POST['title']);
+		    }
+   		    if(isset($_POST['text'])) {
+		        $_POST['text'] = $this->db->escapeString( $_POST['text']);
+		    }
+        }
 	}
 	
 	public function print_error( $sMessage="", $sLink="" ) {
