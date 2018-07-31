@@ -104,7 +104,7 @@ class forum_parser
 				
 			case self::IS_WB :
 				// WB
-				$look_up_path = $this->CMS_PATH."/include/Sensio/Twig/lib/Twig/Autoloader.php";
+				$look_up_path = $this->CMS_PATH."/include/Sensio/Twig/1/lib/Twig/Autoloader.php";
 				break;
 				
 			default:
