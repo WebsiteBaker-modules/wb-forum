@@ -58,7 +58,7 @@ $values = array(
 	"postid"		=> $postid,
 	"WB_URL"		=> WB_URL,
 	"FTAN"			=> (true === method_exists($admin, "getFTAN")) ? $admin->getFTAN() : "",
-	"title"			=> $post_data['title'],
+	"title"			=> str_replace("\"", "&quot;", $post_data['title']),
 	"text"			=> ($class=="post") 
 		? $post_data['text'] 
 		: $database->get_one( "SELECT `text` from `".TABLE_PREFIX."mod_forum_post` where `threadid`=".$postid)

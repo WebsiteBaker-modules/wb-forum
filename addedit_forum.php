@@ -41,7 +41,8 @@ require_once(WB_PATH . '/modules/forum/backend.php');
 if(!function_exists("forum_str2js")) {
 	function forum_str2js(&$s) {
 		$a = array(
-			"\\'"	=> "&apos;",
+			"\'"	=> "%27",
+			"'"	=> "%27",
 			"\""	=> "&quot;",
 			'&auml;' => "%E4",
 			'&Auml;' => "%C4",
@@ -153,7 +154,7 @@ echo $parser->render(
 		</div>
 		<div class='forum_list_id'>[ {{ id }} ]</div>
 		<div class='forum_list_date'>{{ date }}</div>
-		<div class='forum_list_title'><a href='#' onclick=\"edit_post('forum_".$section_id."',{{ id }},'{{ title }}','{{ class }}','".$edit_link."');\" >{{ title }}</a></div>
+		<div class='forum_list_title'><a href='#' onclick=\"edit_post('forum_".$section_id."',{{ id }},'{{ title }}','{{ class }}','".$edit_link."');\" >{{ title2 }}</a></div>
 		
 	</li>";
 	
@@ -165,7 +166,8 @@ echo $parser->render(
 			'{{ lang }}'	=> LANGUAGE,
 			'{{ id }}' => $temp_post['threadid'],
 			'{{ date }}' => date("Y-m-d - H:i:s",$temp_post['dateline']),
-			'{{ title }}'	=> $temp_post['title']
+			'{{ title }}'	=> $temp_post['title'],
+			'{{ title2 }}'  => str_replace("%27", "'", $temp_post['title'])
 		);
 		echo str_replace( array_keys($t), array_values($t), $row_template );
 		
@@ -184,7 +186,8 @@ echo $parser->render(
 				'{{ lang }}'	=> LANGUAGE,
 				'{{ id }}' => $sub_post['postid'],
 				'{{ date }}' => date("Y-m-d - H:i:s",$sub_post['dateline']),
-				'{{ title }}'	=> substr($sub_post['text'],0,30)
+				'{{ title }}'	=> substr($sub_post['text'],0,30),
+				'{{ title2 }}'  => substr(str_replace("%27", "'", $sub_post['text']),0,30)
 			);
 			echo str_replace( array_keys($t), array_values($t), $row_template );
 		
