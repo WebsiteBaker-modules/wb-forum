@@ -1,4 +1,16 @@
 <?php
+
+/**
+ *
+ *	@module			Forum
+ *	@version		0.5.10
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.6.x and higher
+ *
+ */
+
 function fetch_fontsize_from_page($pagenum, $selpage)
 {
 	$font_size = 10;
@@ -40,21 +52,16 @@ function print_forums($parentid, $level = 0)
 {
 	global $forum_array, $section_id, $page_id, $arrLevel;
 
-//	print_r($arrLevel);
-		//var_dump(getForumLevel());
-
-	if (!empty($forum_array["$parentid"]))
+	if (!empty($forum_array[$parentid]))
 	{
-		foreach ($forum_array["$parentid"] AS $forumid => $forum)
+		foreach ($forum_array[$parentid ] AS $forumid => $forum)
 		{
-			//echo '<pre>' . var_dump($forum) . '</pre><hr/>';
-
 
 			echo '<li class="mod_forum_forum_level'.$arrLevel[$forumid].'">';
 			echo '<a href="' . WB_URL . '/modules/forum/addedit_forum.php?page_id=' . $page_id . '&amp;section_id=' . $section_id . '&amp;forumid=' . $forumid . '">' . htmlspecialchars($forum['title']) . '</a>';
 			if (!empty($forum_array["$forumid"]))
 			{
-				echo '<ul>';
+				echo '<ul class="forum_list">';
 					print_forums($forumid, $level);
 				echo '</ul>';
 			}
@@ -63,50 +70,41 @@ function print_forums($parentid, $level = 0)
 	}
 }
 
-
-
-
-
 function getForumLevel($parentid = 0, $level = 1)
 {
 	global $database, $section_id, $page_id;
 
 	static $out;
 
-	$forumcache = array(0);
-	$sql = "SELECT * FROM " . TABLE_PREFIX . "mod_forum_cache WHERE section_id = '$section_id' AND page_id = '$page_id'";
-	$res = $database->query($sql);
+	$forumcache = array();
+	$res = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_cache` WHERE `section_id` = '".$section_id."' AND `page_id` = '".$page_id."'");
 
-	while ($cache_entry = $res->fetchRow()) {
+	while ($cache_entry = $res->fetchRow( MYSQL_ASSOC )) {
 		${$cache_entry['varname']} = unserialize($cache_entry['data']);
 	}
 
-
 	$iforumcache = array();
 	foreach ($forumcache AS $forumid => $f) {
-		$iforumcache[$f['parentid']]["$forumid"] = $forumid;
+		$iforumcache[$f['parentid']][ $forumid ] = $forumid;
 	}
 
-
-	if (!empty($iforumcache["$parentid"]))
+	if (!empty($iforumcache[ $parentid ]))
 	{
 
-		foreach ($iforumcache["$parentid"] AS $forumid)
+		foreach ($iforumcache[ $parentid ] AS $forumid)
 		{
 			$out[$forumid] = $level;
 
-			if (!empty($iforumcache["$forumid"]))
+			if (!empty($iforumcache[ $forumid ]))
 			{
 				getForumLevel($forumid, ($level + 1));
 			}
 		}
-
-	}//if
+	}
 
    return $out;
 
-}//getForumLevel
-
+}
 
 function print_forum_select_options($selectedforum, $parentid = 0, $level = 1)
 {
@@ -172,7 +170,7 @@ function parse_text($text)
 		':?',
 		'=)',
 		'(8)',
-		':0',
+		':0:',
 		'(j)',
 		'(J)',
 		':(',
@@ -225,66 +223,74 @@ function parse_text($text)
 }
 
 function parse_bbcode($text, $quote) {
-// BBCode to find...
+	// BBCode to find...
 	$in = array(
-					 '/\[b\](.*?)\[\/b\]/ms',
-					 '/\[i\](.*?)\[\/i\]/ms',
-					 '/\[u\](.*?)\[\/u\]/ms',
-					 '/\[s\](.*?)\[\/s\]/ms',
-					 '/\[url\="?(.*?)"?\](.*?)\[\/url\]/ms',
-					 '/\[size\="?(.*?)"?\](.*?)\[\/size\]/ms',
-					 '/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms',
-					 '/\[quote](.*?)\[\/quote\]/ms'
-	);
-	// And replace them by...
-	$out = array(
-					 '<strong>\1</strong>',
-					 '<em>\1</em>',
-					 '<u>\1</u>',
-					 '<strike>\1</strike>',
-					 '<a href="\1">\2</a>',
-					 '<span style="font-size: \1%;">\2</span>',
-					 '<span style="color: \1;">\2</span>',
-					 '<fieldset style="background-color: #EEE; padding: 0 4px 2px; font-style: italic;"><legend>'.$quote.'</legend>\1</fieldset>'
+		'/\[list\](.*?)\[\/list\]/ms'	=> '<ul>\1</ul>',	//	#1
+		'/\[list=([0-9]{1,})\](.*?)\[\/list\]/ms'	=> '<ol class="with_counter" start="\1">\2</ol>',	//	#1.2
+		
+		'/\[li\](.*?)\[\/li\]/ms'		=> '<li>\1</li>',	//	#2
+		
+		'/\[\*\](.*?)[\r|\n]/ms'		=> '<li>\1</li>',	//	#3
+		
+		'/\[code\](.*?)\[\/code\]/ms'	=> '<pre class="forum_code">\1</pre>',	//	#4
+		
+		'/\[img\](.*?)\[\/img\]/ms'	=> '<img src="\1" alt="\1"/>',	//	#5
+		
+		'/\[b\](.*?)\[\/b\]/ms'			=> '<strong>\1</strong>',
+		'/\[i\](.*?)\[\/i\]/ms'			=> '<em>\1</em>',
+		'/\[u\](.*?)\[\/u\]/ms'			=> '<u>\1</u>',
+		'/\[s\](.*?)\[\/s\]/ms'			=> '<strike>\1</strike>',
+		'/\[url\="?(.*?)"?\](.*?)\[\/url\]/ms'	=> '<a href="\1">\2</a>',
+		'/\[size\="?(.*?)"?\](.*?)\[\/size\]/ms'	=> '<span style="font-size: \1%;">\2</span>',
+		'/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms'	=> '<span style="color: \1;">\2</span>',
+		'/\[quote](.*?)\[\/quote\]/ms'	=> '<fieldset style="background-color: #EEE; padding: 0 4px 2px; font-style: italic;"><legend>'.$quote.'</legend>\1</fieldset>'
 	);
 
-	return nl2br(preg_replace($in, $out, $text));
+	return nl2br(
+		preg_replace(
+			array_keys($in),
+			array_values($in),
+			$text
+		)
+	);
 }
 
 /**
  * strip_bb
  * otherworld.de
- * für die Vorschau brauchen wir TAG freie zeichen, denn wir wollen den text
- * nicht komplett anzeigen. daher laufen wir gefahr, tags nicht zu schließen, so
+ * fÃ¼r die Vorschau brauchen wir TAG freie zeichen, denn wir wollen den text
+ * nicht komplett anzeigen. daher laufen wir gefahr, tags nicht zu schlieï¬‚en, so
  * dass es uns unser gesamt-layout um die ohren haut.
  */
 
 function strip_bbcode($text) {
 	// BBCode to find...
 	$in = array(
-						 '/\[b\](.*?)\[\/b\]/ms',
-						 '/\[i\](.*?)\[\/i\]/ms',
-						 '/\[u\](.*?)\[\/u\]/ms',
-						 '/\[s\](.*?)\[\/s\]/ms',
-						 '/\[url\="?(.*?)"?\](.*?)\[\/url\]/ms',
-						 '/\[size\="?(.*?)"?\](.*?)\[\/size\]/ms',
-						 '/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms',
-						 '/\[quote](.*?)\[\/quote\]/ms'
-		);
-	// And replace them by...
-	$out = array(
-						 '\1',
-						 '\1',
-						 '\1',
-						 '',
-						 '\2',
-						 '\2',
-						 '\2',
-						 ''
-		);
+		'/\[list\](.*?)\[\/list\]/ms'	=> '\1',	// #1
+		'/\[list=[0-9]{1,}\](.*?)\[\/list\]/ms'	=> '\1',	//	#1.2
+		'/\[li\](.*?)\[\/li\]/ms'		=> '\1',	// #2
 
-	return preg_replace($in, $out, $text);
-	//return  substr_replace($in, $out,0) ;
+		'/\[\*\](.*?)[\r|\n]/ms'		=> '\1',	// #3
+		
+		'/\[code\](.*?)\[\/code\]/ms'	=> '\1',	// #4
+		
+		'/\[img\](.*?)\[\/img\]/ms'		=> '\1',		// #5
+		
+		'/\[b\](.*?)\[\/b\]/ms'			=> '\1',
+		'/\[i\](.*?)\[\/i\]/ms'			=> '\1',
+		'/\[u\](.*?)\[\/u\]/ms'			=> '\1',
+		'/\[s\](.*?)\[\/s\]/ms'			=> '',
+		'/\[url\="?(.*?)"?\](.*?)\[\/url\]/ms'	=> '\2',
+		'/\[size\="?(.*?)"?\](.*?)\[\/size\]/ms'	=> '\2',
+		'/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms'	=> '\2',
+		'/\[quote](.*?)\[\/quote\]/ms'	=> ''	// strip quotet text?
+	);
+	
+	return preg_replace(
+		array_keys($in),
+		array_values($in),
+		$text
+	);
 }
 
 /**
@@ -326,7 +332,7 @@ function highlightPhrase ( $strHaystack, $strNeedle, $strColor = '', $bCase = FA
 	$strModifier = '';
 	if ( $bCase )
 	{
-		// Modifikator "i": Groß- und Kleinschreibung ignorieren.
+		// Modifikator "i": Groï¬‚- und Kleinschreibung ignorieren.
 		$strModifier = 'i';
 	}
 
@@ -352,7 +358,7 @@ function buildPreview ( $strHaystack, $strNeedle, $strLength = 120, $bCase = TRU
 	$strModifier = '';
 	if ( $bCase )
 	{
-		// Modifikator "i": Groß- und Kleinschreibung ignorieren.
+		// Modifikator "i": Groï¬‚- und Kleinschreibung ignorieren.
 		$strModifier = 'i';
 	}
 

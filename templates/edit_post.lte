@@ -1,0 +1,29 @@
+{% autoescape false %}
+
+<form id="forum_{{ section_id }}" class="forum" action="{{ WB_URL }}/modules/forum/save_post.php" method="post">
+<input type="hidden" name="page_id" value="{{ page_id }}" />
+<input type="hidden" name="section_id" value="{{ section_id }}" />
+<input type="hidden" name="forumid" value="{{ forumid }}" />
+<input type="hidden" name="postid" value="{{ postid }}" />
+<input type="hidden" name="class" value="{{ class }}" />
+{{ FTAN }}
+<table class="forum_edit_post">
+<tr>
+	<td class="edit_post_label">Title</td>
+	<td class="edit_post_value"><input type="text" name="title" value="{{ title }}" /></td>
+</tr>
+<tr>
+	<td class="edit_post_label">Text</td>
+	<td class="edit_post_value"><textarea name="text">{{ text }}</textarea></td>
+</tr>
+<tr>
+	<td class="edit_post_label"></td>
+	<td class="edit_post_value">
+		<input type="submit" class="submit" value="Sichern">
+		<input type="button" name="cancel" class="cancel" value="Abbrechen" onclick="javascript:history.back();">
+	</td>
+</tr>
+</table>
+</form>
+
+{% endautoescape %}

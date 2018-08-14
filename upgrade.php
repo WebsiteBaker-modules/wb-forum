@@ -1,117 +1,56 @@
 <?php
 
-/*
+/**
+ *
+ *	@module			Forum
+ *	@version		0.5.10
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.6.x and higher
+ *
+ */
 
- Website Baker Project <http://www.websitebaker.org/>
- Copyright (C) 2004-2007, Ryan Djurovich
-
- Website Baker is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- Website Baker is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Website Baker; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-*/
-
-//require('../../config.php');
 require(WB_PATH.'/modules/forum/info.php');
-// include the admin wrapper script (includes framework/class.admin.php)
-//require(WB_PATH . '/modules/admin.php');
 
-//$database = new database();
+/**
+ *	Update the WB settings/inserts for the search
+ *
+ */
 
-$table=$database->query("DESC ".TABLE_PREFIX."mod_forum_post search_text");
-if ($table->numRows() == 0){
+//	[1] Delete old entries
+$database->query("DELETE FROM `" . TABLE_PREFIX . "search` WHERE `value` = 'forum'");
+$database->query("DELETE FROM `" . TABLE_PREFIX . "search` WHERE `extra` = 'forum'");
 
-echo "<h2>Updating database for module: $module_name</h2>";
-echo "<h3>&Auml;ndern der Datenbankstruktur f&uuml;r das Modul $module_name</h3>";
+//	[2] Inser new entries
+$temp_field_info = array(
+	'page_id'	=> 'page_id',
+	'title'		=> 'title',
+	'link'		=> 'link'
+);
+$field_info = serialize($temp_field_info);
+$database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`) VALUES ('module', 'forum', '$field_info')");
 
-// update db schema 1
-if(!isset($fields['search_text']) &&  $database->query('ALTER TABLE '.TABLE_PREFIX.'mod_forum_post ADD `search_text` MEDIUMTEXT NOT NULL AFTER `text`') )
-{
-	echo 'Database Field search_text added successfully<br /><br/>';
-}
-echo mysql_error().'<br />';
+//	[2.2]	Query start
+$query_start_code = "SELECT [TP]pages.page_id, [TP]pages.page_title, [TP]pages.link FROM [TP]mod_forum_post, [TP]pages WHERE ";
+$database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`) VALUES ('query_start', '$query_start_code', 'forum')");
 
-// 2
-if( $database->query('ALTER TABLE '.TABLE_PREFIX.'mod_forum_post ADD INDEX `title` ( `title` ) ') )
-{
-	echo 'Database index added successfully<br /><br/>';
-}
-echo mysql_error().'<br />';
+//	[2.3]	Query body
+$query_body_code = "
+[TP]pages.page_id = [TP]mod_forum_post.page_id AND [TP]mod_forum_post.title [O] \'[W][STRING][W]\' AND [TP]pages.searching = \'1\' OR
+[TP]pages.page_id = [TP]mod_forum_post.page_id AND [TP]mod_forum_post.text [O] \'[W][STRING][W]\' AND [TP]pages.searching = \'1\'
+";
+$database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`) VALUES ('query_body', '$query_body_code', 'forum')");
 
-// 3
-if( $database->query('ALTER TABLE '.TABLE_PREFIX.'mod_forum_post ADD FULLTEXT `TEST` (`title`, `search_text`)') )
-{
-	echo 'Database index added successfully<br /><br/>';
-}
-echo mysql_error().'<br />';
+// [2.4]	Query end
+$query_end_code = "";
+$database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`) VALUES ('query_end', '$query_end_code', 'forum')");
 
-//4
-if( $database->query('ALTER TABLE '.TABLE_PREFIX.'mod_forum_post ADD INDEX `threadid` ( `threadid` )') )
-{
-	echo 'Database index added successfully<br /><br/>';
-}
-echo mysql_error().'<br />';
-
-$table=$database->query("SELECT * FROM `".TABLE_PREFIX."mod_forum_thread");
-$fields = $table->fetchRow();
-
-//5
-if($database->query('ALTER TABLE '.TABLE_PREFIX.'mod_forum_thread ADD INDEX `titel` ( `title` )') )
-{
-	echo 'Database index added successfully<br /><br/>';
-}
-echo mysql_error().'<br />';
-
-// 6
-if( $database->query('ALTER TABLE '.TABLE_PREFIX.'mod_forum_thread ADD INDEX `forumid` ( `forumid` )') )
-{
-	echo 'Database index added successfully<br /><br/>';
-}
-echo mysql_error().'<br />';
-
-echo "<br/>";
-};
-
-echo "<hr/><b>Updating data for module: $module_name</b><br/>";
-
-// These are the default setting
-
-if( $database->query("
-CREATE TABLE IF NOT EXISTS " . TABLE_PREFIX . "mod_forum_settings (
-  `id` tinyint(4) NOT NULL AUTO_INCREMENT,
-  `section_id` smallint(6) NOT NULL,
-  `FORUMDISPLAY_PERPAGE` tinyint(4) NOT NULL,
-  `SHOWTHREAD_PERPAGE` tinyint(4) NOT NULL,
-  `PAGENAV_SIZES` tinyint(4) NOT NULL,
-  `DISPLAY_SUBFORUMS` tinyint(4) NOT NULL,
-  `DISPLAY_SUBFORUMS_FORUMDISPLAY` tinyint(4) NOT NULL,
-  `FORUM_USE_CAPTCHA` tinyint(4) NOT NULL,
-  `ADMIN_GROUP_ID` smallint(6) NOT NULL,
-  `VIEW_FORUM_SEARCH` tinyint(4) NOT NULL,
-  `FORUM_MAX_SEARCH_HITS` smallint(6) NOT NULL,
-  `FORUM_SENDMAILS_ON_NEW_POSTS` tinyint(4) NOT NULL,
-  `FORUM_ADMIN_INFO_ON_NEW_POSTS` varchar(30) COLLATE utf8_unicode_ci,
-  `FORUM_MAIL_SENDER` varchar(30) COLLATE utf8_unicode_ci,
-  `FORUM_MAIL_SENDER_REALNAME` varchar(30) COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-"))
-{
-	echo 'Database table added successfully<br /><br/>';
-}
-echo mysql_error().'<br />';
-
-echo "<br/><b>Module $module_name updated to version: $module_version</b><br/>";
-echo "<br/><b>fertig :)</b><br/>";
+// [3]	Set charset to utf-8
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_cache` CHARACTER SET = utf8;");
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_forum` CHARACTER SET = utf8;");
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_post` CHARACTER SET = utf8;");
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_settings` CHARACTER SET = utf8;");
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_thread` CHARACTER SET = utf8;");
 
 ?>

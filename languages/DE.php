@@ -1,28 +1,20 @@
 <?php
-/*
-  Module developed for the Open Source Content Management System Website Baker (http://websitebaker.org)
-  Copyright (C) 2008, Julian Schuh, Bernd Michna
-  Contact me: b.michna(at)wwnw.de
 
-  This module is free software. You can redistribute it and/or modify it
-  under the terms of the GNU General Public License  - version 2 or later,
-  as published by the Free Software Foundation: http://www.gnu.org/licenses/gpl.html.
+/**
+ *
+ *	@module			Forum
+ *	@version		0.5.10
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.6.x and higher
+ *
+ */
 
-  This module is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
- -----------------------------------------------------------------------------------------
-  DEUTSCHE SPRACHDATEI F‹R DAS FORUM MODUL
- -----------------------------------------------------------------------------------------
-**/
-
-// sprachabh‰ngige Modulbeschreibungen wurden mit WB 2.7 eingef¸hrt (default English in info.php)
 $module_description = 'Dieses Modul integriert ein einfaches Forum in ihre Webseite.';
 
 $MOD_FORUM = array(
-	// Variablen f¸r Textausgaben im Frontend
+	// Frontend
 	'TXT_SUBFORUMS_F'				=> 'Unterforen:',
 	'TXT_THEMES_F'					=> 'Themen',
 	'TXT_THEME_F'					=> 'Thema',
@@ -61,7 +53,6 @@ $MOD_FORUM = array(
 	'TXT_GUEST_F'					=> 'Gast',
 	'TXT_PAGES_F'					=> 'Seiten:',
 
-	//neu:
 	'TXT_SEARCH_F'					=> 'Suche',
 	'TXT_HITS_F'					=> 'Treffer',
 	'TXT_NO_HITS_F'					=> 'Zu Ihrer Anfrage konnten wir leider keine Treffer ermitteln',
@@ -73,12 +64,12 @@ $MOD_FORUM = array(
 
 	'TXT_MAILSUBJECT_NEW_POST'		=> 'Ein neuer Beitrag im Forum wurde eingestellt',
 	'TXT_MAILTEXT_NEW_POST'			=> "Hallo ##USERNAME##, \n\nSie haben zum Thema \"##THREAD##\" einen Beitrag verfasst.\n" .
-										"In diesem Thread ist ein neuer Beitrag verfasst worden \n\n".
+										"In diesem Thread hat ##POSTER## einen neuen Beitrag verfasst. \n\n".
 										"Sie k&ouml;nnen Ihn nach dem Login hier abrufen: \n##LINK##\n",
-	'TXT_MAILTEXT_NEW_POST_ADMIN'		=> "Hallo ##USERNAME##, \n\nZum Thema \"##THREAD##\" wurde einen Beitrag verfasst.\n\n" .
+	'TXT_MAILTEXT_NEW_POST_ADMIN'		=> "Hallo ##USERNAME##, \n\nZum Thema \"##THREAD##\" hat ##POSTER## einen Beitrag verfasst.\n\n" .
 										"Sie k&ouml;nnen Ihn nach dem Login hier abrufen: \n##LINK##\n",
 
-	// Variablen f¸r Textausgaben im Backend
+	// Backend
 	'TXT_NO_FORUMS_B'				=> 'Keine Foren vorhanden.<br/>
 										Erstellen Sie zun&auml;chst ein Forum auf der ersten Ebene.<br/>
 										In dieses Forum (wie in alle der ersten Ebene) k&ouml;nnen Sie <i>nicht</i> posten!
@@ -109,12 +100,27 @@ $MOD_FORUM = array(
 	'TXT_DISPLAY_SUBFORUMS_B'	=> 'Unterforen auf der Startseite anzeigen?',
 	'TXT_DISPLAY_SUBFORUMS_FORUMDISPLAY_B'	=> 'Unterforen in der Themen&uuml;bersicht anzeigen?',
 	'TXT_FORUM_USE_CAPTCHA_B'	=> 'Sollen f&uuml;r G&auml;ste Captchas verwendet werden?',
-	'TXT_ADMIN_GROUP_ID_B'	=> 'Administratorengruppe (darf Beitr&auml;ge bearbeiten)?',
+	
+	'TXT_ADMIN_GROUP_ID_B'		=> 'Zus√§tzliche (Administratoren)gruppe (darf Beitr&auml;ge bearbeiten)?<br />Zus√§tzlich zu denen, die ohnehin diese Seite bearbeiten d√ºrfen!',
+	'NO_ADDITIONAL_GROUP'		=> "keine zus√§tzliche Gruppe",
+	
 	'TXT_VIEW_FORUM_SEARCH_B'	=> 'Soll das Suchformular angezeigt werden?',
 	'TXT_FORUM_MAX_SEARCH_HITS_B'	=> 'Maximale Anzahl der Suchtreffer?',
 	'TXT_FORUM_SENDMAILS_ON_NEW_POSTS_B'	=> 'Die Autoren per Mail &uuml;ber neue Beitr&auml;ge im Thema benachrichtigen?',
 	'TXT_FORUM_ADMIN_INFO_ON_NEW_POSTS_B'	=> 'Diese Adresse bei neuen Beitr&auml;gen informieren?',
 	'TXT_FORUM_MAIL_SENDER_B'	=> 'Absenderadresse f&uuml;r E-Mails?',
-	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Absendername f&uuml;r E-Mails?'
-)
+	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Absendername f&uuml;r E-Mails?',
+	'TXT_USE_SMILEYS_B'	=> 'Smileys verwenden?',
+	'TXT_HIDE_EDITOR_B'	=> 'Editor verstecken?',
+	
+	//	0.5.9 
+	
+	'Forum_saved'	=> 'Forum wurde erfolgreich gespeichert!',
+	'Forum_deleted'	=> 'Forum erfolgreich gel√∂scht!',
+	'Error_no_title'	=> 'Bitte einen Titel angeben!',
+	'Error_no_comment'	=> 'Bitte einen Kommentar zu diesem Forum angeben.',
+	'Error_no_parent'	=> '√úbergeordnetes Forum ung√ºltig!',
+	'Error_no_subforum'	=> 'Ein Forum kann nicht sich selbst untergeordnet sein!',
+	'Error_no_forum'	=> 'Forum ung√ºltig!'
+);
 ?>

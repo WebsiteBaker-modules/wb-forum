@@ -2,59 +2,65 @@
 
 /**
  *
+ *	@module			Forum
+ *	@version		0.5.10
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.6.x and higher
  *
- * @version $Id$
- * @copyright 2009
  */
+
 if(!defined('WB_PATH')) {
 	exit("Cannot access this file directly");
 }
 
-include WB_PATH . '/modules/forum/config.php';
-include WB_PATH . '/modules/forum/functions.php';
+require_once WB_PATH . '/modules/forum/config.php';
+require_once WB_PATH . '/modules/forum/functions.php';
 
+// global $database;
 
+require_once(dirname(__FILE__)."/classes/class.subway.php");
+$subway = new subway();
 
-global $database;
+$search_string = strip_tags( $database->escapeString($_GET['mod_forum_search']));
 
-//var_dump($_POST);
-$search_string = strip_tags( mysql_real_escape_string($_GET['mod_forum_search']));
-$_search_string = preg_replace("/\b([a-zöäüß0-9]{3})\b/i", "$1_x_$1", $search_string);
-
-$arr_search_string = explode(' ', $search_string);
-if (is_array($arr_search_string) AND count($arr_search_string) >= 1 )
-{
-	$strWHERE = implode(' OR ', $arr_search_string);
-}
-//echo $strWHERE;
+/**
+ *	Storrage for all "hits"
+ */
+$all_posts = array();
 
 if (!empty($search_string))
 {
-	$sql = "SELECT f.title as forum,
-				  p.postid,  p.title, p.text
+	/**
+	 *	Build the search-string
+	 */
+	$temp = explode(" ", $search_string);
+	$sSearch = "'%".implode("%' OR '%", $temp)."%'";
+	
+	$sql = "SELECT `threadid`,`postid`,`title`,`text`,`section_id`,`page_id` FROM `".TABLE_PREFIX."mod_forum_post` WHERE `section_id`=".$section_id;
+	$sql .= " AND ((`text` LIKE ".$sSearch.") OR (`title` LIKE ".$sSearch."))";
 
-			FROM ".TABLE_PREFIX."mod_forum_post p
-				JOIN  ".TABLE_PREFIX."mod_forum_thread t USING(threadid)
-				JOIN  ".TABLE_PREFIX."mod_forum_forum f ON (t.forumid = f.forumid)
-
-			WHERE f.title LIKE '%$search_string%' OR
-				   MATCH(p.title, p.search_text) AGAINST('".mysql_real_escape_string($_search_string)."')
-
-			LIMIT " . FORUM_MAX_SEARCH_HITS;
-
-
-	$res = $database->query($sql);
+	$res = $subway->get_all($sql, $all_posts);
+	
+	if($subway->db->is_error()) {
+		echo $subway->db->get_error();
+		return 0;
+	}
+	
+	// echo $subway->display($all_posts);
+	
 }
 
-//var_dump($res);
 $out = "";
-if( isset($res) AND $res->numRows() > 0)
+
+if(count($all_posts) > 0)
 {
-		$out .= '<div id="mod_last_forum_entries_heading"><h3>' . $MOD_FORUM['TXT_SEARCH_RESULT_F'] . ' ( '. $res->numRows() .' '.$MOD_FORUM['TXT_HITS_F'].' )</h3>';
+		
+		$out .= '<div id="mod_last_forum_entries_heading"><h3>' . $MOD_FORUM['TXT_SEARCH_RESULT_F'] . ' ( '. count($all_posts) .' '.$MOD_FORUM['TXT_HITS_F'].' )</h3>';
 
-		while($f = $res->fetchRow())
+		foreach($all_posts as &$f)
 		{
-
 			$owd_link = '<a href="'. WB_URL.'/modules/forum/thread_view.php?goto=' . $f['postid']. '">';
 
 			// und einen "weiter"-Link bauen, kann man auch noch brauchen
@@ -63,7 +69,8 @@ if( isset($res) AND $res->numRows() > 0)
 
 			// output zusammenschrauben:
 			$out .= '<div class="mod_forum_hits">' . $owd_link;
-				$out .= $MOD_FORUM['TXT_FORUM_B'] . ':  <span class="mod_forum_hits_forum">'. $f['forum'] . '</span> &raquo; ';
+				// $out .= $MOD_FORUM['TXT_FORUM_B'] . ':  <span class="mod_forum_hits_forum">'. $f['forum'] . '</span> &raquo; ';
+				$out .= $MOD_FORUM['TXT_FORUM_B'] . ':  <span class="mod_forum_hits_forum">'. $f['threadid'] . '</span> &raquo; ';
 				$out .= $MOD_FORUM['TXT_THEME_F'] . ': <span class="mod_forum_hits_title">'. highlightPhrase( $f['title'], $search_string) . '</span>';
 			$out .= '</a></div>';
 
@@ -85,9 +92,7 @@ if( isset($res) AND $res->numRows() > 0)
 
 			$out .= '<p class="mod_last_forum_entries_text">'. $text2 . '</p><br/><br/>' ;
 
-
-
-		}//while
+		}
 
 		$out .= '</div>';
 
@@ -101,12 +106,12 @@ if( isset($res) AND $res->numRows() > 0)
 		$out .= '</div>';
 	}
 
-}//else treffer
+}
 
 ?>
 
 <h1>Forum durchsuchen</h1>
 
-<?php include WB_PATH . '/modules/forum/include_searchform.php' ?>
+<?php include_once WB_PATH . '/modules/forum/include_searchform.php' ?>
 
 <?php echo $out ?>

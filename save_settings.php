@@ -1,5 +1,15 @@
 <?php
 
+/**
+ *
+ *	@module			Forum
+ *	@version		0.5.10
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@license		GNU General Public License
+ *	@platform		2.8.x
+ *	@requirements	PHP 5.6.x and higher
+ *
+ */
 
 require('../../config.php');
 
@@ -29,7 +39,9 @@ $pagenav_sizes = isset($_POST['pagenav_sizes']) ? 1 : 0;
 $display_subforums = isset($_POST['display_subforums']) ? 1 : 0;
 $display_subforums_forumdisplay = isset($_POST['display_subforums_forumdisplay']) ? 1 : 0;
 $forum_use_captcha = isset($_POST['forum_use_captcha']) ? 1 : 0;
-$admin_group_id = is_numeric($_POST['admin_group_id']) ? $_POST['admin_group_id'] : 1;
+$forum_use_smileys = isset($_POST['forum_use_smileys']) ? 1 : 0;
+$forum_hide_editor = isset($_POST['forum_hide_editor']) ? 1 : 0;
+$admin_group_id = ( isset($_POST['admin_group_id']) ? $_POST['admin_group_id'] : 1);
 $view_forum_search = isset($_POST['view_forum_search']) ? 1 : 0;
 $forum_max_search_hits = is_numeric($_POST['forum_max_search_hits']) ? $_POST['forum_max_search_hits'] : 1;
 $forum_sendmails_on_new_posts = isset($_POST['forum_sendmails_on_new_posts']) ? 1 : 0;
@@ -45,6 +57,8 @@ $sql .= '`PAGENAV_SIZES` = \''.$pagenav_sizes.'\', ';
 $sql .= '`DISPLAY_SUBFORUMS` = \''.$display_subforums.'\', ';
 $sql .= '`DISPLAY_SUBFORUMS_FORUMDISPLAY` = \''.$display_subforums_forumdisplay.'\', ';
 $sql .= '`FORUM_USE_CAPTCHA` = \''.$forum_use_captcha.'\', ';
+$sql .= '`FORUM_USE_SMILEYS` = \''.$forum_use_smileys.'\', ';
+$sql .= '`FORUM_HIDE_EDITOR` = \''.$forum_hide_editor.'\', ';
 $sql .= '`ADMIN_GROUP_ID` = \''.$admin_group_id.'\', ';
 $sql .= '`VIEW_FORUM_SEARCH` = \''.$view_forum_search.'\', ';
 $sql .= '`FORUM_MAX_SEARCH_HITS` = \''.$forum_max_search_hits.'\', ';
